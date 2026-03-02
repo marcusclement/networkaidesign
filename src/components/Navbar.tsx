@@ -1,35 +1,30 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import logoImg from "@/assets/networkai-logo.png";
 
 const Navbar = () => {
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-background/60 backdrop-blur-xl border-b border-border/50">
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full border border-primary/50 flex items-center justify-center">
-          <div className="w-3 h-3 rounded-full bg-primary" />
-        </div>
-        <span className="font-display text-lg font-semibold text-foreground">
-          Network<span className="text-indigo-300">AI</span>
-        </span>
-      </div>
+      <Link to="/" className="flex items-center gap-2">
+        <img src={logoImg} alt="NetworkAI" className="h-9 w-auto" />
+      </Link>
 
       <div className="hidden md:flex items-center gap-1 bg-secondary/50 rounded-full px-2 py-1 border border-border/50">
         <Link
           to="/"
-          className="px-4 py-1.5 rounded-full text-sm font-medium bg-secondary text-foreground">
-          
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
           Home
         </Link>
         <Link
           to="/leadership"
-          className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-          
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/leadership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
           Leadership
         </Link>
         <Link
           to="/membership"
-          className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-          
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/membership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
           Become a Member
         </Link>
       </div>
