@@ -22,7 +22,7 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-24">
         <div className="inline-flex items-center gap-2 mb-8">
-          <span className="w-2 h-2 rounded-full bg-primary" />
+          <span className="w-2 h-2 rounded-full bg-indigo-300" />
           <span className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-300 bg-secondary">
             Empowering Intelligent Connections
           </span>
@@ -31,7 +31,7 @@ const HeroSection = () => {
         <h1 className="font-display text-5xl md:text-7xl font-bold leading-tight mb-6 text-foreground">
           Connecting People to{" "}
           <br />
-          <span className="text-purple-300">AI's Future.</span>
+          <span className="text-indigo-300">AI's Future.</span>
         </h1>
 
         <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-primary-foreground">
@@ -42,7 +42,7 @@ const HeroSection = () => {
         <div className="flex items-center justify-center gap-4">
           <Link
             to="/membership"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity bg-violet-300 text-primary-foreground">
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity text-primary-foreground bg-indigo-400">
             
             Join Us <ArrowRight className="w-4 h-4" />
           </Link>

@@ -44,7 +44,7 @@ const FeaturesSection = () => {
     <section className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-purple-300">
+          <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400">
             What We Do
           </p>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">

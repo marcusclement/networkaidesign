@@ -14,7 +14,7 @@ const CTASection = () => {
         <div className="flex items-center justify-center gap-4">
           <Link
             to="/membership"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-purple-300">
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-indigo-400">
             
             Apply Now
           </Link>
