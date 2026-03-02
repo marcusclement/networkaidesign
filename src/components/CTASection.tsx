@@ -14,20 +14,20 @@ const CTASection = () => {
         <div className="flex items-center justify-center gap-4">
           <Link
             to="/membership"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity"
-          >
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-purple-300">
+            
             Apply Now
           </Link>
           <Link
             to="/leadership"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-border text-foreground font-semibold text-sm hover:bg-secondary transition-colors"
-          >
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-border text-foreground font-semibold text-sm hover:bg-secondary transition-colors">
+            
             Learn More
           </Link>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default CTASection;

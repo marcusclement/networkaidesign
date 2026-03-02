@@ -9,39 +9,39 @@ const Navbar = () => {
           <div className="w-3 h-3 rounded-full bg-primary" />
         </div>
         <span className="font-display text-lg font-semibold text-foreground">
-          Network<span className="text-primary">AI</span>
+          Network<span className="text-indigo-300">AI</span>
         </span>
       </div>
 
       <div className="hidden md:flex items-center gap-1 bg-secondary/50 rounded-full px-2 py-1 border border-border/50">
         <Link
           to="/"
-          className="px-4 py-1.5 rounded-full text-sm font-medium bg-secondary text-foreground"
-        >
+          className="px-4 py-1.5 rounded-full text-sm font-medium bg-secondary text-foreground">
+          
           Home
         </Link>
         <Link
           to="/leadership"
-          className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-        >
+          className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          
           Leadership
         </Link>
         <Link
           to="/membership"
-          className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-        >
+          className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          
           Become a Member
         </Link>
       </div>
 
       <Link
         to="/contact"
-        className="hidden md:flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium border border-border text-foreground hover:bg-secondary transition-colors"
-      >
+        className="hidden md:flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium border border-border text-foreground hover:bg-secondary transition-colors">
+        
         Contact Us
       </Link>
-    </nav>
-  );
+    </nav>);
+
 };
 
 export default Navbar;
