@@ -24,8 +24,8 @@ const Navbar = () => {
         </Link>
         <Link
           to="/membership"
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/membership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-          Become a Member
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/membership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>Membership
+
         </Link>
       </div>
 

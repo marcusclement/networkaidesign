@@ -7,27 +7,27 @@ import { CheckCircle, Users, Lightbulb, Rocket, GraduationCap } from "lucide-rea
 import { toast } from "sonner";
 
 const qualities = [
-  {
-    icon: Lightbulb,
-    title: "Curiosity about AI",
-    description: "A genuine interest in how AI is reshaping industries and everyday life.",
-  },
-  {
-    icon: Users,
-    title: "Team Player",
-    description: "Willingness to collaborate, share ideas, and support fellow members.",
-  },
-  {
-    icon: Rocket,
-    title: "Initiative & Drive",
-    description: "Proactive individuals who take ownership and contribute meaningfully.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Growth Mindset",
-    description: "Eagerness to learn, attend workshops, and develop new skills.",
-  },
-];
+{
+  icon: Lightbulb,
+  title: "Curiosity about AI",
+  description: "A genuine interest in how AI is reshaping industries and everyday life."
+},
+{
+  icon: Users,
+  title: "Team Player",
+  description: "Willingness to collaborate, share ideas, and support fellow members."
+},
+{
+  icon: Rocket,
+  title: "Initiative & Drive",
+  description: "Proactive individuals who take ownership and contribute meaningfully."
+},
+{
+  icon: GraduationCap,
+  title: "Growth Mindset",
+  description: "Eagerness to learn, attend workshops, and develop new skills."
+}];
+
 
 const Membership = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -45,9 +45,9 @@ const Membership = () => {
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Become a <span className="text-primary">Member</span>
+            Become a <span className="text-indigo-300">Member</span>
           </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-lg max-w-2xl mx-auto text-primary-foreground">
             Join a community of ambitious students passionate about AI, technology, and innovation at UW.
           </p>
         </div>
@@ -60,11 +60,11 @@ const Membership = () => {
             What We're Looking For
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {qualities.map((q) => (
-              <div
-                key={q.title}
-                className="rounded-xl border border-border bg-card p-5 text-center flex flex-col items-center gap-3"
-              >
+            {qualities.map((q) =>
+            <div
+              key={q.title}
+              className="rounded-xl border border-border bg-card p-5 text-center flex flex-col items-center gap-3">
+              
                 <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                   <q.icon className="w-5 h-5 text-primary" />
                 </div>
@@ -75,7 +75,7 @@ const Membership = () => {
                   {q.description}
                 </p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -88,8 +88,8 @@ const Membership = () => {
               Apply Now
             </h2>
 
-            {submitted ? (
-              <div className="flex flex-col items-center gap-4 py-12 text-center">
+            {submitted ?
+            <div className="flex flex-col items-center gap-4 py-12 text-center">
                 <CheckCircle className="w-12 h-12 text-primary" />
                 <h3 className="font-display text-xl font-semibold text-foreground">
                   Application Received!
@@ -97,9 +97,9 @@ const Membership = () => {
                 <p className="text-muted-foreground text-sm">
                   Thank you for your interest. Our team will review your application and get back to you soon.
                 </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              </div> :
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>
@@ -129,35 +129,35 @@ const Membership = () => {
                 <div className="space-y-2">
                   <Label htmlFor="interest">Why are you interested in NetworkAI? *</Label>
                   <Textarea
-                    id="interest"
-                    required
-                    rows={4}
-                    placeholder="Tell us about your interest in AI and what you hope to gain..."
-                  />
+                  id="interest"
+                  required
+                  rows={4}
+                  placeholder="Tell us about your interest in AI and what you hope to gain..." />
+                
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="experience">Any relevant experience or skills?</Label>
                   <Textarea
-                    id="experience"
-                    rows={3}
-                    placeholder="Projects, coursework, tools you've used..."
-                  />
+                  id="experience"
+                  rows={3}
+                  placeholder="Projects, coursework, tools you've used..." />
+                
                 </div>
 
                 <button
-                  type="submit"
-                  className="mt-2 w-full py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity"
-                >
+                type="submit"
+                className="mt-2 w-full py-3 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-indigo-400 hover:bg-indigo-300">
+                
                   Submit Application
                 </button>
               </form>
-            )}
+            }
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Membership;
