@@ -22,7 +22,7 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-24">
         <div className="inline-flex items-center gap-2 mb-8">
-          <span className="w-2 h-2 rounded-full bg-indigo-300" />
+          
           <span className="tracking-[0.2em] uppercase text-slate-300 bg-[#65758b]/0 font-bold text-base">
 
           </span>
