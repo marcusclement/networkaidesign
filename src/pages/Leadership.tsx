@@ -1,71 +1,64 @@
 import Navbar from "@/components/Navbar";
-import { Mail, Phone } from "lucide-react";
+import { Mail } from "lucide-react";
 
 const leaders = [
-{
-  name: "Sarah Greenberg",
-  email: "sarahg89@uw.edu",
-  phone: "206-890-2979",
-  role: "President",
-  description:
-  "Facilitates executive team and general club meetings and ensures overall operations run smoothly. Also manages the LinkedIn account."
-},
-{
-  name: "Kaspar Marwick",
-  email: "kmarwick@uw.edu",
-  phone: "206-591-8845",
-  role: "Vice-President",
-  description:
-  "Supports the president and ensures SAO compliance."
-},
-{
-  name: "Alarick Alfredo-Sorto",
-  email: "alarick@uw.edu",
-  phone: "206-678-7237",
-  role: "Director of Operations",
-  description:
-  "Manages administrative logistics and supports all executive roles. Also books study rooms and classrooms for meetings (with Director of Finance)."
-},
-{
-  name: "Milana Trigubova",
-  email: "milant3@uw.edu",
-  phone: "425-534-3821",
-  role: "Director of Events",
-  description:
-  "Leads outreach to panelists and guest speakers and coordinates events."
-},
-{
-  name: "Lucia Fernandez-Binder",
-  email: "luciafb@uw.edu",
-  phone: "216-421-5003",
-  role: "Director of Strategy & Outreach",
-  description:
-  "Defines why FosterAI should matter to Foster students, sets growth goals (membership & retention), leads recruitment initiatives, and develops partnerships with other Foster RSOs."
-},
-{
-  name: "Diya Shah",
-  email: "dshah16@uw.edu",
-  phone: "425-504-3493",
-  role: "Director of Finance",
-  description:
-  "Prepares presentation slide outlines, leads workshops and skill-building sessions. Oversees budget and is responsible for securing the $500 stipend per quarter."
-},
-{
-  name: "Raya Rehmat",
-  email: "rayar@uw.edu",
-  phone: "604-655-9260",
-  role: "Director of Marketing",
-  description:
-  "Manages Instagram (stories/posts) and facilitates group photo shoots."
-},
-{
-  name: "Marcus Clement",
-  email: "marcus20@uw.edu",
-  phone: "425-757-6331",
-  role: "Director of Technology",
-  description:
-  "Leads workshop plans. Student AI specialist."
-}];
+  {
+    name: "Sarah Greenberg",
+    email: "sarahg89@uw.edu",
+    role: "President",
+    description:
+      "Facilitates executive team and general club meetings and ensures overall operations run smoothly. Also manages the LinkedIn account."
+  },
+  {
+    name: "Kaspar Marwick",
+    email: "kmarwick@uw.edu",
+    role: "Vice-President",
+    description:
+      "Supports the president and ensures SAO compliance."
+  },
+  {
+    name: "Marcus Clement",
+    email: "marcus20@uw.edu",
+    role: "Director of Technology and AI",
+    description:
+      "Leading club events, planning, and logistics tied to technology and AI. Teaching AI principles and development practices."
+  },
+  {
+    name: "Raya Rehmat",
+    email: "rayar@uw.edu",
+    role: "Director of Marketing",
+    description:
+      "Manages digital experiences and designs social media content."
+  },
+  {
+    name: "Alarick Alfredo-Sorto",
+    email: "alarick@uw.edu",
+    role: "Director of Operations",
+    description:
+      "Manages administrative logistics and supports all executive roles. Also books study rooms and classrooms for meetings (with Director of Finance)."
+  },
+  {
+    name: "Milana Trigubova",
+    email: "milant3@uw.edu",
+    role: "Director of Events",
+    description:
+      "Leads outreach to panelists and guest speakers and coordinates events."
+  },
+  {
+    name: "Lucia Fernandez-Binder",
+    email: "luciafb@uw.edu",
+    role: "Director of Strategy & Outreach",
+    description:
+      "Defines why FosterAI should matter to Foster students, sets growth goals (membership & retention), leads recruitment initiatives, and develops partnerships with other Foster RSOs."
+  },
+  {
+    name: "Diya Shah",
+    email: "dshah16@uw.edu",
+    role: "Director of Finance",
+    description:
+      "Prepares presentation slide outlines, leads workshops and skill-building sessions. Oversees budget and is responsible for securing the $500 stipend per quarter."
+  }
+];
 
 
 const Leadership = () => {
@@ -109,18 +102,10 @@ const Leadership = () => {
               </p>
               <div className="flex flex-col gap-1.5 pt-2 border-t border-border">
                 <a
-                href={`mailto:${leader.email}`}
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                
+                  href={`mailto:${leader.email}`}
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                   <Mail className="w-3.5 h-3.5" />
                   {leader.email}
-                </a>
-                <a
-                href={`tel:${leader.phone}`}
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                
-                  <Phone className="w-3.5 h-3.5" />
-                  {leader.phone}
                 </a>
               </div>
             </div>
