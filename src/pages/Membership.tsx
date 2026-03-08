@@ -173,17 +173,6 @@ const Membership = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="resume">Resume (PDF or Word, max 5 MB)</Label>
-                  <Input
-                    id="resume"
-                    name="resume"
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    className="file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-primary/20 file:text-primary hover:file:bg-primary/30 cursor-pointer"
-                  />
-                </div>
-
-                <div className="space-y-2">
                   <Label htmlFor="interest">Why are you interested in NetworkAI? *</Label>
                   <Textarea
                     id="interest"

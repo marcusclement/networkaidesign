@@ -1,14 +1,12 @@
 const stats = [
-  { value: "500+", label: "Active Members" },
-  { value: "50+", label: "Organizations" },
-  { value: "Bi-Weekly", label: "Events" },
-  { value: "100+", label: "Mentor Network" },
+  { value: "1", label: "Organization" },
+  { value: "Bi-Weekly", label: "Meetings" },
 ];
 
 const StatsSection = () => {
   return (
     <section className="relative z-10 py-16 border-y border-border/50">
-      <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 gap-8">
         {stats.map((stat) => (
           <div key={stat.label} className="text-center">
             <div className="font-display text-3xl md:text-4xl font-bold text-foreground mb-1">

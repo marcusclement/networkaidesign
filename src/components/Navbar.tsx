@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import logoImg from "@/assets/networkai-logo.png";
+import { Linkedin, Instagram } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -14,22 +14,40 @@ const Navbar = () => {
         </span>
       </Link>
 
-      <div className="hidden md:flex items-center gap-1 bg-secondary/50 rounded-full px-2 py-1 border border-border/50">
-        <Link
-          to="/"
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-          Home
-        </Link>
-        <Link
-          to="/leadership"
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/leadership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-          Leadership
-        </Link>
-        <Link
-          to="/membership"
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/membership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>Membership
-
-        </Link>
+      <div className="hidden md:flex items-center gap-3">
+        <div className="flex items-center gap-1 bg-secondary/50 rounded-full px-2 py-1 border border-border/50">
+          <Link
+            to="/"
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            Home
+          </Link>
+          <Link
+            to="/leadership"
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/leadership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            Leadership
+          </Link>
+          <Link
+            to="/membership"
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/membership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            Membership
+          </Link>
+        </div>
+        <a
+          href="https://www.linkedin.com/company/networkai-university-of-washington/posts/?feedView=all"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+          aria-label="LinkedIn">
+          <Linkedin className="w-5 h-5" />
+        </a>
+        <a
+          href="https://www.instagram.com/uw_networkai/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+          aria-label="Instagram">
+          <Instagram className="w-5 h-5" />
+        </a>
       </div>
     </nav>);
 
