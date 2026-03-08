@@ -29,14 +29,13 @@ const HeroSection = () => {
         </div>
 
         <h1 className="font-display text-5xl md:text-7xl font-bold leading-tight mb-6 text-foreground">
-          Connecting People to{" "}
+          Connecting UW Students to{" "}
           <br />
           <span className="text-indigo-300">AI's Future.</span>
         </h1>
 
         <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-primary-foreground">
-          A community-driven organization focused on networking, AI innovation,
-          and professional development through hands-on projects and mentorship.
+          A community for Huskies—networking, AI innovation, and professional development through hands-on projects and mentorship.
         </p>
 
         <div className="flex items-center justify-center gap-4">
