@@ -40,6 +40,7 @@ const Membership = () => {
     const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
     if (!accessKey) {
       toast.error("Form is not configured. Please set VITE_WEB3FORMS_ACCESS_KEY.");
+      setError("Missing form configuration. On Vercel, add VITE_WEB3FORMS_ACCESS_KEY in Project Settings → Environment Variables, then redeploy.");
       return;
     }
     setError(null);
@@ -50,6 +51,7 @@ const Membership = () => {
       formData.set("subject", "NetworkAI Membership Application");
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
+        headers: { Accept: "application/json" },
         body: formData,
       });
       const data = await res.json();
@@ -57,11 +59,13 @@ const Membership = () => {
         setSubmitted(true);
         toast.success("Application submitted! We'll be in touch soon.");
       } else {
-        setError(data.message || "Something went wrong. Please try again.");
+        const msg = data.message || "Something went wrong. Please try again.";
+        setError(msg);
         toast.error("Submission failed. Please try again.");
       }
-    } catch {
-      setError("Network error. Please check your connection and try again.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Network error. Please try again.";
+      setError(msg);
       toast.error("Submission failed. Please try again.");
     } finally {
       setSubmitting(false);
@@ -130,6 +134,8 @@ const Membership = () => {
               </div> :
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                {/* Web3Forms honeypot - hidden checkbox, must stay unchecked */}
+                <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} aria-hidden />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>

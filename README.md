@@ -71,9 +71,11 @@ The Membership "Apply Now" form uses [Web3Forms](https://web3forms.com) (free ti
    cp .env.example .env
    # Edit .env and set: VITE_WEB3FORMS_ACCESS_KEY=your_access_key_here
    ```
-4. Restart the dev server (`npm run dev`). For production (e.g. Vercel), add `VITE_WEB3FORMS_ACCESS_KEY` in your hosting dashboard under Environment Variables.
+4. Restart the dev server (`npm run dev`). For production (e.g. Vercel), add `VITE_WEB3FORMS_ACCESS_KEY` in **Project Settings → Environment Variables** (enable for Production). **Important:** Vite bakes env vars at build time, so trigger a **new deploy** after adding the variable (or the built app won’t have the key). In Vercel, redeploy from the Deployments tab.
 
-Submissions (including resume files) will be sent to your verified email.
+Submissions (including resume files) will be sent to your verified email. In Web3Forms dashboard, ensure the form’s email is **verified** (check your inbox for their verification link).
+
+**Form shows success but no email / no submission in dashboard?** Web3Forms blocks some free hosting domains (including `*.vercel.app`). They may still return “success” to the browser but not deliver. Fix: [Contact Web3Forms](https://web3forms.com/contact) and ask them to approve your deployment URL (e.g. `yourproject.vercel.app`) or your custom domain. Alternatively, add a custom domain in Vercel and ask Web3Forms to whitelist that domain.
 
 ## How can I deploy this project?
 

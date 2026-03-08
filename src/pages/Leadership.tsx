@@ -19,7 +19,7 @@ const leaders = [
   {
     name: "Marcus Clement",
     email: "marcus20@uw.edu",
-    role: "Director of Technology and AI",
+    role: "Director of Technology & AI",
     description:
       "Leading club events, planning, and logistics tied to technology and AI. Teaching AI principles and development practices."
   },
