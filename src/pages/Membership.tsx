@@ -31,11 +31,41 @@ const qualities = [
 
 const Membership = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    toast.success("Application submitted! We'll be in touch soon.");
+    const form = e.currentTarget;
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      toast.error("Form is not configured. Please set VITE_WEB3FORMS_ACCESS_KEY.");
+      return;
+    }
+    setError(null);
+    setSubmitting(true);
+    try {
+      const formData = new FormData(form);
+      formData.set("access_key", accessKey);
+      formData.set("subject", "NetworkAI Membership Application");
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+        toast.success("Application submitted! We'll be in touch soon.");
+      } else {
+        setError(data.message || "Something went wrong. Please try again.");
+        toast.error("Submission failed. Please try again.");
+      }
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+      toast.error("Submission failed. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -103,53 +133,80 @@ const Membership = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>
-                    <Input id="firstName" required placeholder="Jane" />
+                    <Input id="firstName" name="firstName" required placeholder="Jane" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name *</Label>
-                    <Input id="lastName" required placeholder="Doe" />
+                    <Input id="lastName" name="lastName" required placeholder="Doe" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="email">UW Email *</Label>
-                  <Input id="email" type="email" required placeholder="janedoe@uw.edu" />
+                  <Input id="email" name="email" type="email" required placeholder="janedoe@uw.edu" />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="206-555-1234" />
+                  <Input id="phone" name="phone" type="tel" placeholder="206-555-1234" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="linkedin">LinkedIn profile URL</Label>
+                  <Input
+                    id="linkedin"
+                    name="linkedin"
+                    type="url"
+                    placeholder="https://linkedin.com/in/yourprofile"
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="major">Major / Year *</Label>
-                  <Input id="major" required placeholder="e.g. Business Administration, Junior" />
+                  <Input id="major" name="major" required placeholder="e.g. Business Administration, Junior" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="resume">Resume (PDF or Word, max 5 MB)</Label>
+                  <Input
+                    id="resume"
+                    name="resume"
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    className="file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-primary/20 file:text-primary hover:file:bg-primary/30 cursor-pointer"
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="interest">Why are you interested in NetworkAI? *</Label>
                   <Textarea
-                  id="interest"
-                  required
-                  rows={4}
-                  placeholder="Tell us about your interest in AI and what you hope to gain..." />
-                
+                    id="interest"
+                    name="interest"
+                    required
+                    rows={4}
+                    placeholder="Tell us about your interest in AI and what you hope to gain..."
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="experience">Any relevant experience or skills?</Label>
                   <Textarea
-                  id="experience"
-                  rows={3}
-                  placeholder="Projects, coursework, tools you've used..." />
-                
+                    id="experience"
+                    name="experience"
+                    rows={3}
+                    placeholder="Projects, coursework, tools you've used..."
+                  />
                 </div>
 
+                {error && (
+                  <p className="text-sm text-destructive">{error}</p>
+                )}
+
                 <button
-                type="submit"
-                className="mt-2 w-full py-3 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-indigo-400 hover:bg-indigo-300">
-                
-                  Submit Application
+                  type="submit"
+                  disabled={submitting}
+                  className="mt-2 w-full py-3 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-indigo-400 hover:bg-indigo-300 disabled:opacity-60 disabled:pointer-events-none">
+                  {submitting ? "Submitting…" : "Submit Application"}
                 </button>
               </form>
             }

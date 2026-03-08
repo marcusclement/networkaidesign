@@ -31,13 +31,6 @@ const Navbar = () => {
 
         </Link>
       </div>
-
-      <Link
-        to="/contact"
-        className="hidden md:flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium border border-border text-foreground hover:bg-secondary transition-colors">
-        
-        Contact Us
-      </Link>
     </nav>);
 
 };

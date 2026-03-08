@@ -60,6 +60,21 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Sending Apply Now form responses to your email (free)
+
+The Membership "Apply Now" form uses [Web3Forms](https://web3forms.com) (free tier: 250 submissions/month, resume attachments supported).
+
+1. Go to [web3forms.com](https://web3forms.com) and create an account.
+2. Create a new form and **verify the email** where you want to receive applications.
+3. Copy your **Access Key** and add it to a `.env` file in the project root:
+   ```bash
+   cp .env.example .env
+   # Edit .env and set: VITE_WEB3FORMS_ACCESS_KEY=your_access_key_here
+   ```
+4. Restart the dev server (`npm run dev`). For production (e.g. Vercel), add `VITE_WEB3FORMS_ACCESS_KEY` in your hosting dashboard under Environment Variables.
+
+Submissions (including resume files) will be sent to your verified email.
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
