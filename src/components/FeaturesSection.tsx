@@ -1,42 +1,25 @@
-import { Brain, Globe, Shield, Zap, BarChart3, Users } from "lucide-react";
+import { Globe, Zap, Users } from "lucide-react";
 
 const features = [
-{
-  icon: Brain,
-  title: "AI-Powered Insights",
-  description:
-  "Leverage cutting-edge artificial intelligence to drive smarter decisions and uncover opportunities."
-},
-{
-  icon: Globe,
-  title: "Global Network",
-  description:
-  "Connect with professionals and organizations worldwide through our expansive network."
-},
-{
-  icon: Shield,
-  title: "Trusted Security",
-  description:
-  "Enterprise-grade security ensures your data and connections remain safe and private."
-},
-{
-  icon: Zap,
-  title: "Rapid Innovation",
-  description:
-  "Access the latest tools, research, and collaborative innovation platforms."
-},
-{
-  icon: BarChart3,
-  title: "Data Analytics",
-  description:
-  "Comprehensive analytics dashboards to track engagement, growth, and impact."
-},
-{
-  icon: Users,
-  title: "Community Driven",
-  description:
-  "A vibrant, inclusive community fostering collaboration, mentorship, and shared success."
-}];
+  {
+    icon: Globe,
+    title: "Global Network",
+    description:
+      "Connect with professionals and organizations worldwide through our expansive network."
+  },
+  {
+    icon: Zap,
+    title: "Rapid Innovation",
+    description:
+      "Access the latest tools, research, and collaborative innovation platforms."
+  },
+  {
+    icon: Users,
+    title: "Community Driven",
+    description:
+      "A vibrant, inclusive community fostering collaboration, mentorship, and shared success."
+  }
+];
 
 
 const FeaturesSection = () => {

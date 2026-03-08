@@ -1,10 +1,11 @@
 import Navbar from "@/components/Navbar";
-import { Mail } from "lucide-react";
+import { Mail, Linkedin } from "lucide-react";
 
 const leaders = [
   {
     name: "Sarah Greenberg",
     email: "sarahg89@uw.edu",
+    linkedin: "https://www.linkedin.com/in/sarah-greenberg1/",
     role: "President",
     description:
       "Facilitates executive team and general club meetings and ensures overall operations run smoothly. Also manages the LinkedIn account."
@@ -12,6 +13,7 @@ const leaders = [
   {
     name: "Kaspar Marwick",
     email: "kmarwick@uw.edu",
+    linkedin: "https://www.linkedin.com/in/kaspar-marwick-97b0a418a/",
     role: "Vice-President",
     description:
       "Supports the president and ensures SAO compliance."
@@ -19,6 +21,7 @@ const leaders = [
   {
     name: "Marcus Clement",
     email: "marcus20@uw.edu",
+    linkedin: "https://www.linkedin.com/in/marcus-clement27/",
     role: "Director of Technology & AI",
     description:
       "Leading club events, planning, and logistics tied to technology and AI. Teaching AI principles and development practices."
@@ -26,6 +29,7 @@ const leaders = [
   {
     name: "Raya Rehmat",
     email: "rayar@uw.edu",
+    linkedin: "https://www.linkedin.com/in/raya-r-rehmat/",
     role: "Director of Marketing",
     description:
       "Manages digital experiences and designs social media content."
@@ -33,6 +37,7 @@ const leaders = [
   {
     name: "Alarick Alfredo-Sorto",
     email: "alarick@uw.edu",
+    linkedin: "https://www.linkedin.com/in/alarick-alfredo-sorto/",
     role: "Director of Operations",
     description:
       "Manages administrative logistics and supports all executive roles. Also books study rooms and classrooms for meetings (with Director of Finance)."
@@ -40,6 +45,7 @@ const leaders = [
   {
     name: "Milana Trigubova",
     email: "milant3@uw.edu",
+    linkedin: "https://www.linkedin.com/in/milana-trigubova/",
     role: "Director of Events",
     description:
       "Leads outreach to panelists and guest speakers and coordinates events."
@@ -47,6 +53,7 @@ const leaders = [
   {
     name: "Lucia Fernandez-Binder",
     email: "luciafb@uw.edu",
+    linkedin: "https://www.linkedin.com/in/lucia-fernandez-binder/",
     role: "Director of Strategy & Outreach",
     description:
       "Defines why FosterAI should matter to Foster students, sets growth goals (membership & retention), leads recruitment initiatives, and develops partnerships with other Foster RSOs."
@@ -54,6 +61,7 @@ const leaders = [
   {
     name: "Diya Shah",
     email: "dshah16@uw.edu",
+    linkedin: "https://www.linkedin.com/in/diya-shah16/",
     role: "Director of Finance",
     description:
       "Prepares presentation slide outlines, leads workshops and skill-building sessions. Oversees budget and is responsible for securing the $500 stipend per quarter."
@@ -107,6 +115,23 @@ const Leadership = () => {
                   <Mail className="w-3.5 h-3.5" />
                   {leader.email}
                 </a>
+                {leader.linkedin && (
+                  <a
+                    href={leader.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative mt-1 inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full text-muted-foreground transition-transform duration-200 hover:scale-110 active:scale-95"
+                    aria-label={`${leader.name} on LinkedIn`}>
+                    <span
+                      className="absolute inset-0 scale-y-0 bg-[#0A66C2] origin-bottom transition-[transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-y-100"
+                      aria-hidden
+                    />
+                    <Linkedin
+                      className="relative z-10 h-5 w-5 transition-colors duration-300 group-hover:text-white"
+                      strokeWidth={1.5}
+                    />
+                  </a>
+                )}
               </div>
             </div>
           )}
