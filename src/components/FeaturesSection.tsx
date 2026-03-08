@@ -11,7 +11,7 @@ const features = [
     icon: Zap,
     title: "Rapid Innovation",
     description:
-      "Access the latest tools, research, and collaborative innovation platforms."
+      "Gain access and knowledge on the latest trends in the AI space."
   },
   {
     icon: Users,

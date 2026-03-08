@@ -83,7 +83,7 @@ const Membership = () => {
             Become a <span className="text-indigo-300">Member</span>
           </h1>
           <p className="text-lg max-w-2xl mx-auto text-primary-foreground">
-            Join a community of ambitious students passionate about AI, technology, and innovation at UW.
+            No coding or tech background needed. Whether you're in business, marketing, operations, or any major—come explore how AI is shaping your field and build the skills that matter for your career. All curious Huskies welcome.
           </p>
         </div>
       </section>
