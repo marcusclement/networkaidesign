@@ -55,7 +55,7 @@ const Navbar = () => {
             aria-hidden
           />
           <Linkedin
-            className="relative z-10 h-5 w-5 transition-colors duration-300 group-hover:text-[#0A66C2]"
+            className="relative z-10 h-5 w-5 transition-colors duration-300 group-hover:text-white"
             strokeWidth={1.5}
           />
         </a>
