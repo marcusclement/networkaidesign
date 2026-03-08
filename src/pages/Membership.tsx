@@ -7,6 +7,9 @@ import { Label } from "@/components/ui/label";
 import { CheckCircle, Users, Lightbulb, Rocket, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 
+// If set, we link to your Google Form (opens in new tab). Forms with File Upload can't be embedded, so we use a link.
+const googleFormUrl = import.meta.env.VITE_GOOGLE_FORM_EMBED_URL as string | undefined;
+
 const qualities = [
 {
   icon: Lightbulb,
@@ -123,7 +126,23 @@ const Membership = () => {
               Apply Now
             </h2>
 
-            {submitted ?
+            {googleFormUrl ? (
+              <div className="flex flex-col items-center gap-4 py-8 text-center">
+                <p className="text-muted-foreground">
+                  Complete your membership application in our Google Form. You can attach your resume there.
+                </p>
+                <a
+                  href={googleFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm text-primary-foreground bg-indigo-400 hover:bg-indigo-300 transition-colors">
+                  Open application form
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            ) : submitted ? (
             <div className="flex flex-col items-center gap-4 py-12 text-center">
                 <CheckCircle className="w-12 h-12 text-primary" />
                 <h3 className="font-display text-xl font-semibold text-foreground">
@@ -132,8 +151,8 @@ const Membership = () => {
                 <p className="text-muted-foreground text-sm">
                   Thank you for your interest. Our team will review your application and get back to you soon.
                 </p>
-              </div> :
-
+              </div>
+            ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 {/* Web3Forms honeypot - hidden checkbox, must stay unchecked */}
                 <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} aria-hidden />
@@ -205,7 +224,7 @@ const Membership = () => {
                   {submitting ? "Submitting…" : "Submit Application"}
                 </button>
               </form>
-            }
+            )}
           </div>
         </div>
       </section>
