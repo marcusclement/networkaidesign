@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -208,6 +209,7 @@ const Membership = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>);
 
 };
