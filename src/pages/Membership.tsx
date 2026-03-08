@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label";
 import { CheckCircle, Users, Lightbulb, Rocket, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 
-// If set, we link to your Google Form (opens in new tab). Forms with File Upload can't be embedded, so we use a link.
-const googleFormUrl = import.meta.env.VITE_GOOGLE_FORM_EMBED_URL as string | undefined;
+// Link to your Google Form (opens in new tab). Env var overrides if you need to change it later.
+const googleFormUrl =
+  (import.meta.env.VITE_GOOGLE_FORM_EMBED_URL as string | undefined) ||
+  "https://docs.google.com/forms/d/e/1FAIpQLSf6twmHTfZvgU-IX_uiUMBPvnLF5F0L5coFT8Rru0VvhfrvQA/viewform?usp=header";
 
 const qualities = [
 {
