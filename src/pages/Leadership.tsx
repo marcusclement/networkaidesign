@@ -74,7 +74,7 @@ const leaders = [
     role: "Director of Strategy & Outreach",
     grade: "Senior",
     major: "Business Information Systems",
-    funFact: "I speak three languages."
+    funFact: "I can speak 3 languages!"
   },
   {
     name: "Diya Shah",
