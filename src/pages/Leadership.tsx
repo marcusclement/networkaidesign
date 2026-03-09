@@ -8,56 +8,64 @@ const leaders = [
     email: "sarahg89@uw.edu",
     linkedin: "https://www.linkedin.com/in/sarah-greenberg1/",
     photo: "sarah-greenberg.jpeg",
-    role: "President"
+    role: "President",
+    funFact: ""
   },
   {
     name: "Kaspar Marwick",
     email: "kmarwick@uw.edu",
     linkedin: "https://www.linkedin.com/in/kaspar-marwick-97b0a418a/",
     photo: "kaspar-marwick.jpeg",
-    role: "Vice-President"
+    role: "Vice-President",
+    funFact: ""
   },
   {
     name: "Marcus Clement",
     email: "marcus20@uw.edu",
     linkedin: "https://www.linkedin.com/in/marcus-clement27/",
     photo: "marcus-clement.jpeg",
-    role: "Director of Technology & AI"
+    role: "Director of Technology & AI",
+    funFact: "I love hiking and have done 30+ hikes in Washington!"
   },
   {
     name: "Raya Rehmat",
     email: "rayar@uw.edu",
     linkedin: "https://www.linkedin.com/in/raya-r-rehmat/",
     photo: "raya-rehmat.jpeg",
-    role: "Director of Marketing"
+    role: "Director of Marketing",
+    funFact: "I swam with dolphins in the Bahamas!"
   },
   {
     name: "Alarick Alfredo-Sorto",
     email: "alarick@uw.edu",
     linkedin: "https://www.linkedin.com/in/alarick-alfredo-sorto/",
     photo: "alarick-alfredo-sorto.jpeg",
-    role: "Director of Operations"
+    role: "Director of Operations",
+    funFact: ""
   },
   {
     name: "Milana Trigubova",
     email: "milant3@uw.edu",
     linkedin: "https://www.linkedin.com/in/milana-trigubova/",
     photo: "milana-trigubova.jpeg",
-    role: "Director of Events"
+    role: "Director of Events",
+    funFact: ""
   },
   {
     name: "Lucia Fernandez-Binder",
     email: "luciafb@uw.edu",
     linkedin: "https://www.linkedin.com/in/lucia-fernandez-binder/",
     photo: "lucia-fernandez-binder.jpeg",
-    role: "Director of Strategy & Outreach"
+    role: "Director of Strategy & Outreach",
+    funFact: ""
   },
   {
     name: "Diya Shah",
     email: "dshah16@uw.edu",
     linkedin: "https://www.linkedin.com/in/diya-shah16/",
     photo: "diya-shah.jpeg",
-    role: "Director of Finance"
+    role: "Director of Finance",
+    funFact: ""
   }
 ];
 
@@ -106,6 +114,12 @@ const Leadership = () => {
                   {leader.name}
                 </h3>
                 <p className="text-sm font-medium text-indigo-300">{leader.role}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Fun fact</p>
+                {leader.funFact ? (
+                  <p className="text-sm text-muted-foreground leading-relaxed">{leader.funFact}</p>
+                ) : null}
               </div>
               <div className="flex flex-col gap-1.5 pt-2 border-t border-border">
                 <a
