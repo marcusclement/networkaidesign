@@ -12,6 +12,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/sarah-greenberg1/",
     photo: "sarah-greenberg.jpeg",
     role: "President",
+    grade: "Sophomore",
+    major: "Finance and Supply Chain Management",
     funFact: ""
   },
   {
@@ -20,6 +22,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/kaspar-marwick-97b0a418a/",
     photo: "kaspar-marwick.jpeg",
     role: "Vice-President",
+    grade: "Sophomore",
+    major: "Finance and Supply Chain Management",
     funFact: ""
   },
   {
@@ -28,6 +32,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/marcus-clement27/",
     photo: "marcus-clement.jpeg",
     role: "Director of Technology & AI",
+    grade: "Junior",
+    major: "Informatics",
     funFact: "I love hiking and have done 30+ hikes in Washington!"
   },
   {
@@ -36,6 +42,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/raya-r-rehmat/",
     photo: "raya-rehmat.jpeg",
     role: "Director of Marketing",
+    grade: "Sophomore",
+    major: "Marketing and Dance",
     funFact: "I swam with dolphins in the Bahamas!"
   },
   {
@@ -44,6 +52,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/alarick-alfredo-sorto/",
     photo: "alarick-alfredo-sorto.jpeg",
     role: "Director of Operations",
+    grade: "Sophomore",
+    major: "Accounting",
     funFact: ""
   },
   {
@@ -52,6 +62,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/milana-trigubova/",
     photo: "milana-trigubova.jpeg",
     role: "Director of Events",
+    grade: "Sophomore",
+    major: "Finance and Human Resources Management",
     funFact: ""
   },
   {
@@ -60,7 +72,9 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/lucia-fernandez-binder/",
     photo: "lucia-fernandez-binder.jpeg",
     role: "Director of Strategy & Outreach",
-    funFact: ""
+    grade: "Senior",
+    major: "Business Information Systems",
+    funFact: "I speak three languages."
   },
   {
     name: "Diya Shah",
@@ -68,6 +82,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/diya-shah16/",
     photo: "diya-shah.jpeg",
     role: "Director of Finance",
+    grade: "Freshman",
+    major: "Finance and Marketing",
     funFact: ""
   }
 ];
@@ -157,6 +173,16 @@ const Leadership = () => {
                   {leader.name}
                 </h3>
                 <p className="text-sm font-medium text-indigo-300">{leader.role}</p>
+                {leader.grade && (
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    <span className="font-medium">Grade:</span> {leader.grade}
+                  </p>
+                )}
+                {leader.major && (
+                  <p className="text-xs text-muted-foreground">
+                    <span className="font-medium">Major:</span> {leader.major}
+                  </p>
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Fun fact</p>
