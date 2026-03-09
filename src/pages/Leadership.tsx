@@ -1,6 +1,9 @@
+import { useState, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Mail, Linkedin } from "lucide-react";
+
+const MAX_TILT = 8;
 
 const leaders = [
   {
@@ -71,6 +74,37 @@ const leaders = [
 
 
 const Leadership = () => {
+  const [tilts, setTilts] = useState<({ x: number; y: number } | null)[]>(
+    leaders.map(() => null)
+  );
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    const card = cardRefs.current[index];
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const x = (e.clientX - centerX) / (rect.width / 2);
+    const y = (e.clientY - centerY) / (rect.height / 2);
+    setTilts((prev) => {
+      const next = [...prev];
+      next[index] = {
+        x: Math.max(-1, Math.min(1, x)) * MAX_TILT,
+        y: Math.max(-1, Math.min(1, y)) * -MAX_TILT,
+      };
+      return next;
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback((index: number) => {
+    setTilts((prev) => {
+      const next = [...prev];
+      next[index] = null;
+      return next;
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -89,10 +123,19 @@ const Leadership = () => {
 
       <section className="pb-24 px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {leaders.map((leader) =>
+          {leaders.map((leader, index) => (
             <div
               key={leader.email}
-            className="rounded-xl border border-border bg-card p-6 flex flex-col gap-3 hover:border-primary/40 transition-colors">
+              ref={(el) => { cardRefs.current[index] = el; }}
+              onMouseMove={(e) => handleMouseMove(e, index)}
+              onMouseLeave={() => handleMouseLeave(index)}
+              className="rounded-xl border border-border bg-card p-6 flex flex-col gap-3 hover:border-primary/40 transition-colors"
+              style={{
+                transform: tilts[index]
+                  ? `perspective(1000px) rotateX(${tilts[index]!.y}deg) rotateY(${tilts[index]!.x}deg) scale3d(1.02, 1.02, 1.02)`
+                  : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
+                transition: "transform 0.15s ease-out",
+              }}>
             
               <div className="relative w-16 h-16 rounded-full overflow-hidden bg-primary/20 shrink-0">
                 <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-xl text-indigo-300">
@@ -147,7 +190,7 @@ const Leadership = () => {
                 )}
               </div>
             </div>
-          )}
+          ))}
         </div>
       </section>
       <Footer />

@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -34,11 +34,42 @@ const qualities = [
   description: "Eagerness to learn, attend workshops, and develop new skills."
 }];
 
+const MAX_TILT = 8;
 
 const Membership = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tilts, setTilts] = useState<({ x: number; y: number } | null)[]>(
+    qualities.map(() => null)
+  );
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    const card = cardRefs.current[index];
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const x = (e.clientX - centerX) / (rect.width / 2);
+    const y = (e.clientY - centerY) / (rect.height / 2);
+    setTilts((prev) => {
+      const next = [...prev];
+      next[index] = {
+        x: Math.max(-1, Math.min(1, x)) * MAX_TILT,
+        y: Math.max(-1, Math.min(1, y)) * -MAX_TILT,
+      };
+      return next;
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback((index: number) => {
+    setTilts((prev) => {
+      const next = [...prev];
+      next[index] = null;
+      return next;
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,11 +131,19 @@ const Membership = () => {
             What We're Looking For
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {qualities.map((q) =>
-            <div
-              key={q.title}
-              className="rounded-xl border border-border bg-card p-5 text-center flex flex-col items-center gap-3">
-              
+            {qualities.map((q, index) => (
+              <div
+                key={q.title}
+                ref={(el) => { cardRefs.current[index] = el; }}
+                onMouseMove={(e) => handleMouseMove(e, index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                className="rounded-xl border border-border bg-card p-5 text-center flex flex-col items-center gap-3"
+                style={{
+                  transform: tilts[index]
+                    ? `perspective(1000px) rotateX(${tilts[index]!.y}deg) rotateY(${tilts[index]!.x}deg) scale3d(1.02, 1.02, 1.02)`
+                    : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
+                  transition: "transform 0.15s ease-out",
+                }}>
                 <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                   <q.icon className="w-5 h-5 text-primary" />
                 </div>
@@ -115,7 +154,7 @@ const Membership = () => {
                   {q.description}
                 </p>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </section>
