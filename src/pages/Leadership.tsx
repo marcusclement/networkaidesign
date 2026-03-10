@@ -63,8 +63,8 @@ const leaders = [
     photo: "milana-trigubova.jpeg",
     role: "Director of Events",
     grade: "Sophomore",
-    major: "Finance and Human Resources Management",
-    funFact: ""
+    major: "Finance and Information Systems",
+    funFact: "I was born at a very young age."
   },
   {
     name: "Lucia Fernandez-Binder",
