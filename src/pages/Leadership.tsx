@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Mail, Linkedin } from "lucide-react";
+import { Mail, Linkedin, Globe } from "lucide-react";
 
 const MAX_TILT = 8;
 
@@ -12,9 +12,9 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/sarah-greenberg1/",
     photo: "sarah-greenberg.jpeg",
     role: "President",
-    grade: "Sophomore",
+    grade: "Junior",
     major: "Finance and Supply Chain Management",
-    funFact: ""
+    funFact: "I'm an avid bachata and salsa dancer!"
   },
   {
     name: "Kaspar Marwick",
@@ -30,6 +30,7 @@ const leaders = [
     name: "Marcus Clement",
     email: "marcus20@uw.edu",
     linkedin: "https://www.linkedin.com/in/marcus-clement27/",
+    website: "https://marcusclementportfolio.vercel.app/",
     photo: "marcus-clement.jpeg",
     role: "Director of Technology & AI",
     grade: "Junior",
@@ -54,7 +55,7 @@ const leaders = [
     role: "Director of Operations",
     grade: "Sophomore",
     major: "Accounting",
-    funFact: ""
+    funFact: "I studied abroad throughout all of high school!"
   },
   {
     name: "Milana Trigubova",
@@ -197,23 +198,42 @@ const Leadership = () => {
                   <Mail className="w-3.5 h-3.5" />
                   {leader.email}
                 </a>
-                {leader.linkedin && (
-                  <a
-                    href={leader.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative mt-1 inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full text-muted-foreground transition-transform duration-200 hover:scale-110 active:scale-95"
-                    aria-label={`${leader.name} on LinkedIn`}>
-                    <span
-                      className="absolute inset-0 scale-y-0 bg-[#0A66C2] origin-bottom transition-[transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-y-100"
-                      aria-hidden
-                    />
-                    <Linkedin
-                      className="relative z-10 h-5 w-5 transition-colors duration-300 group-hover:text-white"
-                      strokeWidth={1.5}
-                    />
-                  </a>
-                )}
+                <div className="flex items-center gap-2 mt-1">
+                  {leader.linkedin && (
+                    <a
+                      href={leader.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full text-muted-foreground transition-transform duration-200 hover:scale-110 active:scale-95"
+                      aria-label={`${leader.name} on LinkedIn`}>
+                      <span
+                        className="absolute inset-0 scale-y-0 bg-[#0A66C2] origin-bottom transition-[transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-y-100"
+                        aria-hidden
+                      />
+                      <Linkedin
+                        className="relative z-10 h-5 w-5 transition-colors duration-300 group-hover:text-white"
+                        strokeWidth={1.5}
+                      />
+                    </a>
+                  )}
+                  {leader.website && (
+                    <a
+                      href={leader.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full text-muted-foreground transition-transform duration-200 hover:scale-110 active:scale-95"
+                      aria-label={`${leader.name} portfolio`}>
+                      <span
+                        className="absolute inset-0 scale-y-0 bg-indigo-500 origin-bottom transition-[transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-y-100"
+                        aria-hidden
+                      />
+                      <Globe
+                        className="relative z-10 h-5 w-5 transition-colors duration-300 group-hover:text-white"
+                        strokeWidth={1.5}
+                      />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           ))}
