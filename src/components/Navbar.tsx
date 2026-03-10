@@ -27,21 +27,39 @@ const Navbar = () => {
       </Link>
 
       <div className="hidden md:flex items-center gap-3">
-        <div className="flex items-center gap-1 bg-secondary/50 rounded-full px-2 py-1 border border-border/50">
+        <div className="flex items-center gap-1 bg-secondary/30 rounded-full px-1.5 py-1 border border-border/50">
           <Link
             to="/"
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-            Home
+            className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive("/") ? "text-foreground" : "text-muted-foreground"}`}>
+            {isActive("/") && (
+              <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
+            )}
+            <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
+            <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
+              Home
+            </span>
           </Link>
           <Link
             to="/leadership"
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/leadership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-            Leadership
+            className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive("/leadership") ? "text-foreground" : "text-muted-foreground"}`}>
+            {isActive("/leadership") && (
+              <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
+            )}
+            <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
+            <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
+              Leadership
+            </span>
           </Link>
           <Link
             to="/membership"
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive("/membership") ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-            Membership
+            className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive("/membership") ? "text-foreground" : "text-muted-foreground"}`}>
+            {isActive("/membership") && (
+              <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
+            )}
+            <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
+            <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
+              Membership
+            </span>
           </Link>
         </div>
         <a
