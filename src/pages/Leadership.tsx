@@ -24,7 +24,7 @@ const leaders = [
     role: "Vice-President",
     grade: "Sophomore",
     major: "Finance and Supply Chain Management",
-    funFact: ""
+    funFact: "I'm a national level gymnast and a violinist in the UW orchestra."
   },
   {
     name: "Marcus Clement",
