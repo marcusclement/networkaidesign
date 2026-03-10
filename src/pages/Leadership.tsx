@@ -41,6 +41,7 @@ const leaders = [
     name: "Raya Rehmat",
     email: "rayar@uw.edu",
     linkedin: "https://www.linkedin.com/in/raya-r-rehmat/",
+    website: "https://www.rehmat.com/",
     photo: "raya-rehmat.jpeg",
     role: "Director of Marketing",
     grade: "Sophomore",
