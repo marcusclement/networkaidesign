@@ -84,7 +84,7 @@ const leaders = [
     role: "Director of Finance",
     grade: "Freshman",
     major: "Finance and Marketing",
-    funFact: ""
+    funFact: "I've been dancing for 10+ years and love cooking and eating pasta!"
   }
 ];
 
