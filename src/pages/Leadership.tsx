@@ -32,7 +32,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/marcus-clement27/",
     website: "https://marcusclementportfolio.vercel.app/",
     photo: "marcus-clement.jpeg",
-    role: "Director of Technology & AI",
+    role: "Director of Technology",
     grade: "Junior",
     major: "Informatics",
     funFact: "I love hiking and have done 30+ hikes in Washington!"
@@ -47,6 +47,17 @@ const leaders = [
     grade: "Sophomore",
     major: "Marketing and Dance",
     funFact: "I swam with dolphins in the Bahamas!"
+  },
+  {
+    name: "Vicky Ye",
+    email: "vickyye@uw.edu",
+    linkedin: "https://www.linkedin.com/in/vickycye/",
+    website: "https://vicky.wiki/",
+    photo: "",
+    role: "Director of AI",
+    grade: "Junior",
+    major: "Computer Science",
+    funFact: ""
   },
   {
     name: "Alarick Alfredo-Sorto",
