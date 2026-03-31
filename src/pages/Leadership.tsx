@@ -53,11 +53,12 @@ const leaders = [
     email: "vickyye@uw.edu",
     linkedin: "https://www.linkedin.com/in/vickycye/",
     website: "https://vicky.wiki/",
-    photo: "",
+    photo: "vicky.jpg",
+    photoPosition: "center 20%",
     role: "Director of AI",
-    grade: "Junior",
+    grade: "Sophomore",
     major: "Computer Science",
-    funFact: ""
+    funFact: "I love playing board games and solving puzzles!"
   },
   {
     name: "Alarick Alfredo-Sorto",
@@ -175,6 +176,7 @@ const Leadership = () => {
                     src={`/leadership/${leader.photo}`}
                     alt={leader.name}
                     className="absolute inset-0 w-full h-full object-cover"
+                    style={leader.photoPosition ? { objectPosition: leader.photoPosition } : undefined}
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}
