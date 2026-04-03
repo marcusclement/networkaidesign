@@ -153,7 +153,7 @@ const Leadership = () => {
       <Navbar />
 
       {/* Sticky hero with group photo */}
-      <div className="relative h-[85vh]">
+      <div className="relative h-[120vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <img
             src="/leadership/networkaigroup.png"
@@ -167,16 +167,21 @@ const Leadership = () => {
 
           {/* Hero text */}
           <div
-            className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
+            className="relative z-10 flex flex-col items-end justify-end h-full px-6 pb-40 text-center"
             style={{ opacity: heroOpacity }}
           >
-            <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground mb-4 drop-shadow-lg">
+            <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground drop-shadow-lg w-full">
               Our <span className="text-indigo-300">Leadership</span>
             </h1>
-            <p className="text-lg md:text-xl max-w-2xl mx-auto text-slate-300 drop-shadow-md">
-              Meet the executive team driving NetworkAI forward at the University
-              of Washington.
-            </p>
+            <svg
+              className="w-6 h-6 mx-auto mt-6 text-indigo-300 animate-bounce"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </div>
         </div>
       </div>

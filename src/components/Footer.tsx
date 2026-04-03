@@ -1,6 +1,6 @@
 import { Mail } from "lucide-react";
 
-const CLUB_EMAIL = "uwnetworkai@gmail.com";
+const CLUB_EMAIL = "networkai@uw.edu";
 
 const Footer = () => {
   return (
