@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Mail, Linkedin, Globe } from "lucide-react";
@@ -108,6 +108,19 @@ const Leadership = () => {
     leaders.map(() => null)
   );
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [heroOpacity, setHeroOpacity] = useState(1);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowH = window.innerHeight;
+      // Fade hero text as user scrolls through the hero area
+      const fade = Math.max(0, 1 - scrollY / (windowH * 0.6));
+      setHeroOpacity(fade);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
     const card = cardRefs.current[index];
@@ -139,20 +152,41 @@ const Leadership = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="pt-32 pb-16 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Our <span className="text-indigo-300">Leadership</span>
-          </h1>
-          <p className="text-lg max-w-2xl mx-auto text-primary-foreground">
-            Meet the executive team driving NetworkAI forward at the University
-            of Washington.
-          </p>
-        </div>
-      </section>
+      {/* Sticky hero with group photo */}
+      <div className="relative h-[85vh]">
+        <div className="sticky top-0 h-screen overflow-hidden">
+          <img
+            src="/leadership/networkaigroup.png"
+            alt="NetworkAI Leadership Team"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: "55% top" }}
+          />
+          {/* Gradient overlays for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
-      <section className="pb-24 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Hero text */}
+          <div
+            className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
+            style={{ opacity: heroOpacity }}
+          >
+            <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground mb-4 drop-shadow-lg">
+              Our <span className="text-indigo-300">Leadership</span>
+            </h1>
+            <p className="text-lg md:text-xl max-w-2xl mx-auto text-slate-300 drop-shadow-md">
+              Meet the executive team driving NetworkAI forward at the University
+              of Washington.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Cards section – scrolls up over the hero */}
+      <section className="relative z-10 bg-background pb-24 px-6 -mt-24">
+        {/* Soft top edge that blends into the hero */}
+        <div className="absolute inset-x-0 -top-32 h-32 bg-gradient-to-b from-transparent to-background pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-12">
           {leaders.map((leader, index) => (
             <div
               key={leader.email}
@@ -166,7 +200,7 @@ const Leadership = () => {
                   : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
                 transition: "transform 0.15s ease-out",
               }}>
-            
+
               <div className="relative w-20 h-20 mx-auto rounded-full overflow-hidden bg-primary/20 shrink-0">
                 <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-xl text-indigo-300">
                   {leader.name.split(" ").map((n) => n[0]).join("")}
