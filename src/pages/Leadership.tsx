@@ -165,16 +165,17 @@ const Leadership = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
-          {/* Hero text */}
-          <div
-            className="relative z-10 flex flex-col items-end justify-end h-full px-6 pb-40 text-center"
+          {/* Scroll indicator */}
+          <button
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 cursor-pointer p-2 rounded-full hover:bg-white/10 transition-colors"
             style={{ opacity: heroOpacity }}
+            onClick={() => {
+              document.getElementById("leadership-cards")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            aria-label="Scroll to leadership cards"
           >
-            <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground drop-shadow-lg w-full">
-              Our <span className="text-indigo-300">Leadership</span>
-            </h1>
             <svg
-              className="w-6 h-6 mx-auto mt-6 text-indigo-300 animate-bounce"
+              className="w-6 h-6 text-indigo-300 animate-bounce"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -182,16 +183,20 @@ const Leadership = () => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
-          </div>
+          </button>
         </div>
       </div>
 
       {/* Cards section – scrolls up over the hero */}
-      <section className="relative z-10 bg-background pb-24 px-6 -mt-24">
+      <section id="leadership-cards" className="relative z-10 bg-background pb-24 px-6 -mt-24">
         {/* Soft top edge that blends into the hero */}
         <div className="absolute inset-x-0 -top-32 h-32 bg-gradient-to-b from-transparent to-background pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-12">
+        <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground text-center pt-8 pb-10">
+          Our <span className="text-indigo-300">Leadership</span>
+        </h1>
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {leaders.map((leader, index) => (
             <div
               key={leader.email}
