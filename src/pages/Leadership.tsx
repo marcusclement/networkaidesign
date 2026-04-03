@@ -38,17 +38,6 @@ const leaders = [
     funFact: "I love hiking and have done 30+ hikes in Washington!"
   },
   {
-    name: "Raya Rehmat",
-    email: "rayar@uw.edu",
-    linkedin: "https://www.linkedin.com/in/raya-r-rehmat/",
-    website: "https://www.rehmat.com/",
-    photo: "raya-rehmat.jpeg",
-    role: "Director of Marketing",
-    grade: "Sophomore",
-    major: "Marketing and Dance",
-    funFact: "I swam with dolphins in the Bahamas!"
-  },
-  {
     name: "Vicky Ye",
     email: "vickyye@uw.edu",
     linkedin: "https://www.linkedin.com/in/vickycye/",
@@ -61,14 +50,25 @@ const leaders = [
     funFact: "I love playing board games and solving puzzles!"
   },
   {
-    name: "Alarick Alfredo-Sorto",
-    email: "alarick@uw.edu",
-    linkedin: "https://www.linkedin.com/in/alarick-alfredo-sorto/",
-    photo: "alarick-alfredo-sorto.jpeg",
-    role: "Director of Operations",
+    name: "Raya Rehmat",
+    email: "rayar@uw.edu",
+    linkedin: "https://www.linkedin.com/in/raya-r-rehmat/",
+    website: "https://www.rehmat.com/",
+    photo: "raya-rehmat.jpeg",
+    role: "Director of Marketing",
     grade: "Sophomore",
-    major: "Accounting",
-    funFact: "I studied abroad throughout all of high school!"
+    major: "Marketing and Dance",
+    funFact: "I swam with dolphins in the Bahamas!"
+  },
+  {
+    name: "Diya Shah",
+    email: "dshah16@uw.edu",
+    linkedin: "https://www.linkedin.com/in/diya-shah16/",
+    photo: "diya-shah.jpeg",
+    role: "Director of Finance",
+    grade: "Freshman",
+    major: "Finance and Marketing",
+    funFact: "I've been dancing for 10+ years and love cooking and eating pasta!"
   },
   {
     name: "Milana Trigubova",
@@ -91,14 +91,14 @@ const leaders = [
     funFact: "I can speak 3 languages!"
   },
   {
-    name: "Diya Shah",
-    email: "dshah16@uw.edu",
-    linkedin: "https://www.linkedin.com/in/diya-shah16/",
-    photo: "diya-shah.jpeg",
-    role: "Director of Finance",
-    grade: "Freshman",
-    major: "Finance and Marketing",
-    funFact: "I've been dancing for 10+ years and love cooking and eating pasta!"
+    name: "Alarick Alfredo-Sorto",
+    email: "alarick@uw.edu",
+    linkedin: "https://www.linkedin.com/in/alarick-alfredo-sorto/",
+    photo: "alarick-alfredo-sorto.jpeg",
+    role: "Director of Operations",
+    grade: "Sophomore",
+    major: "Accounting",
+    funFact: "I studied abroad throughout all of high school!"
   }
 ];
 
@@ -159,7 +159,7 @@ const Leadership = () => {
               ref={(el) => { cardRefs.current[index] = el; }}
               onMouseMove={(e) => handleMouseMove(e, index)}
               onMouseLeave={() => handleMouseLeave(index)}
-              className="rounded-xl border border-border bg-card p-6 flex flex-col gap-3 hover:border-primary/40 transition-colors"
+              className="rounded-xl border border-border bg-card p-6 flex flex-col items-center text-center gap-3 hover:border-primary/40 transition-colors"
               style={{
                 transform: tilts[index]
                   ? `perspective(1000px) rotateX(${tilts[index]!.y}deg) rotateY(${tilts[index]!.x}deg) scale3d(1.02, 1.02, 1.02)`
@@ -167,7 +167,7 @@ const Leadership = () => {
                 transition: "transform 0.15s ease-out",
               }}>
             
-              <div className="relative w-16 h-16 rounded-full overflow-hidden bg-primary/20 shrink-0">
+              <div className="relative w-20 h-20 mx-auto rounded-full overflow-hidden bg-primary/20 shrink-0">
                 <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-xl text-indigo-300">
                   {leader.name.split(" ").map((n) => n[0]).join("")}
                 </span>
@@ -205,7 +205,7 @@ const Leadership = () => {
                   <p className="text-sm text-muted-foreground leading-relaxed">{leader.funFact}</p>
                 ) : null}
               </div>
-              <div className="flex flex-col gap-1.5 pt-2 border-t border-border">
+              <div className="flex flex-col items-center gap-1.5 pt-2 border-t border-border w-full">
                 <a
                   href={`mailto:${leader.email}`}
                   className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
