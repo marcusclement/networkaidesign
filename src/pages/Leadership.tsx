@@ -158,8 +158,7 @@ const Leadership = () => {
           <img
             src="/leadership/networkaigroup.png"
             alt="NetworkAI Leadership Team"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ objectPosition: "55% top" }}
+            className="absolute inset-0 w-full h-full object-contain object-top md:object-cover md:object-[55%_0]"
           />
           {/* Gradient overlays for readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
