@@ -154,11 +154,12 @@ const Leadership = () => {
 
       {/* Sticky hero with group photo */}
       <div className="relative h-[120vh]">
-        <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Mobile: padding-top clears fixed navbar; image fills area below with top-anchored cover */}
+        <div className="sticky top-0 h-screen overflow-hidden max-md:pt-16">
           <img
             src="/leadership/networkaigroup.png"
             alt="NetworkAI Leadership Team"
-            className="absolute inset-0 w-full h-full object-contain object-top md:object-cover md:object-[55%_0]"
+            className="absolute inset-0 w-full h-full object-cover object-[50%_0%] md:object-[55%_0]"
           />
           {/* Gradient overlays for readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
