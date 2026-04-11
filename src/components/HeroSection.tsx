@@ -86,33 +86,24 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-24">
-        <div className="inline-flex items-center gap-2 mb-8">
-          
-          <span className="tracking-[0.2em] uppercase text-slate-300 bg-[#65758b]/0 font-bold text-base">
-
-          </span>
-        </div>
-
-        <h1 className="font-display text-5xl md:text-7xl font-bold leading-tight mb-6 text-foreground">
-          Connecting UW Students to{" "}
-          <br />
-          <span className="text-indigo-300">AI's Future.</span>
-        </h1>
-
-        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-primary-foreground">
-          A community for Huskies—networking, AI innovation, and professional development through hands-on projects and mentorship.
+        <p className="text-sm md:text-base text-primary-foreground/90 max-w-2xl mx-auto mb-6 leading-relaxed">
+          The University of Washington&apos;s premier undergraduate AI in Business club.
         </p>
 
-        <div className="flex items-center justify-center gap-4">
+        <h1 className="font-display text-5xl md:text-7xl font-bold leading-tight mb-10 text-foreground">
+          Network<span className="text-indigo-300">AI</span>
+        </h1>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/membership"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity text-primary-foreground bg-indigo-400">
             Join Us <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
-            to="/leadership"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-foreground font-semibold text-sm hover:text-primary transition-colors">
-            Meet the Team
+            to="/workshops"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-border text-foreground font-semibold text-sm hover:bg-secondary/80 transition-colors">
+            Upcoming workshops
           </Link>
         </div>
       </div>

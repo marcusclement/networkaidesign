@@ -5,7 +5,7 @@ const CLUB_EMAIL = "networkai@uw.edu";
 const Footer = () => {
   return (
     <footer className="border-t border-border/50 bg-card/30 py-6 px-6">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm text-muted-foreground">
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm text-muted-foreground text-center">
         <span>NetworkAI at the University of Washington</span>
         <a
           href={`mailto:${CLUB_EMAIL}`}

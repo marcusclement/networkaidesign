@@ -7,6 +7,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import Leadership from "./pages/Leadership";
 import Membership from "./pages/Membership";
+import Workshops from "./pages/Workshops";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/workshops" element={<Workshops />} />
           <Route path="/leadership" element={<Leadership />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="*" element={<NotFound />} />

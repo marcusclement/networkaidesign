@@ -4,7 +4,7 @@ import { useState, useCallback, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { CheckCircle, Users, Lightbulb, Rocket, GraduationCap } from "lucide-react";
+import { CheckCircle, Lightbulb, CalendarCheck, Sparkles, Rocket } from "lucide-react";
 import { toast } from "sonner";
 
 // Link to your Google Form (opens in new tab). Env var overrides if you need to change it later.
@@ -13,26 +13,28 @@ const googleFormUrl =
   "https://docs.google.com/forms/d/e/1FAIpQLSf6twmHTfZvgU-IX_uiUMBPvnLF5F0L5coFT8Rru0VvhfrvQA/viewform?usp=header";
 
 const qualities = [
-{
-  icon: Lightbulb,
-  title: "Curiosity about AI",
-  description: "A genuine interest in how AI is reshaping industries and everyday life."
-},
-{
-  icon: Users,
-  title: "Team Player",
-  description: "Willingness to collaborate, share ideas, and support fellow members."
-},
-{
-  icon: Rocket,
-  title: "Initiative & Drive",
-  description: "Proactive individuals who take ownership and contribute meaningfully."
-},
-{
-  icon: GraduationCap,
-  title: "Growth Mindset",
-  description: "Eagerness to learn, attend workshops, and develop new skills."
-}];
+  {
+    icon: Lightbulb,
+    title: "Curiosity",
+    description: "Genuinely interested in how AI is reshaping your career landscape.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Committed",
+    description: "If you sign up, show up.",
+  },
+  {
+    icon: Sparkles,
+    title: "Distinctive",
+    description: "Show us what makes you stand out from other applicants.",
+  },
+  {
+    icon: Rocket,
+    title: "Innovative",
+    description:
+      "Give us new ideas, be creative, and walk us through your thought process on the application.",
+  },
+];
 
 const MAX_TILT = 8;
 
@@ -119,7 +121,9 @@ const Membership = () => {
             Become a <span className="text-indigo-300">Member</span>
           </h1>
           <p className="text-lg max-w-2xl mx-auto text-primary-foreground">
-            No coding or tech background needed. Whether you're in business, marketing, operations, or any major—come explore how AI is shaping your field and build the skills that matter for your career. All curious Huskies welcome.
+            No coding or tech background needed. Whether you&apos;re in business, informatics, computer science,
+            engineering, or any major, come explore how AI is shaping your field and learn in-demand AI skills that
+            matter for your career. All curious Huskies welcome.
           </p>
         </div>
       </section>

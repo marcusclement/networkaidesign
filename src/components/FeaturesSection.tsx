@@ -1,106 +1,51 @@
-import { useState, useCallback, useRef } from "react";
-import { Globe, Zap, Users } from "lucide-react";
-
-const features = [
-  {
-    icon: Globe,
-    title: "Global Network",
-    description:
-      "Connect with professionals and organizations worldwide through our expansive network."
-  },
-  {
-    icon: Zap,
-    title: "Rapid Innovation",
-    description:
-      "Gain access and knowledge on the latest trends in the AI space."
-  },
-  {
-    icon: Users,
-    title: "Community Driven",
-    description:
-      "A vibrant, inclusive community fostering collaboration, mentorship, and shared success."
-  }
+const goalItems = [
+  "Learn technical skills in demand",
+  "Collaborate with driven students across disciplines",
+  "Keep up with current AI events",
+  "Learn about the future of AI",
+  "Leverage AI in your career",
+  "Network with industry professionals",
 ];
 
-const MAX_TILT = 8;
-
 const FeaturesSection = () => {
-  const [tilts, setTilts] = useState<({ x: number; y: number } | null)[]>([null, null, null]);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    const card = cardRefs.current[index];
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const x = (e.clientX - centerX) / (rect.width / 2);
-    const y = (e.clientY - centerY) / (rect.height / 2);
-    setTilts((prev) => {
-      const next = [...prev];
-      next[index] = {
-        x: Math.max(-1, Math.min(1, x)) * MAX_TILT,
-        y: Math.max(-1, Math.min(1, y)) * -MAX_TILT,
-      };
-      return next;
-    });
-  }, []);
-
-  const handleMouseLeave = useCallback((index: number) => {
-    setTilts((prev) => {
-      const next = [...prev];
-      next[index] = null;
-      return next;
-    });
-  }, []);
-
   return (
     <section className="py-24 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400">
-            What We Do
+      <div className="max-w-3xl mx-auto space-y-16">
+        <div className="rounded-2xl border border-border/50 bg-card/30 p-8 md:p-10">
+          <p className="text-lg md:text-xl text-foreground leading-relaxed">
+            NetworkAI isn&apos;t about lectures—you have enough lectures from classes. We provide{" "}
+            <span className="text-indigo-300 font-medium">interactive workshops</span> where every hour you invest
+            is worth your time.
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
-            More Than a Network.
-            <br />
-            <span className="text-violet-300">A Launchpad.</span>
-          </h2>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            We bridge the gap between academic theory and the blistering pace of
-            the AI world.
+          <p className="mt-6 text-muted-foreground leading-relaxed">
+            Whether it&apos;s a website you just vibecoded, a technical skill you can use to streamline schoolwork, or
+            a genuine connection with another ambitious member, you&apos;ll leave our workshops without thinking about
+            the opportunity cost of your time.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={feature.title}
-              ref={(el) => { cardRefs.current[index] = el; }}
-              onMouseMove={(e) => handleMouseMove(e, index)}
-              onMouseLeave={() => handleMouseLeave(index)}
-              className="group p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-[var(--shadow-glow)]"
-              style={{
-                transform: tilts[index]
-                  ? `perspective(1000px) rotateX(${tilts[index]!.y}deg) rotateY(${tilts[index]!.x}deg) scale3d(1.02, 1.02, 1.02)`
-                  : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
-                transition: "transform 0.15s ease-out",
-              }}>
-              <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <feature.icon className="w-5 h-5 text-primary" />
-              </div>
-              <h3 className="font-display text-lg font-semibold text-foreground mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
-          ))}
+        <div className="space-y-6">
+          <p className="text-lg text-foreground leading-relaxed">
+            NetworkAI is a growing community of students from Business, Computer Science, and Informatics majors.
+          </p>
+          <p className="text-foreground font-display text-xl font-semibold">
+            Our goal is to provide a space where you can:
+          </p>
+          <ul className="space-y-3 pl-1">
+            {goalItems.map((item) => (
+              <li key={item} className="flex gap-3 text-muted-foreground leading-relaxed">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" aria-hidden />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="pt-4 font-display text-xl font-semibold text-foreground">
+            Stay ahead of the curve with NetworkAI.
+          </p>
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 };
 
 export default FeaturesSection;

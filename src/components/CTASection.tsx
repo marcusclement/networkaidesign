@@ -19,10 +19,9 @@ const CTASection = () => {
             Apply Now
           </Link>
           <Link
-            to="/leadership"
+            to="/workshops"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-border text-foreground font-semibold text-sm hover:bg-secondary transition-colors">
-            
-            Learn More
+            Upcoming workshops
           </Link>
         </div>
       </div>
