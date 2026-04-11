@@ -2,10 +2,17 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import seattleVideo from "@/assets/seattle-bg.mp4";
+import uwCampusVideo from "@/assets/uw-campus-bg.mp4";
+
+const videos = [seattleVideo, uwCampusVideo];
 
 const HeroSection = () => {
   const [mouse, setMouse] = useState<{ x: number; y: number } | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const [activeIndex, setActiveIndex] = useState(() => Math.random() < 0.5 ? 0 : 1);
+  const [fading, setFading] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const nextVideoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const el = sectionRef.current;
@@ -27,22 +34,39 @@ const HeroSection = () => {
     if (isTouch) setMouse(null);
   }, []);
 
+  // Cycle videos every 12 seconds with a crossfade
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setActiveIndex((prev) => (prev + 1) % videos.length);
+        setFading(false);
+      }, 1000); // 1s crossfade
+    }, 12000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}>
-      {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover">
-        
-        <source src={seattleVideo} type="video/mp4" />
-      </video>
+      {/* Video Background – crossfade between clips */}
+      {videos.map((src, i) => (
+        <video
+          key={src}
+          ref={i === activeIndex ? videoRef : nextVideoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            i === activeIndex && !fading ? "opacity-100" : "opacity-0"
+          }`}
+          src={src}
+        />
+      ))}
 
       {/* Dark overlay to ensure text readability */}
       <div className="absolute inset-0 bg-background/80" />
