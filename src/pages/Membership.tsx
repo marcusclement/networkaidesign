@@ -43,6 +43,18 @@ const qualities = [
 
 const MAX_TILT = 8;
 
+function tiltFromPointer(clientX: number, clientY: number, card: HTMLElement, maxTilt: number) {
+  const rect = card.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const x = (clientX - centerX) / (rect.width / 2);
+  const y = (clientY - centerY) / (rect.height / 2);
+  return {
+    x: Math.max(-1, Math.min(1, x)) * maxTilt,
+    y: Math.max(-1, Math.min(1, y)) * -maxTilt,
+  };
+}
+
 const Membership = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -50,24 +62,29 @@ const Membership = () => {
   const [tilts, setTilts] = useState<({ x: number; y: number } | null)[]>(
     qualities.map(() => null)
   );
+  const [discordTilt, setDiscordTilt] = useState<{ x: number; y: number } | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const discordCardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
     const card = cardRefs.current[index];
     if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const x = (e.clientX - centerX) / (rect.width / 2);
-    const y = (e.clientY - centerY) / (rect.height / 2);
+    const t = tiltFromPointer(e.clientX, e.clientY, card, MAX_TILT);
     setTilts((prev) => {
       const next = [...prev];
-      next[index] = {
-        x: Math.max(-1, Math.min(1, x)) * MAX_TILT,
-        y: Math.max(-1, Math.min(1, y)) * -MAX_TILT,
-      };
+      next[index] = t;
       return next;
     });
+  }, []);
+
+  const handleDiscordMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = discordCardRef.current;
+    if (!card) return;
+    setDiscordTilt(tiltFromPointer(e.clientX, e.clientY, card, MAX_TILT));
+  }, []);
+
+  const handleDiscordMouseLeave = useCallback(() => {
+    setDiscordTilt(null);
   }, []);
 
   const handleMouseLeave = useCallback((index: number) => {
@@ -116,6 +133,34 @@ const Membership = () => {
     }
   };
 
+  const discordRowClass =
+    "relative flex min-w-0 flex-1 flex-col items-center gap-8 sm:flex-row sm:text-left";
+  const discordIconTile = (
+    <div className="group relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-2xl text-muted-foreground shadow-lg transition-transform duration-200 hover:scale-105 active:scale-95">
+      <span
+        className="absolute inset-0 scale-y-0 bg-[#5865F2] origin-bottom transition-[transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-y-100"
+        aria-hidden
+      />
+      <svg
+        className="relative z-10 h-16 w-16 transition-colors duration-300 group-hover:text-white"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden>
+        <path d={DISCORD_ICON_PATH} />
+      </svg>
+    </div>
+  );
+  const discordCopy = (
+    <div className="min-w-0 flex-1 text-center sm:text-left">
+      <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Join our Discord</h2>
+      <p className="mt-3 text-muted-foreground leading-relaxed">
+        That&apos;s where all club communication happens—announcements, events, workshop details, and questions between
+        meetings.
+      </p>
+      {!DISCORD_INVITE_URL && <p className="mt-4 text-sm text-muted-foreground/90">Discord will be up soon!</p>}
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -135,38 +180,38 @@ const Membership = () => {
 
       <section className="pb-16 px-6">
         <div className="max-w-2xl mx-auto">
-          <a
-            href={DISCORD_INVITE_URL || "#"}
-            onClick={(e) => {
-              if (!DISCORD_INVITE_URL) e.preventDefault();
-            }}
-            {...(DISCORD_INVITE_URL ? { target: "_blank", rel: "noopener noreferrer" as const } : {})}
-            className={`flex flex-col sm:flex-row items-center gap-8 rounded-2xl border p-8 md:p-10 transition-colors ${
+          <div
+            ref={discordCardRef}
+            onMouseMove={handleDiscordMouseMove}
+            onMouseLeave={handleDiscordMouseLeave}
+            className={`rounded-2xl border p-8 md:p-10 transition-colors ${
               DISCORD_INVITE_URL
-                ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60 cursor-pointer"
-                : "border-border bg-card/40 cursor-default"
-            }`}>
-            <div
-              className={`flex h-28 w-28 shrink-0 items-center justify-center rounded-2xl shadow-lg ${
-                DISCORD_INVITE_URL ? "bg-[#5865F2] text-white" : "bg-muted text-muted-foreground"
-              }`}>
-              <svg className="h-16 w-16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d={DISCORD_ICON_PATH} />
-              </svg>
-            </div>
-            <div className="text-center sm:text-left min-w-0 flex-1">
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
-                Join our Discord
-              </h2>
-              <p className="mt-3 text-muted-foreground leading-relaxed">
-                That&apos;s where all club communication happens—announcements, events, workshop details, and
-                questions between meetings.
-              </p>
-              {!DISCORD_INVITE_URL && (
-                <p className="mt-4 text-sm text-muted-foreground/90">Discord will be up soon!</p>
-              )}
-            </div>
-          </a>
+                ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60"
+                : "border-border bg-card/40"
+            }`}
+            style={{
+              transform: discordTilt
+                ? `perspective(1000px) rotateX(${discordTilt.y}deg) rotateY(${discordTilt.x}deg) scale3d(1.02, 1.02, 1.02)`
+                : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
+              transition: "transform 0.15s ease-out",
+            }}>
+            {DISCORD_INVITE_URL ? (
+              <a
+                href={DISCORD_INVITE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${discordRowClass} no-underline`}
+                aria-label="Join our Discord">
+                {discordIconTile}
+                {discordCopy}
+              </a>
+            ) : (
+              <div className={discordRowClass}>
+                {discordIconTile}
+                {discordCopy}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
