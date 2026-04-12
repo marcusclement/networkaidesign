@@ -85,20 +85,12 @@ function WorkshopDateColumn({ id }: { id: (typeof upcoming)[number]["id"] }) {
     );
   }
   return (
-    <div className={datePillClass} aria-label="Date and time to be announced">
+    <div className={datePillClass}>
       <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
-      <span className="min-h-[0.75rem] text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground/25 select-none" aria-hidden>
-        {"\u00a0"}
-      </span>
-      <span className="mt-0.5 min-h-[1.125rem] font-display text-sm font-bold leading-tight text-foreground/20 select-none" aria-hidden>
-        {"\u00a0"}
-      </span>
-      <span className="mt-1 min-h-[0.875rem] text-[10px] text-muted-foreground/20 select-none" aria-hidden>
-        {"\u00a0"}
-      </span>
-      <span className="mt-0.5 min-h-[0.75rem] text-[9px] text-muted-foreground/20 select-none" aria-hidden>
-        {"\u00a0"}
-      </span>
+      <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">TBD</span>
+      <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">TBD</span>
+      <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">TBD</span>
+      <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">TBD</span>
     </div>
   );
 }
