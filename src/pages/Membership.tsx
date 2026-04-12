@@ -42,6 +42,16 @@ const qualities = [
 ];
 
 const MAX_TILT = 8;
+/** ~69% less rotation than quality cards—large CTAs have links/buttons. */
+const MEMBER_CARD_MAX_TILT = 2.5;
+/** Gentler hover “lift” than the 1.02 used on smaller cards. */
+const MEMBER_CARD_SCALE = 1.01;
+
+function memberCardTransform(t: { x: number; y: number } | null) {
+  if (!t) return "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)";
+  const s = MEMBER_CARD_SCALE;
+  return `perspective(1000px) rotateX(${t.y}deg) rotateY(${t.x}deg) scale3d(${s}, ${s}, ${s})`;
+}
 
 function tiltFromPointer(clientX: number, clientY: number, card: HTMLElement, maxTilt: number) {
   const rect = card.getBoundingClientRect();
@@ -63,8 +73,10 @@ const Membership = () => {
     qualities.map(() => null)
   );
   const [discordTilt, setDiscordTilt] = useState<{ x: number; y: number } | null>(null);
+  const [applyTilt, setApplyTilt] = useState<{ x: number; y: number } | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const discordCardRef = useRef<HTMLDivElement>(null);
+  const applyCardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
     const card = cardRefs.current[index];
@@ -80,11 +92,21 @@ const Membership = () => {
   const handleDiscordMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const card = discordCardRef.current;
     if (!card) return;
-    setDiscordTilt(tiltFromPointer(e.clientX, e.clientY, card, MAX_TILT));
+    setDiscordTilt(tiltFromPointer(e.clientX, e.clientY, card, MEMBER_CARD_MAX_TILT));
   }, []);
 
   const handleDiscordMouseLeave = useCallback(() => {
     setDiscordTilt(null);
+  }, []);
+
+  const handleApplyMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = applyCardRef.current;
+    if (!card) return;
+    setApplyTilt(tiltFromPointer(e.clientX, e.clientY, card, MEMBER_CARD_MAX_TILT));
+  }, []);
+
+  const handleApplyMouseLeave = useCallback(() => {
+    setApplyTilt(null);
   }, []);
 
   const handleMouseLeave = useCallback((index: number) => {
@@ -161,6 +183,11 @@ const Membership = () => {
     </div>
   );
 
+  const memberCardShellClass =
+    DISCORD_INVITE_URL
+      ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60"
+      : "border-border bg-card/40";
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -185,15 +212,9 @@ const Membership = () => {
               ref={discordCardRef}
               onMouseMove={handleDiscordMouseMove}
               onMouseLeave={handleDiscordMouseLeave}
-              className={`h-full rounded-2xl border p-8 md:p-10 transition-colors ${
-                DISCORD_INVITE_URL
-                  ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60"
-                  : "border-border bg-card/40"
-              }`}
+              className={`h-full rounded-2xl border p-8 md:p-10 transition-colors ${memberCardShellClass}`}
               style={{
-                transform: discordTilt
-                  ? `perspective(1000px) rotateX(${discordTilt.y}deg) rotateY(${discordTilt.x}deg) scale3d(1.02, 1.02, 1.02)`
-                  : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
+                transform: memberCardTransform(discordTilt),
                 transition: "transform 0.15s ease-out",
               }}>
               {DISCORD_INVITE_URL ? (
@@ -216,7 +237,15 @@ const Membership = () => {
           </div>
 
           <div className="min-w-0 lg:flex lg:flex-col">
-            <div className="flex h-full min-h-0 flex-col rounded-xl border border-border bg-card p-8">
+            <div
+              ref={applyCardRef}
+              onMouseMove={handleApplyMouseMove}
+              onMouseLeave={handleApplyMouseLeave}
+              className={`flex h-full min-h-0 flex-col rounded-2xl border p-8 md:p-10 transition-colors ${memberCardShellClass}`}
+              style={{
+                transform: memberCardTransform(applyTilt),
+                transition: "transform 0.15s ease-out",
+              }}>
               <h2 className="font-display text-2xl font-bold text-foreground mb-6">Apply Now</h2>
 
               {googleFormUrl ? (
