@@ -30,7 +30,7 @@ function googleCalendarTemplateUrl(params: { text: string; details: string; date
 const VIBECODING_GCAL_URL = googleCalendarTemplateUrl({
   text: "NetworkAI — Vibecoding workshop",
   details:
-    "Hands-on build session—bring your laptop. Hosted by UW NetworkAI.\n\n6:30–8:00 PM · PCAR 295 (Paccar Hall).",
+    "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.\n\nHosted by UW NetworkAI.\n\n6:30–8:00 PM · PCAR 295 (Paccar Hall).",
   dates: "20260414T013000Z/20260414T030000Z",
   location: "PCAR 295",
 });
@@ -46,7 +46,8 @@ const upcoming: {
   {
     id: "vibecoding",
     title: "Vibecoding workshop",
-    detail: "Hands-on build session—bring your laptop.",
+    detail:
+      "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.",
   },
   {
     id: "mcp",
@@ -123,7 +124,13 @@ function WorkshopLogos({ id }: { id: (typeof upcoming)[number]["id"] }) {
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex shrink-0 rounded-md ring-offset-background transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2">
-          <img src="/workshops/ktp.png" alt="Kappa Theta Pi" className={logoClass} />
+          <span className={`relative inline-block overflow-hidden rounded-md ${LOGO_SQUARE}`}>
+            <img
+              src="/workshops/ktp.png"
+              alt="Kappa Theta Pi"
+              className="h-full w-full origin-top scale-[1.03] object-cover object-top"
+            />
+          </span>
         </a>
       </div>
     );
@@ -205,7 +212,16 @@ const Workshops = () => {
                   <h2 className="font-display text-lg font-semibold text-foreground mb-1">
                     {item.title}
                   </h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.detail}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {item.id === "vibecoding" ? (
+                      <>
+                        Learn how to create your own website! Hands-on build session, so bring your laptop.{" "}
+                        <em>No technical experience required.</em>
+                      </>
+                    ) : (
+                      item.detail
+                    )}
+                  </p>
                 </div>
               </div>
               <WorkshopLogos id={item.id} />
