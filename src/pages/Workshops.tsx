@@ -73,15 +73,21 @@ function WorkshopDateColumn({ id }: { id: (typeof upcoming)[number]["id"] }) {
         href={VIBECODING_GCAL_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${datePillClass} ring-offset-background transition-colors hover:bg-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2`}
+        className="group flex shrink-0 flex-col items-center gap-1.5 rounded-lg text-center ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
         aria-label="Add Vibecoding workshop to Google Calendar — Monday, April 13, 2026, 6:30 to 8:00 PM, PCAR 295">
-        <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
-        <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
-          Mon
+        <span
+          className={`${datePillClass} transition-colors group-hover:bg-primary/25 group-focus-visible:bg-primary/25`}>
+          <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
+          <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
+            Mon
+          </span>
+          <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">Apr 13</span>
+          <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">6:30–8 PM</span>
+          <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">PCAR 295</span>
         </span>
-        <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">Apr 13</span>
-        <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">6:30–8 PM</span>
-        <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">PCAR 295</span>
+        <span className="max-w-[6.5rem] text-balance text-[9px] leading-tight text-muted-foreground sm:max-w-[7rem] sm:text-[10px]">
+          Click to add to Google Calendar
+        </span>
       </a>
     );
   }
