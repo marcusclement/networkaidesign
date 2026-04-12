@@ -17,21 +17,28 @@ const mcpLogoClass =
 const beaLogoClass =
   "h-10 w-auto max-w-[9.375rem] object-contain object-left opacity-95 sm:h-[2.8125rem] sm:max-w-[10.625rem]";
 
-function googleCalendarTemplateUrl(params: { text: string; details: string; dates: string }) {
+function googleCalendarTemplateUrl(params: { text: string; details: string; dates: string; location?: string }) {
   const q = new URLSearchParams({
     action: "TEMPLATE",
     text: params.text,
     dates: params.dates,
     details: params.details,
   });
+  if (params.location) q.set("location", params.location);
   return `https://calendar.google.com/calendar/render?${q.toString()}`;
 }
 
+/** Apr 13, 2026 6:30–8:00 PM Pacific (PDT, UTC−7). */
 const VIBECODING_GCAL_URL = googleCalendarTemplateUrl({
   text: "NetworkAI — Vibecoding workshop",
-  details: "Hands-on build session—bring your laptop. Hosted by UW NetworkAI.",
-  dates: "20260413/20260414",
+  details:
+    "Hands-on build session—bring your laptop. Hosted by UW NetworkAI.\n\n6:30–8:00 PM · PCAR 295 (Paccar Hall).",
+  dates: "20260414T013000Z/20260414T030000Z",
+  location: "PCAR 295",
 });
+
+const datePillClass =
+  "shrink-0 mt-0.5 flex w-[4.75rem] flex-col items-center rounded-xl bg-primary/15 px-2.5 py-2 text-center sm:w-[5rem]";
 
 const upcoming: {
   id: "vibecoding" | "mcp" | "ktp" | "bea";
@@ -67,19 +74,33 @@ function WorkshopDateColumn({ id }: { id: (typeof upcoming)[number]["id"] }) {
         href={VIBECODING_GCAL_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="shrink-0 mt-0.5 flex min-w-[3.25rem] flex-col items-center rounded-xl bg-primary/15 px-2.5 py-2 text-center ring-offset-background transition-colors hover:bg-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
-        aria-label="Add Vibecoding workshop to Google Calendar — Monday, April 13">
+        className={`${datePillClass} ring-offset-background transition-colors hover:bg-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2`}
+        aria-label="Add Vibecoding workshop to Google Calendar — Monday, April 13, 2026, 6:30 to 8:00 PM, PCAR 295">
         <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
         <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
           Mon
         </span>
         <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">Apr 13</span>
+        <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">6:30–8 PM</span>
+        <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">PCAR 295</span>
       </a>
     );
   }
   return (
-    <div className="shrink-0 mt-0.5 rounded-xl bg-primary/15 p-2.5">
-      <CalendarDays className="h-5 w-5 text-indigo-300" aria-hidden />
+    <div className={datePillClass} aria-label="Date and time to be announced">
+      <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
+      <span className="min-h-[0.75rem] text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground/25 select-none" aria-hidden>
+        {"\u00a0"}
+      </span>
+      <span className="mt-0.5 min-h-[1.125rem] font-display text-sm font-bold leading-tight text-foreground/20 select-none" aria-hidden>
+        {"\u00a0"}
+      </span>
+      <span className="mt-1 min-h-[0.875rem] text-[10px] text-muted-foreground/20 select-none" aria-hidden>
+        {"\u00a0"}
+      </span>
+      <span className="mt-0.5 min-h-[0.75rem] text-[9px] text-muted-foreground/20 select-none" aria-hidden>
+        {"\u00a0"}
+      </span>
     </div>
   );
 }
