@@ -6,6 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { CheckCircle, Lightbulb, CalendarCheck, Sparkles, Rocket } from "lucide-react";
 import { toast } from "sonner";
+import { DISCORD_INVITE_URL } from "@/lib/links";
+
+/** Discord mark (official-style glyph) for large CTAs. */
+const DISCORD_ICON_PATH =
+  "M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.876 19.876 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z";
 
 // Link to your Google Form (opens in new tab). Env var overrides if you need to change it later.
 const googleFormUrl =
@@ -125,6 +130,46 @@ const Membership = () => {
             engineering, or any major, come explore how AI is shaping your field and learn in-demand AI skills that
             matter for your career. All curious Huskies welcome.
           </p>
+        </div>
+      </section>
+
+      <section className="pb-16 px-6">
+        <div className="max-w-2xl mx-auto">
+          <a
+            href={DISCORD_INVITE_URL || "#"}
+            onClick={(e) => {
+              if (!DISCORD_INVITE_URL) e.preventDefault();
+            }}
+            {...(DISCORD_INVITE_URL ? { target: "_blank", rel: "noopener noreferrer" as const } : {})}
+            className={`flex flex-col sm:flex-row items-center gap-8 rounded-2xl border p-8 md:p-10 transition-colors ${
+              DISCORD_INVITE_URL
+                ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60 cursor-pointer"
+                : "border-border bg-card/40 cursor-default"
+            }`}>
+            <div
+              className={`flex h-28 w-28 shrink-0 items-center justify-center rounded-2xl shadow-lg ${
+                DISCORD_INVITE_URL ? "bg-[#5865F2] text-white" : "bg-muted text-muted-foreground"
+              }`}>
+              <svg className="h-16 w-16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d={DISCORD_ICON_PATH} />
+              </svg>
+            </div>
+            <div className="text-center sm:text-left min-w-0 flex-1">
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                Join our Discord
+              </h2>
+              <p className="mt-3 text-muted-foreground leading-relaxed">
+                That&apos;s where all club communication happens—announcements, events, workshop details, and
+                questions between meetings.
+              </p>
+              {!DISCORD_INVITE_URL && (
+                <p className="mt-4 text-sm text-muted-foreground/90">
+                  The join link will open here as soon as it&apos;s published (same URL as the Discord icon in the
+                  header).
+                </p>
+              )}
+            </div>
+          </a>
         </div>
       </section>
 
