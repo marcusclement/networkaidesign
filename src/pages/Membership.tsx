@@ -179,44 +179,152 @@ const Membership = () => {
       </section>
 
       <section className="pb-16 px-6">
-        <div className="max-w-2xl mx-auto">
-          <div
-            ref={discordCardRef}
-            onMouseMove={handleDiscordMouseMove}
-            onMouseLeave={handleDiscordMouseLeave}
-            className={`rounded-2xl border p-8 md:p-10 transition-colors ${
-              DISCORD_INVITE_URL
-                ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60"
-                : "border-border bg-card/40"
-            }`}
-            style={{
-              transform: discordTilt
-                ? `perspective(1000px) rotateX(${discordTilt.y}deg) rotateY(${discordTilt.x}deg) scale3d(1.02, 1.02, 1.02)`
-                : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
-              transition: "transform 0.15s ease-out",
-            }}>
-            {DISCORD_INVITE_URL ? (
-              <a
-                href={DISCORD_INVITE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${discordRowClass} no-underline`}
-                aria-label="Join our Discord">
-                {discordIconTile}
-                {discordCopy}
-              </a>
-            ) : (
-              <div className={discordRowClass}>
-                {discordIconTile}
-                {discordCopy}
-              </div>
-            )}
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div className="min-w-0 lg:flex lg:flex-col">
+            <div
+              ref={discordCardRef}
+              onMouseMove={handleDiscordMouseMove}
+              onMouseLeave={handleDiscordMouseLeave}
+              className={`h-full rounded-2xl border p-8 md:p-10 transition-colors ${
+                DISCORD_INVITE_URL
+                  ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60"
+                  : "border-border bg-card/40"
+              }`}
+              style={{
+                transform: discordTilt
+                  ? `perspective(1000px) rotateX(${discordTilt.y}deg) rotateY(${discordTilt.x}deg) scale3d(1.02, 1.02, 1.02)`
+                  : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
+                transition: "transform 0.15s ease-out",
+              }}>
+              {DISCORD_INVITE_URL ? (
+                <a
+                  href={DISCORD_INVITE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${discordRowClass} no-underline`}
+                  aria-label="Join our Discord">
+                  {discordIconTile}
+                  {discordCopy}
+                </a>
+              ) : (
+                <div className={discordRowClass}>
+                  {discordIconTile}
+                  {discordCopy}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="min-w-0 lg:flex lg:flex-col">
+            <div className="flex h-full min-h-0 flex-col rounded-xl border border-border bg-card p-8">
+              <h2 className="font-display text-2xl font-bold text-foreground mb-6">Apply Now</h2>
+
+              {googleFormUrl ? (
+                <div className="flex flex-1 flex-col items-center justify-center gap-4 py-4 text-center">
+                  <p className="text-muted-foreground">
+                    Complete your membership application in our Google Form, no prior experience needed!
+                  </p>
+                  <a
+                    href={googleFormUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm text-primary-foreground bg-indigo-400 hover:bg-indigo-300 transition-colors">
+                    Open application form
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              ) : submitted ? (
+                <div className="flex flex-1 flex-col items-center justify-center gap-4 py-8 text-center">
+                  <CheckCircle className="w-12 h-12 text-primary" />
+                  <h3 className="font-display text-xl font-semibold text-foreground">Application Received!</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Thank you for your interest. Our team will review your application and get back to you soon.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col gap-5">
+                  <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} aria-hidden />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name *</Label>
+                      <Input id="firstName" name="firstName" required placeholder="Jane" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Input id="lastName" name="lastName" required placeholder="Doe" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">UW Email *</Label>
+                    <Input id="email" name="email" type="email" required placeholder="janedoe@uw.edu" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input id="phone" name="phone" type="tel" placeholder="206-555-1234" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="linkedin">LinkedIn profile URL</Label>
+                    <Input
+                      id="linkedin"
+                      name="linkedin"
+                      type="url"
+                      placeholder="https://linkedin.com/in/yourprofile"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="major">Major / Year *</Label>
+                    <Input id="major" name="major" required placeholder="e.g. Business Administration, Junior" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="interest">Why are you interested in NetworkAI? *</Label>
+                    <Textarea
+                      id="interest"
+                      name="interest"
+                      required
+                      rows={4}
+                      placeholder="Tell us about your interest in AI and what you hope to gain..."
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="experience">Any relevant experience or skills?</Label>
+                    <Textarea
+                      id="experience"
+                      name="experience"
+                      rows={3}
+                      placeholder="Projects, coursework, tools you've used..."
+                    />
+                  </div>
+
+                  {error && <p className="text-sm text-destructive">{error}</p>}
+
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="mt-auto w-full py-3 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-indigo-400 hover:bg-indigo-300 disabled:opacity-60 disabled:pointer-events-none">
+                    {submitting ? "Submitting…" : "Submit Application"}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
       {/* What we look for */}
-      <section className="pb-16 px-6">
+      <section className="pb-24 px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-display text-2xl font-bold text-foreground mb-8 text-center">
             What We're Looking For
@@ -246,117 +354,6 @@ const Membership = () => {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Application form */}
-      <section className="pb-24 px-6">
-        <div className="max-w-2xl mx-auto">
-          <div className="rounded-xl border border-border bg-card p-8">
-            <h2 className="font-display text-2xl font-bold text-foreground mb-6">
-              Apply Now
-            </h2>
-
-            {googleFormUrl ? (
-              <div className="flex flex-col items-center gap-4 py-8 text-center">
-                <p className="text-muted-foreground">
-                  Complete your membership application in our Google Form, no prior experience needed! 
-                </p>
-                <a
-                  href={googleFormUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm text-primary-foreground bg-indigo-400 hover:bg-indigo-300 transition-colors">
-                  Open application form
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              </div>
-            ) : submitted ? (
-            <div className="flex flex-col items-center gap-4 py-12 text-center">
-                <CheckCircle className="w-12 h-12 text-primary" />
-                <h3 className="font-display text-xl font-semibold text-foreground">
-                  Application Received!
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  Thank you for your interest. Our team will review your application and get back to you soon.
-                </p>
-              </div>
-            ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                {/* Web3Forms honeypot - hidden checkbox, must stay unchecked */}
-                <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} aria-hidden />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name *</Label>
-                    <Input id="firstName" name="firstName" required placeholder="Jane" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name *</Label>
-                    <Input id="lastName" name="lastName" required placeholder="Doe" />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">UW Email *</Label>
-                  <Input id="email" name="email" type="email" required placeholder="janedoe@uw.edu" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" name="phone" type="tel" placeholder="206-555-1234" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="linkedin">LinkedIn profile URL</Label>
-                  <Input
-                    id="linkedin"
-                    name="linkedin"
-                    type="url"
-                    placeholder="https://linkedin.com/in/yourprofile"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="major">Major / Year *</Label>
-                  <Input id="major" name="major" required placeholder="e.g. Business Administration, Junior" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="interest">Why are you interested in NetworkAI? *</Label>
-                  <Textarea
-                    id="interest"
-                    name="interest"
-                    required
-                    rows={4}
-                    placeholder="Tell us about your interest in AI and what you hope to gain..."
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="experience">Any relevant experience or skills?</Label>
-                  <Textarea
-                    id="experience"
-                    name="experience"
-                    rows={3}
-                    placeholder="Projects, coursework, tools you've used..."
-                  />
-                </div>
-
-                {error && (
-                  <p className="text-sm text-destructive">{error}</p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="mt-2 w-full py-3 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-indigo-400 hover:bg-indigo-300 disabled:opacity-60 disabled:pointer-events-none">
-                  {submitting ? "Submitting…" : "Submit Application"}
-                </button>
-              </form>
-            )}
           </div>
         </div>
       </section>
