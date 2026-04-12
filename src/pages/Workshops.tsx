@@ -5,17 +5,15 @@ import { CalendarDays, ImageIcon } from "lucide-react";
 
 const NETWORKAI_LOGO = "/lovable-uploads/e21b4c4b-1e82-4c5a-876a-6968681e2aeb.png";
 
-/** ~25% larger than prior h-9/w-9 and sm:h-10 (2.25rem → 2.8125rem, 2.5rem → 3.125rem). */
-const LOGO_SQUARE = "h-[2.8125rem] w-[2.8125rem] sm:h-[3.125rem] sm:w-[3.125rem]";
+/** Workshop row logos: prior square ×1.25, then ×1.5 more for layout headroom (≈4.22rem / 4.69rem). */
+const LOGO_SQUARE = "h-[4.21875rem] w-[4.21875rem] sm:h-[4.6875rem] sm:w-[4.6875rem]";
 const logoClass = `${LOGO_SQUARE} object-contain opacity-95 hover:opacity-100 transition-opacity`;
 
-/** Prior MCP box was h-10 / sm:h-11; +25%. */
 const mcpLogoClass =
-  "h-[3.125rem] w-[3.125rem] sm:h-[3.4375rem] sm:w-[3.4375rem] rounded-md bg-white object-contain p-1.5 shadow-sm";
+  "h-[4.6875rem] w-[4.6875rem] sm:h-[5.15625rem] sm:w-[5.15625rem] rounded-md bg-white object-contain p-2 shadow-sm";
 
-/** Prior BEA ~h-8 / sm:h-9; +25%. */
 const beaLogoClass =
-  "h-10 w-auto max-w-[9.375rem] object-contain object-left opacity-95 sm:h-[2.8125rem] sm:max-w-[10.625rem]";
+  "h-[3.75rem] w-auto max-w-[14.0625rem] object-contain object-left opacity-95 sm:h-[4.21875rem] sm:max-w-[15.9375rem]";
 
 function googleCalendarTemplateUrl(params: { text: string; details: string; dates: string; location?: string }) {
   const q = new URLSearchParams({
@@ -107,7 +105,7 @@ function WorkshopDateColumn({ id }: { id: (typeof upcoming)[number]["id"] }) {
 
 function WorkshopLogos({ id }: { id: (typeof upcoming)[number]["id"] }) {
   const rowClass =
-    "flex w-full shrink-0 items-center justify-end gap-5 sm:ml-auto sm:w-auto sm:justify-end sm:gap-6 sm:pt-0.5";
+    "flex w-full shrink-0 items-center justify-end gap-6 sm:ml-auto sm:w-auto sm:justify-end sm:gap-8 sm:pt-0.5";
 
   if (id === "vibecoding") {
     return (
