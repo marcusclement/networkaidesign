@@ -48,7 +48,11 @@ function WorkshopLogos({ id }: { id: (typeof upcoming)[number]["id"] }) {
   if (id === "mcp") {
     return (
       <div className={rowClass}>
-        <img src="/workshops/mcp.svg" alt="Model Context Protocol" className="h-10 w-10 sm:h-11 sm:w-11 object-contain opacity-95" />
+        <img
+          src="/workshops/mcp.png"
+          alt="Model Context Protocol"
+          className="h-10 w-10 sm:h-11 sm:w-11 rounded-md bg-white object-contain p-1.5 shadow-sm"
+        />
       </div>
     );
   }
@@ -56,7 +60,13 @@ function WorkshopLogos({ id }: { id: (typeof upcoming)[number]["id"] }) {
     return (
       <div className={rowClass}>
         <img src={NETWORKAI_LOGO} alt="NetworkAI" className={logoClass} />
-        <img src="/workshops/ktp.png" alt="Kappa Theta Pi" className={logoClass} />
+        <a
+          href="https://ktp-uw-website.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex shrink-0 rounded-md ring-offset-background transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2">
+          <img src="/workshops/ktp.png" alt="Kappa Theta Pi" className={logoClass} />
+        </a>
       </div>
     );
   }
@@ -64,11 +74,17 @@ function WorkshopLogos({ id }: { id: (typeof upcoming)[number]["id"] }) {
     return (
       <div className={rowClass}>
         <img src={NETWORKAI_LOGO} alt="NetworkAI" className={logoClass} />
-        <img
-          src="/workshops/bea.png"
-          alt="Business Ethics Association"
-          className="h-8 w-auto max-w-[7.5rem] object-contain object-left opacity-95 sm:h-9 sm:max-w-[8.5rem]"
-        />
+        <a
+          href="https://sites.google.com/view/uwbea/home"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex shrink-0 rounded-md ring-offset-background transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2">
+          <img
+            src="/workshops/bea.png"
+            alt="Business Ethics Association"
+            className="h-8 w-auto max-w-[7.5rem] object-contain object-left opacity-95 sm:h-9 sm:max-w-[8.5rem]"
+          />
+        </a>
       </div>
     );
   }
