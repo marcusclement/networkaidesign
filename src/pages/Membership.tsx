@@ -163,10 +163,7 @@ const Membership = () => {
                 questions between meetings.
               </p>
               {!DISCORD_INVITE_URL && (
-                <p className="mt-4 text-sm text-muted-foreground/90">
-                  The join link will open here as soon as it&apos;s published (same URL as the Discord icon in the
-                  header).
-                </p>
+                <p className="mt-4 text-sm text-muted-foreground/90">Discord will be up soon!</p>
               )}
             </div>
           </a>
