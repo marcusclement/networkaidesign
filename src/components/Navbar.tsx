@@ -108,16 +108,12 @@ const Navbar = () => {
           />
         </a>
         <a
-          href={DISCORD_INVITE_URL || "#"}
-          onClick={(e) => {
-            if (!DISCORD_INVITE_URL) e.preventDefault();
-          }}
-          {...(DISCORD_INVITE_URL
-            ? { target: "_blank", rel: "noopener noreferrer" as const }
-            : {})}
+          href={DISCORD_INVITE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="group relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full text-muted-foreground transition-transform duration-200 hover:scale-110 active:scale-95"
           aria-label="Discord"
-          title={DISCORD_INVITE_URL ? "Discord" : "Discord invite — add VITE_DISCORD_INVITE_URL in .env"}>
+          title="Discord">
           <span
             className="absolute inset-0 scale-y-0 bg-[#5865F2] origin-bottom transition-[transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-y-100"
             aria-hidden
