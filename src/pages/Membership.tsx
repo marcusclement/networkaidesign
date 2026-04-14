@@ -179,14 +179,11 @@ const Membership = () => {
         That&apos;s where all club communication happens—announcements, events, workshop details, and questions between
         meetings.
       </p>
-      {!DISCORD_INVITE_URL && <p className="mt-4 text-sm text-muted-foreground/90">Discord will be up soon!</p>}
     </div>
   );
 
   const memberCardShellClass =
-    DISCORD_INVITE_URL
-      ? "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60"
-      : "border-border bg-card/40";
+    "border-[#5865F2]/45 bg-[#5865F2]/[0.12] hover:bg-[#5865F2]/[0.18] hover:border-[#5865F2]/60";
 
   return (
     <div className="min-h-screen bg-background">
@@ -217,22 +214,15 @@ const Membership = () => {
                 transform: memberCardTransform(discordTilt),
                 transition: "transform 0.15s ease-out",
               }}>
-              {DISCORD_INVITE_URL ? (
-                <a
-                  href={DISCORD_INVITE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${discordRowClass} no-underline`}
-                  aria-label="Join our Discord">
-                  {discordIconTile}
-                  {discordCopy}
-                </a>
-              ) : (
-                <div className={discordRowClass}>
-                  {discordIconTile}
-                  {discordCopy}
-                </div>
-              )}
+              <a
+                href={DISCORD_INVITE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${discordRowClass} no-underline`}
+                aria-label="Join our Discord">
+                {discordIconTile}
+                {discordCopy}
+              </a>
             </div>
           </div>
 
