@@ -68,12 +68,13 @@ const workshops: {
   {
     id: "mcp",
     title: "MCP workshop",
-    detail: "Model Context Protocol and tooling for real workflows.",
+    detail:
+      "Learn about Model Context Protocol and tooling for real workflows and automations.",
     calendar: {
       href: googleCalendarTemplateUrl({
         text: "NetworkAI — MCP workshop",
         details:
-          "Model Context Protocol and tooling for real workflows.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM · PCAR 295 (Paccar Hall).",
+          "Learn about Model Context Protocol and tooling for real workflows and automations.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM · PCAR 295 (Paccar Hall).",
         dates: "20260428T013000Z/20260428T023000Z",
         location: "PCAR 295",
       }),
