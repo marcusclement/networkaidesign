@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getDiscordInviteUrl } from "@/lib/links";
+import { DISCORD_INVITE_URL } from "@/lib/links";
 import { CalendarDays, ImageIcon } from "lucide-react";
 
 const NETWORKAI_LOGO = "/lovable-uploads/e21b4c4b-1e82-4c5a-876a-6968681e2aeb.png";
@@ -26,83 +26,149 @@ function googleCalendarTemplateUrl(params: { text: string; details: string; date
   return `https://calendar.google.com/calendar/render?${q.toString()}`;
 }
 
-/** Apr 13, 2026 6:30–8:00 PM Pacific (PDT, UTC−7). */
-const VIBECODING_GCAL_URL = googleCalendarTemplateUrl({
-  text: "NetworkAI — Vibecoding workshop",
-  details:
-    "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.\n\nHosted by UW NetworkAI.\n\n6:30–8:00 PM · PCAR 295 (Paccar Hall).",
-  dates: "20260414T013000Z/20260414T030000Z",
-  location: "PCAR 295",
-});
+type WorkshopCalendar = {
+  href: string;
+  weekday: string;
+  dayMonth: string;
+  time: string;
+  place?: string;
+  ariaLabel: string;
+};
 
 const datePillClass =
-  "shrink-0 mt-0.5 flex w-[4.75rem] flex-col items-center rounded-xl bg-primary/15 px-2.5 py-2 text-center sm:w-[5rem]";
+  "mt-0.5 flex min-w-[4.85rem] max-w-[5.5rem] flex-col items-center rounded-xl bg-primary/15 px-2.5 py-2 text-center sm:min-w-[5rem] sm:max-w-[5.75rem]";
 
-const upcoming: {
+const workshops: {
   id: "vibecoding" | "mcp" | "ktp" | "bea";
   title: string;
   detail: string;
+  calendar?: WorkshopCalendar;
 }[] = [
   {
     id: "vibecoding",
     title: "Vibecoding workshop",
     detail:
       "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.",
+    calendar: {
+      href: googleCalendarTemplateUrl({
+        text: "NetworkAI — Vibecoding workshop",
+        details:
+          "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.\n\nHosted by UW NetworkAI.\n\n6:30–8:00 PM · PCAR 295 (Paccar Hall).",
+        dates: "20260414T013000Z/20260414T030000Z",
+        location: "PCAR 295",
+      }),
+      weekday: "Mon",
+      dayMonth: "Apr 13",
+      time: "6:30–8 PM",
+      place: "PCAR 295",
+      ariaLabel:
+        "Add Vibecoding workshop to Google Calendar — Monday, April 13, 2026, 6:30 to 8:00 PM, PCAR 295",
+    },
   },
   {
     id: "mcp",
     title: "MCP workshop",
     detail: "Model Context Protocol and tooling for real workflows.",
+    calendar: {
+      href: googleCalendarTemplateUrl({
+        text: "NetworkAI — MCP workshop",
+        details:
+          "Model Context Protocol and tooling for real workflows.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM · PCAR 295 (Paccar Hall).",
+        dates: "20260428T013000Z/20260428T023000Z",
+        location: "PCAR 295",
+      }),
+      weekday: "Mon",
+      dayMonth: "Apr 27",
+      time: "6:30–7:30 PM",
+      place: "PCAR 295",
+      ariaLabel:
+        "Add MCP workshop to Google Calendar — Monday, April 27, 2026, 6:30 to 7:30 PM, PCAR 295",
+    },
   },
   {
     id: "ktp",
     title: "NetworkAI × KTP recruiter event",
     detail: "Connect with recruiters and learn how AI shows up in hiring.",
+    calendar: {
+      href: googleCalendarTemplateUrl({
+        text: "NetworkAI × KTP recruiter event",
+        details:
+          "Connect with recruiters and learn how AI shows up in hiring.\n\nHosted by UW NetworkAI.\n\n6:00–7:30 PM · DEMP 004.",
+        dates: "20260506T010000Z/20260506T023000Z",
+        location: "DEMP 004",
+      }),
+      weekday: "Tue",
+      dayMonth: "May 5",
+      time: "6–7:30 PM",
+      place: "DEMP 004",
+      ariaLabel:
+        "Add NetworkAI × KTP recruiter event to Google Calendar — Tuesday, May 5, 2026, 6:00 to 7:30 PM, DEMP 004",
+    },
   },
   {
     id: "bea",
-    title: "AI ethics with NetworkAI & Business Ethics Association",
+    title: "AI ethics with Business Ethics Association",
     detail: "Joint session on responsible AI in business contexts.",
+    calendar: {
+      href: googleCalendarTemplateUrl({
+        text: "NetworkAI — AI ethics with Business Ethics Association",
+        details:
+          "Joint session on responsible AI in business contexts.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM.",
+        dates: "20260519T013000Z/20260519T023000Z",
+      }),
+      weekday: "Mon",
+      dayMonth: "May 18",
+      time: "6:30–7:30 PM",
+      ariaLabel:
+        "Add AI ethics with Business Ethics Association to Google Calendar — Monday, May 18, 2026, 6:30 to 7:30 PM",
+    },
   },
 ];
 
-function WorkshopDateColumn({ id }: { id: (typeof upcoming)[number]["id"] }) {
-  if (id === "vibecoding") {
+function WorkshopDateColumn({ calendar }: { calendar?: WorkshopCalendar }) {
+  if (!calendar) {
     return (
-      <a
-        href={VIBECODING_GCAL_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex shrink-0 flex-col items-center gap-1.5 rounded-lg text-center ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
-        aria-label="Add Vibecoding workshop to Google Calendar — Monday, April 13, 2026, 6:30 to 8:00 PM, PCAR 295">
-        <span
-          className={`${datePillClass} transition-colors group-hover:bg-primary/25 group-focus-visible:bg-primary/25`}>
-          <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
-          <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
-            Mon
-          </span>
-          <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">Apr 13</span>
-          <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">6:30–8 PM</span>
-          <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">PCAR 295</span>
-        </span>
-        <span className="max-w-[6.5rem] text-balance text-[9px] leading-tight text-muted-foreground sm:max-w-[7rem] sm:text-[10px]">
-          Click to add to Google Calendar
-        </span>
-      </a>
+      <div className={datePillClass}>
+        <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
+        <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">TBD</span>
+        <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">TBD</span>
+        <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">TBD</span>
+        <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">TBD</span>
+      </div>
     );
   }
+
   return (
-    <div className={datePillClass}>
-      <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
-      <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">TBD</span>
-      <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">TBD</span>
-      <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">TBD</span>
-      <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">TBD</span>
-    </div>
+    <a
+      href={calendar.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex shrink-0 flex-col items-center gap-1.5 rounded-lg text-center ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+      aria-label={calendar.ariaLabel}>
+      <span
+        className={`${datePillClass} transition-colors group-hover:bg-primary/25 group-focus-visible:bg-primary/25`}>
+        <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
+        <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
+          {calendar.weekday}
+        </span>
+        <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">{calendar.dayMonth}</span>
+        <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">{calendar.time}</span>
+        {calendar.place ? (
+          <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">{calendar.place}</span>
+        ) : (
+          <span className="mt-0.5 min-h-[0.75rem] text-[9px] leading-snug text-muted-foreground/40" aria-hidden>
+            {"\u00a0"}
+          </span>
+        )}
+      </span>
+      <span className="max-w-[6.5rem] text-balance text-[9px] leading-tight text-muted-foreground sm:max-w-[7rem] sm:text-[10px]">
+        Click to add to Google Calendar
+      </span>
+    </a>
   );
 }
 
-function WorkshopLogos({ id }: { id: (typeof upcoming)[number]["id"] }) {
+function WorkshopLogos({ id }: { id: (typeof workshops)[number]["id"] }) {
   const rowClass =
     "flex w-full shrink-0 items-center justify-end gap-6 sm:ml-auto sm:w-auto sm:justify-end sm:gap-8 sm:pt-0.5";
 
@@ -159,8 +225,6 @@ function WorkshopLogos({ id }: { id: (typeof upcoming)[number]["id"] }) {
 }
 
 const Workshops = () => {
-  const discordInviteUrl = getDiscordInviteUrl();
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -174,46 +238,27 @@ const Workshops = () => {
             Upcoming <span className="text-indigo-300">workshops</span>
           </h1>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Dates and RSVP links will be posted on Instagram as each event is finalized.
-            {discordInviteUrl ? (
-              <>
-                {" "}
-                Join our{" "}
-                <a
-                  href={discordInviteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-300 hover:text-indigo-200 underline-offset-4 hover:underline">
-                  Discord
-                </a>{" "}
-                for reminders and details.
-              </>
-            ) : (
-              <>
-                {" "}
-                Follow{" "}
-                <a
-                  href="https://www.instagram.com/uw_networkai/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-300 hover:text-indigo-200 underline-offset-4 hover:underline">
-                  @uw_networkai
-                </a>{" "}
-                for the Discord invite and updates.
-              </>
-            )}
+            Confirmed sessions are listed below. Follow us on Instagram for graphics and join our{" "}
+            <a
+              href={DISCORD_INVITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-300 hover:text-indigo-200 underline-offset-4 hover:underline">
+              Discord
+            </a>{" "}
+            for reminders.
           </p>
         </div>
       </section>
 
       <section className="pb-16 px-6">
         <div className="mx-auto max-w-4xl space-y-4">
-          {upcoming.map((item) => (
+          {workshops.map((item) => (
             <div
               key={item.id}
               className="rounded-2xl border border-border/60 bg-card/40 p-5 sm:p-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
               <div className="flex min-w-0 flex-1 gap-4">
-                <WorkshopDateColumn id={item.id} />
+                <WorkshopDateColumn calendar={item.calendar} />
                 <div className="min-w-0 flex-1">
                   <h2 className="font-display text-lg font-semibold text-foreground mb-1">
                     {item.title}
