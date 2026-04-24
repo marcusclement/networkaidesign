@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/links";
-import { CalendarDays, CalendarPlus, ImageIcon } from "lucide-react";
+import { CalendarDays, CalendarPlus, ImageIcon, X } from "lucide-react";
 
 const NETWORKAI_LOGO = "/lovable-uploads/e21b4c4b-1e82-4c5a-876a-6968681e2aeb.png";
 
@@ -48,6 +48,19 @@ type WorkshopCalendar = {
   place?: string;
   ariaLabel: string;
 };
+
+/** `dates` format: `DTSTART/DTEND` as `YYYYMMDDTHHmmssZ/...`. */
+function parseIcsUtcTimestamp(s: string): Date {
+  const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/.exec(s.trim());
+  if (!m) return new Date(0);
+  return new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4]), Number(m[5]), Number(m[6])));
+}
+
+function isWorkshopPast(schedule: WorkshopSchedule): boolean {
+  const parts = schedule.dates.split("/");
+  if (parts.length < 2) return false;
+  return Date.now() > parseIcsUtcTimestamp(parts[1]).getTime();
+}
 
 function calendarFromSchedule(s: WorkshopSchedule): WorkshopCalendar {
   return {
@@ -221,9 +234,10 @@ const workshops = workshopEntries.map(({ id, title, detail, schedule }) => ({
   title,
   detail,
   calendar: calendarFromSchedule(schedule),
+  past: isWorkshopPast(schedule),
 }));
 
-function WorkshopDateColumn({ calendar }: { calendar?: WorkshopCalendar }) {
+function WorkshopDateColumn({ calendar, past }: { calendar?: WorkshopCalendar; past?: boolean }) {
   if (!calendar) {
     return (
       <div className={datePillClass}>
@@ -232,6 +246,42 @@ function WorkshopDateColumn({ calendar }: { calendar?: WorkshopCalendar }) {
         <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">TBD</span>
         <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">TBD</span>
         <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">TBD</span>
+      </div>
+    );
+  }
+
+  const pillContent = (
+    <>
+      <CalendarDays className={`mb-0.5 h-5 w-5 ${past ? "text-muted-foreground/50" : "text-indigo-300"}`} aria-hidden />
+      <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
+        {calendar.weekday}
+      </span>
+      <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">{calendar.dayMonth}</span>
+      <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">{calendar.time}</span>
+      {calendar.place ? (
+        <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">{calendar.place}</span>
+      ) : (
+        <span className="mt-0.5 min-h-[0.75rem] text-[9px] leading-snug text-muted-foreground/40" aria-hidden>
+          {"\u00a0"}
+        </span>
+      )}
+    </>
+  );
+
+  if (past) {
+    return (
+      <div className="flex shrink-0 flex-col items-center gap-1.5 rounded-lg text-center opacity-75">
+        <span className={`${datePillClass} relative bg-muted/50`}>
+          {pillContent}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <X className="h-full w-full p-1 text-muted-foreground/30" strokeWidth={1.5} />
+          </span>
+        </span>
+        <span className="max-w-[6.5rem] text-balance text-[9px] leading-tight text-muted-foreground/60 sm:max-w-[7rem] sm:text-[10px]">
+          This event has passed
+        </span>
       </div>
     );
   }
@@ -245,19 +295,7 @@ function WorkshopDateColumn({ calendar }: { calendar?: WorkshopCalendar }) {
       aria-label={calendar.ariaLabel}>
       <span
         className={`${datePillClass} transition-colors group-hover:bg-primary/25 group-focus-visible:bg-primary/25`}>
-        <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
-        <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
-          {calendar.weekday}
-        </span>
-        <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">{calendar.dayMonth}</span>
-        <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">{calendar.time}</span>
-        {calendar.place ? (
-          <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">{calendar.place}</span>
-        ) : (
-          <span className="mt-0.5 min-h-[0.75rem] text-[9px] leading-snug text-muted-foreground/40" aria-hidden>
-            {"\u00a0"}
-          </span>
-        )}
+        {pillContent}
       </span>
       <span className="max-w-[6.5rem] text-balance text-[9px] leading-tight text-muted-foreground sm:max-w-[7rem] sm:text-[10px]">
         Click to add to Google Calendar
@@ -376,14 +414,34 @@ const Workshops = () => {
           {workshops.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border border-border/60 bg-card/40 p-5 sm:p-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+              className={`rounded-2xl border p-5 sm:p-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5 ${
+                item.past
+                  ? "border-border/35 bg-muted/15"
+                  : "border-border/60 bg-card/40"
+              }`}>
               <div className="flex min-w-0 flex-1 gap-4">
-                <WorkshopDateColumn calendar={item.calendar} />
+                <WorkshopDateColumn calendar={item.calendar} past={item.past} />
                 <div className="min-w-0 flex-1">
-                  <h2 className="font-display text-lg font-semibold text-foreground mb-1">
-                    {item.title}
+                  <h2 className="font-display mb-1 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-lg font-semibold text-foreground">
+                    <span className={`relative inline ${item.past ? "text-muted-foreground" : ""}`}>
+                      {item.title}
+                      {item.past ? (
+                        <span
+                          aria-hidden
+                          className="pointer-events-none absolute left-[-2px] right-[-2px] top-[53%] h-[2px] -translate-y-[1px] -rotate-[0.5deg] origin-left scale-x-0 bg-gradient-to-r from-indigo-400/70 via-indigo-400/50 to-indigo-400/70 motion-reduce:scale-x-100 motion-reduce:animate-none animate-strike-expand"
+                        />
+                      ) : null}
+                    </span>
+                    {item.past ? (
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        Completed
+                      </span>
+                    ) : null}
                   </h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p
+                    className={`text-sm leading-relaxed text-muted-foreground ${
+                      item.past ? "opacity-[0.97]" : ""
+                    }`}>
                     {item.id === "vibecoding" ? (
                       <>
                         Learn how to create your own website! Hands-on build session, so bring your laptop.{" "}
@@ -395,7 +453,9 @@ const Workshops = () => {
                   </p>
                 </div>
               </div>
-              <WorkshopLogos id={item.id} />
+              <div className={item.past ? "opacity-[0.92]" : undefined}>
+                <WorkshopLogos id={item.id} />
+              </div>
             </div>
           ))}
         </div>

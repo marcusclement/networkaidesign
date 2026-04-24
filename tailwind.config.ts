@@ -84,10 +84,15 @@ export default {
             height: "0",
           },
         },
+        "strike-expand": {
+          "0%": { transform: "scaleX(0)" },
+          "100%": { transform: "scaleX(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "strike-expand": "strike-expand 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both",
       },
     },
   },
