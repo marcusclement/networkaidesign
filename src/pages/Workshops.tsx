@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/links";
-import { CalendarDays, ImageIcon } from "lucide-react";
+import { CalendarDays, CalendarPlus, ImageIcon } from "lucide-react";
 
 const NETWORKAI_LOGO = "/lovable-uploads/e21b4c4b-1e82-4c5a-876a-6968681e2aeb.png";
 
@@ -26,6 +27,19 @@ function googleCalendarTemplateUrl(params: { text: string; details: string; date
   return `https://calendar.google.com/calendar/render?${q.toString()}`;
 }
 
+/** Shared fields for Google URL, .ics export, and date pill. */
+type WorkshopSchedule = {
+  text: string;
+  details: string;
+  dates: string;
+  location?: string;
+  weekday: string;
+  dayMonth: string;
+  time: string;
+  place?: string;
+  ariaLabel: string;
+};
+
 type WorkshopCalendar = {
   href: string;
   weekday: string;
@@ -35,28 +49,111 @@ type WorkshopCalendar = {
   ariaLabel: string;
 };
 
+function calendarFromSchedule(s: WorkshopSchedule): WorkshopCalendar {
+  return {
+    href: googleCalendarTemplateUrl({
+      text: s.text,
+      details: s.details,
+      dates: s.dates,
+      location: s.location,
+    }),
+    weekday: s.weekday,
+    dayMonth: s.dayMonth,
+    time: s.time,
+    place: s.place,
+    ariaLabel: s.ariaLabel,
+  };
+}
+
+function escapeIcsText(value: string): string {
+  return value.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/;/g, "\\;").replace(/,/g, "\\,");
+}
+
+/** RFC 5545 folding: max 75 octets per segment (ASCII-safe for our copy). */
+function foldIcsLine(line: string): string {
+  const limit = 75;
+  if (line.length <= limit) return line;
+  const parts: string[] = [];
+  parts.push(line.slice(0, limit));
+  let rest = line.slice(limit);
+  while (rest.length > 0) {
+    const chunk = rest.slice(0, limit - 1);
+    parts.push(` ${chunk}`);
+    rest = rest.slice(limit - 1);
+  }
+  return parts.join("\r\n");
+}
+
+function formatIcsUtcStamp(d: Date): string {
+  return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+}
+
+function veventFromSchedule(id: string, s: WorkshopSchedule, dtstamp: string): string {
+  const [dtStart, dtEnd] = s.dates.split("/");
+  const uid = `networkai-workshop-${id}-2026@networkai.uw`;
+  const lines = [
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${dtstamp}`,
+    `DTSTART:${dtStart}`,
+    `DTEND:${dtEnd}`,
+    foldIcsLine(`SUMMARY:${escapeIcsText(s.text)}`),
+    foldIcsLine(`DESCRIPTION:${escapeIcsText(s.details)}`),
+    ...(s.location ? [foldIcsLine(`LOCATION:${escapeIcsText(s.location)}`)] : []),
+    "END:VEVENT",
+  ];
+  return lines.join("\r\n");
+}
+
+function buildWorkshopsIcs(entries: { id: string; schedule: WorkshopSchedule }[]): string {
+  const dtstamp = formatIcsUtcStamp(new Date());
+  const body = entries.map((e) => veventFromSchedule(e.id, e.schedule, dtstamp)).join("\r\n");
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//UW NetworkAI//Workshop Schedule//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    body,
+    "END:VCALENDAR",
+    "",
+  ].join("\r\n");
+}
+
+function downloadAllWorkshopsIcs(entries: { id: string; schedule: WorkshopSchedule }[]) {
+  const ics = buildWorkshopsIcs(entries);
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "networkai-workshops-spring-2026.ics";
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 const datePillClass =
   "mt-0.5 flex min-w-[4.85rem] max-w-[5.5rem] flex-col items-center rounded-xl bg-primary/15 px-2.5 py-2 text-center sm:min-w-[5rem] sm:max-w-[5.75rem]";
 
-const workshops: {
+const workshopEntries: {
   id: "vibecoding" | "mcp" | "ktp" | "bea";
   title: string;
   detail: string;
-  calendar?: WorkshopCalendar;
+  schedule: WorkshopSchedule;
 }[] = [
   {
     id: "vibecoding",
     title: "Vibecoding workshop",
     detail:
       "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.",
-    calendar: {
-      href: googleCalendarTemplateUrl({
-        text: "NetworkAI — Vibecoding workshop",
-        details:
-          "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.\n\nHosted by UW NetworkAI.\n\n6:30–8:00 PM · PCAR 295 (Paccar Hall).",
-        dates: "20260414T013000Z/20260414T030000Z",
-        location: "PCAR 295",
-      }),
+    schedule: {
+      text: "NetworkAI — Vibecoding workshop",
+      details:
+        "Learn how to create your own website! Hands-on build session, so bring your laptop. No technical experience required.\n\nHosted by UW NetworkAI.\n\n6:30–8:00 PM · PCAR 295 (Paccar Hall).",
+      dates: "20260414T013000Z/20260414T030000Z",
+      location: "PCAR 295",
       weekday: "Mon",
       dayMonth: "Apr 13",
       time: "6:30–8 PM",
@@ -70,14 +167,12 @@ const workshops: {
     title: "MCP workshop",
     detail:
       "Learn about Model Context Protocol and tooling for real workflows and automations.",
-    calendar: {
-      href: googleCalendarTemplateUrl({
-        text: "NetworkAI — MCP workshop",
-        details:
-          "Learn about Model Context Protocol and tooling for real workflows and automations.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM · PCAR 295 (Paccar Hall).",
-        dates: "20260428T013000Z/20260428T023000Z",
-        location: "PCAR 295",
-      }),
+    schedule: {
+      text: "NetworkAI — MCP workshop",
+      details:
+        "Learn about Model Context Protocol and tooling for real workflows and automations.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM · PCAR 295 (Paccar Hall).",
+      dates: "20260428T013000Z/20260428T023000Z",
+      location: "PCAR 295",
       weekday: "Mon",
       dayMonth: "Apr 27",
       time: "6:30–7:30 PM",
@@ -90,14 +185,12 @@ const workshops: {
     id: "ktp",
     title: "NetworkAI × KTP recruiter event",
     detail: "Connect with recruiters and learn how AI shows up in hiring.",
-    calendar: {
-      href: googleCalendarTemplateUrl({
-        text: "NetworkAI × KTP recruiter event",
-        details:
-          "Connect with recruiters and learn how AI shows up in hiring.\n\nHosted by UW NetworkAI.\n\n6:00–7:30 PM · DEMP 004.",
-        dates: "20260506T010000Z/20260506T023000Z",
-        location: "DEMP 004",
-      }),
+    schedule: {
+      text: "NetworkAI × KTP recruiter event",
+      details:
+        "Connect with recruiters and learn how AI shows up in hiring.\n\nHosted by UW NetworkAI.\n\n6:00–7:30 PM · DEMP 004.",
+      dates: "20260506T010000Z/20260506T023000Z",
+      location: "DEMP 004",
       weekday: "Tue",
       dayMonth: "May 5",
       time: "6–7:30 PM",
@@ -110,13 +203,10 @@ const workshops: {
     id: "bea",
     title: "AI ethics with Business Ethics Association",
     detail: "Joint session on responsible AI in business contexts.",
-    calendar: {
-      href: googleCalendarTemplateUrl({
-        text: "NetworkAI — AI ethics with Business Ethics Association",
-        details:
-          "Joint session on responsible AI in business contexts.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM.",
-        dates: "20260519T013000Z/20260519T023000Z",
-      }),
+    schedule: {
+      text: "NetworkAI — AI ethics with Business Ethics Association",
+      details: "Joint session on responsible AI in business contexts.\n\nHosted by UW NetworkAI.\n\n6:30–7:30 PM.",
+      dates: "20260519T013000Z/20260519T023000Z",
       weekday: "Mon",
       dayMonth: "May 18",
       time: "6:30–7:30 PM",
@@ -125,6 +215,13 @@ const workshops: {
     },
   },
 ];
+
+const workshops = workshopEntries.map(({ id, title, detail, schedule }) => ({
+  id,
+  title,
+  detail,
+  calendar: calendarFromSchedule(schedule),
+}));
 
 function WorkshopDateColumn({ calendar }: { calendar?: WorkshopCalendar }) {
   if (!calendar) {
@@ -249,6 +346,28 @@ const Workshops = () => {
             </a>{" "}
             for reminders.
           </p>
+          <div className="mt-8 flex flex-col items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="border-indigo-400/50 bg-card/50 text-foreground hover:bg-indigo-500/10 hover:text-foreground"
+              onClick={() => downloadAllWorkshopsIcs(workshopEntries)}>
+              <CalendarPlus className="h-4 w-4 text-indigo-300" aria-hidden />
+              Add all to calendar
+            </Button>
+            <p className="max-w-md text-balance text-xs leading-relaxed text-muted-foreground">
+              Downloads one <span className="whitespace-nowrap">.ics</span> file. Open it or use Google
+              Calendar&apos;s{" "}
+              <a
+                href="https://calendar.google.com/calendar/u/0/r/settings/export"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-300 underline-offset-2 hover:underline">
+                Import
+              </a>{" "}
+              to add every workshop at once.
+            </p>
+          </div>
         </div>
       </section>
 
