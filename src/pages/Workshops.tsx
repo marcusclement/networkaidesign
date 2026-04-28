@@ -183,6 +183,14 @@ const workshopEntries: {
       ariaLabel:
         "Add Vibecoding workshop to Google Calendar — Monday, April 13, 2026, 6:30 to 8:00 PM, PCAR 295",
     },
+    resources: [
+      {
+        href: "/workshops/resources/networkai-info-night-slides.pptx",
+        filename: "NetworkAI-Info-Night-Slides.pptx",
+        label: "Info night slides (PPTX)",
+        sizeLabel: "26 MB",
+      },
+    ],
   },
   {
     id: "mcp",
