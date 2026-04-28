@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useCallback, useRef } from "react";
-import { Lightbulb, CalendarCheck, Sparkles, Rocket } from "lucide-react";
+import { Lightbulb, CalendarCheck, CalendarClock, Instagram, Sparkles, Rocket } from "lucide-react";
 import { DISCORD_INVITE_URL } from "@/lib/links";
 
 /** Discord mark (official-style glyph) for large CTAs. */
@@ -107,7 +107,7 @@ const Membership = () => {
     });
   }, []);
 
-  const discordRowClass =
+  const memberRowClass =
     "relative flex min-w-0 flex-1 flex-col items-center gap-8 sm:flex-row sm:text-left";
   const discordIconTile = (
     <div className="group relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-2xl text-muted-foreground shadow-lg transition-transform duration-200 hover:scale-105 active:scale-95">
@@ -170,7 +170,7 @@ const Membership = () => {
                 href={DISCORD_INVITE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${discordRowClass} no-underline`}
+                className={`${memberRowClass} no-underline`}
                 aria-label="Join our Discord">
                 {discordIconTile}
                 {discordCopy}
@@ -188,31 +188,49 @@ const Membership = () => {
                 transform: memberCardTransform(applyTilt),
                 transition: "transform 0.15s ease-out",
               }}>
-              <h2 className="font-display text-2xl font-bold text-foreground mb-4">Membership applications</h2>
-
-              <div className="flex flex-1 flex-col justify-center gap-5 py-2 text-center sm:text-left">
-                <p className="text-lg font-medium text-foreground">
-                  Fall 2026 applications coming soon!
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Spring applications are closed. Follow us on{" "}
-                  <a
-                    href={DISCORD_INVITE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-indigo-300 underline-offset-4 hover:underline">
-                    Discord
-                  </a>{" "}
-                  and{" "}
-                  <a
-                    href={INSTAGRAM_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-indigo-300 underline-offset-4 hover:underline">
-                    Instagram
-                  </a>{" "}
-                  for updates.
-                </p>
+              <div className={memberRowClass}>
+                <div className="group relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-2xl text-muted-foreground shadow-lg transition-transform duration-200 hover:scale-105 active:scale-95">
+                  <span
+                    className="absolute inset-0 scale-y-0 bg-indigo-500 origin-bottom transition-[transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-y-100"
+                    aria-hidden
+                  />
+                  <CalendarClock
+                    className="relative z-10 h-14 w-14 transition-colors duration-300 group-hover:text-white"
+                    strokeWidth={1.5}
+                    aria-hidden
+                  />
+                </div>
+                <div className="min-w-0 flex-1 text-center sm:text-left">
+                  <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">Membership applications</h2>
+                  <p className="mt-3 text-lg font-medium text-foreground">Fall 2026 applications coming soon!</p>
+                  <p className="mt-3 text-muted-foreground leading-relaxed">
+                    Spring applications are closed. Follow us on{" "}
+                    <a
+                      href={DISCORD_INVITE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-medium text-indigo-300 underline-offset-4 hover:underline">
+                      <svg
+                        className="h-4 w-4 shrink-0 opacity-90"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden>
+                        <path d={DISCORD_ICON_PATH} />
+                      </svg>
+                      Discord
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href={INSTAGRAM_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-medium text-indigo-300 underline-offset-4 hover:underline">
+                      <Instagram className="h-4 w-4 shrink-0 opacity-90" strokeWidth={1.75} aria-hidden />
+                      Instagram
+                    </a>{" "}
+                    for updates.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
