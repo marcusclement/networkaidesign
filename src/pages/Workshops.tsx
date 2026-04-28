@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/links";
-import { CalendarDays, CalendarPlus, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { CalendarDays, CalendarPlus, FolderDown, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const NETWORKAI_LOGO = "/lovable-uploads/e21b4c4b-1e82-4c5a-876a-6968681e2aeb.png";
 
@@ -151,11 +151,19 @@ function downloadAllWorkshopsIcs(entries: { id: string; schedule: WorkshopSchedu
 const datePillClass =
   "mt-0.5 flex min-w-[4.85rem] max-w-[5.5rem] flex-col items-center rounded-xl bg-primary/15 px-2.5 py-2 text-center sm:min-w-[5rem] sm:max-w-[5.75rem]";
 
+type WorkshopResource = {
+  href: string;
+  filename: string;
+  label: string;
+  sizeLabel?: string;
+};
+
 const workshopEntries: {
   id: "vibecoding" | "mcp" | "ktp" | "bea";
   title: string;
   detail: string;
   schedule: WorkshopSchedule;
+  resources?: WorkshopResource[];
 }[] = [
   {
     id: "vibecoding",
@@ -194,6 +202,14 @@ const workshopEntries: {
       ariaLabel:
         "Add MCP workshop to Google Calendar — Monday, April 27, 2026, 6:30 to 7:30 PM, PCAR 295",
     },
+    resources: [
+      {
+        href: "/workshops/resources/networkai-mcp-workshop-slides.pptx",
+        filename: "NetworkAI-MCP-Workshop-Slides.pptx",
+        label: "Slides (PPTX)",
+        sizeLabel: "2.3 MB",
+      },
+    ],
   },
   {
     id: "ktp",
@@ -230,12 +246,13 @@ const workshopEntries: {
   },
 ];
 
-const workshops = workshopEntries.map(({ id, title, detail, schedule }) => ({
+const workshops = workshopEntries.map(({ id, title, detail, schedule, resources }) => ({
   id,
   title,
   detail,
   calendar: calendarFromSchedule(schedule),
   past: isWorkshopPast(schedule),
+  resources,
 }));
 
 function WorkshopDateColumn({ calendar, past }: { calendar?: WorkshopCalendar; past?: boolean }) {
@@ -573,6 +590,31 @@ const Workshops = () => {
                       item.detail
                     )}
                   </p>
+                  {item.resources && item.resources.length > 0 ? (
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-300/90">
+                        <FolderDown className="h-3.5 w-3.5" aria-hidden />
+                        Workshop resources
+                      </span>
+                      {item.resources.map((r) => (
+                        <a
+                          key={r.href}
+                          href={r.href}
+                          download={r.filename}
+                          className="group inline-flex items-center gap-2 rounded-lg border border-indigo-400/30 bg-indigo-500/10 px-2.5 py-1.5 text-xs font-medium text-foreground/90 transition-colors hover:border-indigo-400/60 hover:bg-indigo-500/15 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                          aria-label={`Download ${r.label} for ${item.title}`}>
+                          <FolderDown
+                            className="h-4 w-4 text-indigo-300 transition-transform group-hover:translate-y-[1px]"
+                            aria-hidden
+                          />
+                          <span>{r.label}</span>
+                          {r.sizeLabel ? (
+                            <span className="text-[10px] text-muted-foreground">{r.sizeLabel}</span>
+                          ) : null}
+                        </a>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </div>
               <div className={item.past ? "opacity-[0.92]" : undefined}>
