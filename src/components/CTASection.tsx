@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
-    <section className="relative overflow-hidden py-24 px-6">
+    <section className="relative flex min-h-[22rem] items-center overflow-hidden py-28 px-6 md:min-h-[28rem]">
       <div aria-hidden className="absolute inset-0">
         <img
           src="/workshops/gallery/group-photo.jpg"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-center scale-110 opacity-45"
+          className="absolute inset-0 h-full w-full object-cover object-[50%_77%] opacity-55 sm:object-[50%_73%] md:object-[50%_67%] lg:object-[50%_61%]"
         />
-        <div className="absolute inset-0 bg-background/55" />
+        <div className="absolute inset-0 bg-background/50" />
         <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-indigo-500/10" />
