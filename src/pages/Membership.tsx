@@ -131,6 +131,9 @@ const Membership = () => {
         That&apos;s where all club communication happens—announcements, events, workshop details, and questions between
         meetings.
       </p>
+      <p className="mt-2.5 text-[11px] leading-snug text-muted-foreground/85 sm:text-xs">
+        Click the Discord logo—or anywhere in this block—to open the invite.
+      </p>
     </div>
   );
 
@@ -171,7 +174,7 @@ const Membership = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${memberRowClass} no-underline`}
-                aria-label="Join our Discord">
+                aria-label="Join our Discord — click the logo or anywhere in this card">
                 {discordIconTile}
                 {discordCopy}
               </a>
