@@ -1,8 +1,9 @@
+import { useState, useCallback, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/links";
-import { CalendarDays, CalendarPlus, ImageIcon, X } from "lucide-react";
+import { CalendarDays, CalendarPlus, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const NETWORKAI_LOGO = "/lovable-uploads/e21b4c4b-1e82-4c5a-876a-6968681e2aeb.png";
 
@@ -360,6 +361,127 @@ function WorkshopLogos({ id }: { id: (typeof workshops)[number]["id"] }) {
   return null;
 }
 
+const galleryPhotos = [
+  { src: "/workshops/gallery/group-photo.jpg", alt: "NetworkAI workshop group photo" },
+  { src: "/workshops/gallery/presenters-podium.jpg", alt: "Presenters at the podium" },
+  { src: "/workshops/gallery/rag-presenter.jpg", alt: "Presenting What is RAG?" },
+  { src: "/workshops/gallery/students-smiling.jpg", alt: "Students at the workshop" },
+  { src: "/workshops/gallery/students-laptops.jpg", alt: "Students working on laptops" },
+  { src: "/workshops/gallery/presenter-dual-screens.jpg", alt: "Presenter with dual screens" },
+  { src: "/workshops/gallery/live-demo.jpg", alt: "Live demo session" },
+  { src: "/workshops/gallery/full-room.jpg", alt: "Full room during announcements" },
+  { src: "/workshops/gallery/helping-student.jpg", alt: "Presenter helping a student" },
+];
+
+function WorkshopGallery() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const close = useCallback(() => setLightboxIndex(null), []);
+  const prev = useCallback(
+    () => setLightboxIndex((i) => (i !== null ? (i - 1 + galleryPhotos.length) % galleryPhotos.length : null)),
+    [],
+  );
+  const next = useCallback(
+    () => setLightboxIndex((i) => (i !== null ? (i + 1) % galleryPhotos.length : null)),
+    [],
+  );
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [lightboxIndex, close, prev, next]);
+
+  return (
+    <>
+      <section className="pb-24 px-6 border-t border-border/40">
+        <div className="max-w-5xl mx-auto pt-16">
+          <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400 text-center">
+            Gallery
+          </p>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">
+            Workshop <span className="text-indigo-300">highlights</span>
+          </h2>
+          <p className="text-center text-muted-foreground text-sm mb-10 max-w-xl mx-auto">
+            Snapshots from our hands-on sessions — building, learning, and connecting.
+          </p>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+            {galleryPhotos.map((photo, i) => (
+              <button
+                key={photo.src}
+                type="button"
+                className="group aspect-[4/3] w-full overflow-hidden rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                onClick={() => setLightboxIndex(i)}
+                aria-label={`View ${photo.alt}`}>
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  className="h-full w-full rounded-xl object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {lightboxIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          onClick={close}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Photo lightbox">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); close(); }}
+            className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white/80 transition-colors hover:bg-black/70 hover:text-white"
+            aria-label="Close lightbox">
+            <X className="h-6 w-6" />
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); prev(); }}
+            className="absolute left-3 z-10 rounded-full bg-black/50 p-2 text-white/80 transition-colors hover:bg-black/70 hover:text-white sm:left-6"
+            aria-label="Previous photo">
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+
+          <img
+            src={galleryPhotos[lightboxIndex].src}
+            alt={galleryPhotos[lightboxIndex].alt}
+            className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); next(); }}
+            className="absolute right-3 z-10 rounded-full bg-black/50 p-2 text-white/80 transition-colors hover:bg-black/70 hover:text-white sm:right-6"
+            aria-label="Next photo">
+            <ChevronRight className="h-6 w-6" />
+          </button>
+
+          <div className="absolute bottom-4 text-center text-sm text-white/60">
+            {lightboxIndex + 1} / {galleryPhotos.length}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 const Workshops = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -461,22 +583,7 @@ const Workshops = () => {
         </div>
       </section>
 
-      <section className="pb-24 px-6 border-t border-border/40">
-        <div className="max-w-3xl mx-auto pt-16">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-3 text-center">
-            Past workshops
-          </h2>
-          <p className="text-center text-muted-foreground text-sm mb-10 max-w-xl mx-auto">
-            After each event we&apos;ll add a photo and a short recap here so you can see what we covered.
-          </p>
-          <div className="rounded-2xl border border-dashed border-border/70 bg-muted/20 p-10 flex flex-col items-center gap-3 text-center">
-            <ImageIcon className="w-10 h-10 text-muted-foreground/60" aria-hidden />
-            <p className="text-sm text-muted-foreground max-w-md">
-              No past workshops published yet. Check back after our first events of the quarter.
-            </p>
-          </div>
-        </div>
-      </section>
+      <WorkshopGallery />
 
       <Footer />
     </div>
