@@ -187,7 +187,7 @@ const workshopEntries: {
       {
         href: "/workshops/resources/networkai-info-night-slides.pptx",
         filename: "NetworkAI-Info-Night-Slides.pptx",
-        label: "Info night slides (PPTX)",
+        label: "Slides (PPTX)",
         sizeLabel: "26 MB",
       },
     ],
