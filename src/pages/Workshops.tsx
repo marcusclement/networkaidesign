@@ -387,6 +387,11 @@ function WorkshopLogos({ id }: { id: (typeof workshops)[number]["id"] }) {
 }
 
 const galleryPhotos = [
+  { src: "/workshops/gallery/dsc08500.jpg", alt: "KTP × NetworkAI recruiter event" },
+  { src: "/workshops/gallery/dsc08503.jpg", alt: "KTP × NetworkAI recruiter event" },
+  { src: "/workshops/gallery/dsc08510.jpg", alt: "KTP × NetworkAI recruiter event" },
+  { src: "/workshops/gallery/dsc08514.jpg", alt: "KTP × NetworkAI recruiter event" },
+  { src: "/workshops/gallery/dsc08554.jpg", alt: "KTP × NetworkAI recruiter event" },
   { src: "/workshops/gallery/group-photo.jpg", alt: "NetworkAI workshop group photo" },
   { src: "/workshops/gallery/presenters-podium.jpg", alt: "Presenters at the podium" },
   { src: "/workshops/gallery/rag-presenter.jpg", alt: "Presenting What is RAG?" },
@@ -398,15 +403,22 @@ const galleryPhotos = [
   { src: "/workshops/gallery/helping-student.jpg", alt: "Presenter helping a student" },
 ];
 
+const GALLERY_PAGE_SIZE = 9;
+
 function WorkshopGallery() {
+  const [page, setPage] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  const totalPages = Math.ceil(galleryPhotos.length / GALLERY_PAGE_SIZE);
+  const pageStart = page * GALLERY_PAGE_SIZE;
+  const visiblePhotos = galleryPhotos.slice(pageStart, pageStart + GALLERY_PAGE_SIZE);
+
   const close = useCallback(() => setLightboxIndex(null), []);
-  const prev = useCallback(
+  const prevPhoto = useCallback(
     () => setLightboxIndex((i) => (i !== null ? (i - 1 + galleryPhotos.length) % galleryPhotos.length : null)),
     [],
   );
-  const next = useCallback(
+  const nextPhoto = useCallback(
     () => setLightboxIndex((i) => (i !== null ? (i + 1) % galleryPhotos.length : null)),
     [],
   );
@@ -415,8 +427,8 @@ function WorkshopGallery() {
     if (lightboxIndex === null) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prevPhoto();
+      if (e.key === "ArrowRight") nextPhoto();
     };
     document.addEventListener("keydown", handler);
     document.body.style.overflow = "hidden";
@@ -424,7 +436,7 @@ function WorkshopGallery() {
       document.removeEventListener("keydown", handler);
       document.body.style.overflow = "";
     };
-  }, [lightboxIndex, close, prev, next]);
+  }, [lightboxIndex, close, prevPhoto, nextPhoto]);
 
   return (
     <>
@@ -441,12 +453,12 @@ function WorkshopGallery() {
           </p>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-            {galleryPhotos.map((photo, i) => (
+            {visiblePhotos.map((photo, i) => (
               <button
                 key={photo.src}
                 type="button"
                 className="group aspect-[4/3] w-full overflow-hidden rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                onClick={() => setLightboxIndex(i)}
+                onClick={() => setLightboxIndex(pageStart + i)}
                 aria-label={`View ${photo.alt}`}>
                 <img
                   src={photo.src}
@@ -457,6 +469,30 @@ function WorkshopGallery() {
               </button>
             ))}
           </div>
+
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <button
+                type="button"
+                disabled={page === 0}
+                onClick={() => setPage((p) => p - 1)}
+                className="rounded-full border border-border/60 bg-card/50 p-2 text-muted-foreground transition-colors hover:bg-indigo-500/10 hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+                aria-label="Previous page">
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <span className="text-sm tabular-nums text-muted-foreground">
+                {page + 1} / {totalPages}
+              </span>
+              <button
+                type="button"
+                disabled={page === totalPages - 1}
+                onClick={() => setPage((p) => p + 1)}
+                className="rounded-full border border-border/60 bg-card/50 p-2 text-muted-foreground transition-colors hover:bg-indigo-500/10 hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+                aria-label="Next page">
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -477,7 +513,7 @@ function WorkshopGallery() {
 
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); prev(); }}
+            onClick={(e) => { e.stopPropagation(); prevPhoto(); }}
             className="absolute left-3 z-10 rounded-full bg-black/50 p-2 text-white/80 transition-colors hover:bg-black/70 hover:text-white sm:left-6"
             aria-label="Previous photo">
             <ChevronLeft className="h-6 w-6" />
@@ -492,7 +528,7 @@ function WorkshopGallery() {
 
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); next(); }}
+            onClick={(e) => { e.stopPropagation(); nextPhoto(); }}
             className="absolute right-3 z-10 rounded-full bg-black/50 p-2 text-white/80 transition-colors hover:bg-black/70 hover:text-white sm:right-6"
             aria-label="Next photo">
             <ChevronRight className="h-6 w-6" />
@@ -630,6 +666,23 @@ const Workshops = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mx-auto mt-6 max-w-4xl rounded-2xl border border-dashed border-indigo-400/30 bg-indigo-500/5 px-6 py-5 text-center">
+          <p className="text-sm font-medium text-foreground/90">
+            Fall 2026 events will be posted soon — stay tuned!
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Follow us on{" "}
+            <a
+              href={DISCORD_INVITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-300 underline-offset-2 hover:underline">
+              Discord
+            </a>{" "}
+            to be the first to know.
+          </p>
         </div>
       </section>
 
