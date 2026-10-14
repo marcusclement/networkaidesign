@@ -71,10 +71,12 @@ const leaders = [
   },
   {
     name: "Anthony Kim",
+    email: "hjkim03@uw.edu",
     linkedin: "https://www.linkedin.com/in/hyungjunanthonykim/",
     photo: "anthony.jpeg",
-    grade: "Senior",
-    major: "Information Systems"
+    grade: "Junior",
+    major: "Business Administration - Information Systems",
+    funFact: "I like going to the gym"
   },
   {
     name: "Ben Bioren",

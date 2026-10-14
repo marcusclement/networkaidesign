@@ -321,6 +321,8 @@ const galleryPhotos = [
   { src: "/workshops/gallery/dsc08510.jpg", alt: "KTP × NetworkAI recruiter event" },
   { src: "/workshops/gallery/dsc08514.jpg", alt: "KTP × NetworkAI recruiter event" },
   { src: "/workshops/gallery/dsc08554.jpg", alt: "KTP × NetworkAI recruiter event" },
+  { src: "/workshops/gallery/thumbs-up.jpg", alt: "Members giving a thumbs up at a NetworkAI session" },
+  { src: "/workshops/gallery/class-smiles.jpg", alt: "Students smiling during a NetworkAI session" },
   { src: "/workshops/gallery/group-photo.jpg", alt: "NetworkAI workshop group photo" },
   { src: "/workshops/gallery/presenters-podium.jpg", alt: "Presenters at the podium" },
   { src: "/workshops/gallery/rag-presenter.jpg", alt: "Presenting What is RAG?" },
@@ -330,8 +332,6 @@ const galleryPhotos = [
   { src: "/workshops/gallery/live-demo.jpg", alt: "Live demo session" },
   { src: "/workshops/gallery/full-room.jpg", alt: "Full room during announcements" },
   { src: "/workshops/gallery/helping-student.jpg", alt: "Presenter helping a student" },
-  { src: "/workshops/gallery/class-smiles.jpg", alt: "Students smiling during a NetworkAI session" },
-  { src: "/workshops/gallery/thumbs-up.jpg", alt: "Members giving a thumbs up at a NetworkAI session" },
 ];
 
 const GALLERY_PAGE_SIZE = 9;
