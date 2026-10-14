@@ -1,9 +1,28 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Mail, Linkedin, Globe } from "lucide-react";
+import { Mail, Linkedin, Globe, Info } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const MAX_TILT = 8;
+
+/** Member-facing summaries of what each role means for you. */
+const ROLE_INFO = {
+  president:
+    "Leads the exec team and keeps the whole club running. Plans our quarter of meetings, events, and partner collabs, and co-leads the career-readiness side of meetings. Reach out for club-wide questions or partnership ideas.",
+  vpInternal:
+    "Your go-to for day-to-day club life. Runs our Discord and answers member questions, sends meeting reminders, and leads team-bonding activities and club fair tables.",
+  vpExternal:
+    "Leads our biggest events and partnerships, like recruiter events, AI startup panels, and collabs with companies such as Perplexity and Claude. Also runs our \"Chai about AI\" program.",
+  marketing:
+    "Runs our Instagram and brand, and designs the slides for workshops and info sessions. Follow along for event graphics and announcements.",
+  strategy:
+    "Leads recruitment and member growth: the application, tabling and outreach, and acceptances. Also builds partnerships with other Foster clubs for joint events.",
+  finance:
+    "Manages club funding and the budget, securing the funds and sponsors that pay for workshops, food, and events.",
+  curriculum:
+    "Designs and teaches our workshops. Plans each quarter's curriculum, including topics members ask for in their applications, and keeps sessions interactive instead of lecture-style.",
+} as const;
 
 const leaders = [
   {
@@ -12,6 +31,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/sarah-greenberg1/",
     photo: "sarah-greenberg.jpeg",
     role: "President",
+    roleInfo: ROLE_INFO.president,
     grade: "Senior",
     major: "Finance and Supply Chain Management",
     funFact: "I'm an avid bachata and salsa dancer!"
@@ -22,6 +42,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/kaspar-marwick-97b0a418a/",
     photo: "kaspar-marwick.jpeg",
     role: "Vice-President",
+    roleInfo: ROLE_INFO.vpInternal,
     grade: "Junior",
     major: "Finance and Supply Chain Management",
     funFact: "I'm a national level gymnast and a violinist in the UW orchestra."
@@ -33,6 +54,7 @@ const leaders = [
     website: "https://marcusclementportfolio.vercel.app/",
     photo: "marcus-clement.jpeg",
     role: "Director of Technology",
+    roleInfo: ROLE_INFO.curriculum,
     grade: "Senior",
     major: "Informatics",
     funFact: "I love hiking and have done 40+ hikes in Washington!"
@@ -44,6 +66,7 @@ const leaders = [
     website: "https://vicky.wiki/",
     photo: "vicky.jpg",
     role: "Director of AI",
+    roleInfo: ROLE_INFO.curriculum,
     grade: "Junior",
     major: "Computer Science",
     funFact: "I love playing board games and solving puzzles!"
@@ -55,6 +78,7 @@ const leaders = [
     website: "https://www.rehmat.com/",
     photo: "raya-rehmat.jpeg",
     role: "Director of Marketing",
+    roleInfo: ROLE_INFO.marketing,
     grade: "Junior",
     major: "Marketing and Dance",
     funFact: "I swam with dolphins in the Bahamas!"
@@ -65,6 +89,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/diya-shah16/",
     photo: "diya-shah.jpeg",
     role: "Director of Finance",
+    roleInfo: ROLE_INFO.finance,
     grade: "Sophomore",
     major: "Finance and Marketing",
     funFact: "I've been dancing for 10+ years and love cooking and eating pasta!"
@@ -75,6 +100,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/hyungjunanthonykim/",
     photo: "anthony.jpeg",
     role: "VP External",
+    roleInfo: ROLE_INFO.vpExternal,
     grade: "Junior",
     major: "Business Administration - Information Systems",
     funFact: "I like going to the gym"
@@ -84,6 +110,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/ben-bioren/",
     photo: "ben.jpeg",
     role: "Director of Curriculum",
+    roleInfo: ROLE_INFO.curriculum,
     grade: "Senior",
     major: "Computer Science and Math"
   },
@@ -93,6 +120,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/kayla-clemons-/",
     photo: "kayla.jpeg",
     role: "Director of Strategy & Outreach",
+    roleInfo: ROLE_INFO.strategy,
     grade: "Senior",
     major: "Finance (Minor: Environmental Studies)",
     funFact: "My mom, my sister, and I share the same birthday."
@@ -246,7 +274,27 @@ const Leadership = () => {
                 <h3 className="font-display text-lg font-semibold text-foreground">
                   {leader.name}
                 </h3>
-                {leader.role && <p className="text-sm font-medium text-indigo-300">{leader.role}</p>}
+                {leader.role && (
+                  <p className="flex items-center justify-center gap-1 text-sm font-medium text-indigo-300">
+                    {leader.role}
+                    {leader.roleInfo && (
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button
+                            type="button"
+                            className="inline-flex h-5 w-5 items-center justify-center rounded-full text-indigo-300/80 transition-colors hover:text-indigo-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                            aria-label={`What does ${leader.role} do?`}>
+                            <Info className="h-4 w-4" aria-hidden />
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent className="text-left text-sm leading-relaxed">
+                          <p className="mb-1 font-display font-semibold text-foreground">{leader.role}</p>
+                          <p className="text-muted-foreground">{leader.roleInfo}</p>
+                        </PopoverContent>
+                      </Popover>
+                    )}
+                  </p>
+                )}
                 {leader.grade && (
                   <p className="text-xs text-muted-foreground mt-0.5">
                     <span className="font-medium">Grade:</span> {leader.grade}
