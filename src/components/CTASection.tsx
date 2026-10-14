@@ -20,14 +20,13 @@ const CTASection = () => {
           Ready to build?
         </h2>
         <p className="text-foreground/85 text-lg mb-10 drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
-          Applications are open. Join the next generation of AI innovators and
-          leaders.
+          Our next application cycle opens in January 2027.
         </p>
         <div className="flex items-center justify-center gap-4">
           <Link
             to="/membership"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity bg-indigo-400 shadow-lg shadow-indigo-500/20">
-            Apply Now
+            Membership info
           </Link>
           <Link
             to="/workshops"

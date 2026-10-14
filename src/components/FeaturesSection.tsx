@@ -15,32 +15,32 @@ const goalItems: GoalItem[] = [
     icon: Code2,
     title: "Learn in-demand technical skills",
     detail:
-      "Hands-on workshops covering the tools, frameworks, and AI workflows being used right now.",
+      "Hands-on workshops on the AI tools used right now.",
   },
   {
     icon: Users2,
     title: "Collaborate across disciplines",
-    detail: "Build alongside driven students from Business, Computer Science, and Informatics.",
+    detail: "Build with students across majors.",
   },
   {
     icon: Newspaper,
     title: "Stay current on AI",
-    detail: "Track the news, models, and shifts shaping the industry as they happen.",
+    detail: "Follow the news and models shaping the industry.",
   },
   {
     icon: Compass,
     title: "Look ahead at where AI is going",
-    detail: "Explore the trajectory of AI and what it means for the careers you'll step into.",
+    detail: "See where AI is headed and what it means for your career.",
   },
   {
     icon: Briefcase,
     title: "Leverage AI in your career",
-    detail: "Sharpen the skills that show up on resumes, in projects, and in real interviews.",
+    detail: "Build skills that show up on your resume.",
   },
   {
     icon: Handshake,
     title: "Network with industry professionals",
-    detail: "Meet recruiters, alumni, and engineers actively building with AI.",
+    detail: "Meet recruiters, alumni, and engineers.",
   },
 ];
 
@@ -100,11 +100,6 @@ const FeaturesSection = () => {
               <span className="font-medium text-indigo-300">interactive workshops</span> where every hour you invest is
               worth your time.
             </p>
-            <p className="mt-5 leading-relaxed text-muted-foreground">
-              Whether it&apos;s a website you just vibecoded, a skill you can use to streamline schoolwork, or a genuine
-              connection with another ambitious member, you&apos;ll leave our workshops without thinking about the
-              opportunity cost of your time.
-            </p>
           </div>
         </div>
 
@@ -114,10 +109,6 @@ const FeaturesSection = () => {
             <h2 className="font-display text-2xl font-bold leading-snug text-foreground md:text-3xl">
               A space to <span className="text-indigo-300">grow</span>, build, and connect.
             </h2>
-            <p className="mt-3 leading-relaxed text-muted-foreground">
-              NetworkAI is a growing community of students from Business, Computer Science, and Informatics. Here&apos;s
-              what membership unlocks:
-            </p>
           </div>
 
           <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

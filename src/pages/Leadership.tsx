@@ -12,7 +12,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/sarah-greenberg1/",
     photo: "sarah-greenberg.jpeg",
     role: "President",
-    grade: "Junior",
+    grade: "Senior",
     major: "Finance and Supply Chain Management",
     funFact: "I'm an avid bachata and salsa dancer!"
   },
@@ -22,7 +22,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/kaspar-marwick-97b0a418a/",
     photo: "kaspar-marwick.jpeg",
     role: "Vice-President",
-    grade: "Sophomore",
+    grade: "Junior",
     major: "Finance and Supply Chain Management",
     funFact: "I'm a national level gymnast and a violinist in the UW orchestra."
   },
@@ -33,9 +33,9 @@ const leaders = [
     website: "https://marcusclementportfolio.vercel.app/",
     photo: "marcus-clement.jpeg",
     role: "Director of Technology",
-    grade: "Junior",
+    grade: "Senior",
     major: "Informatics",
-    funFact: "I love hiking and have done 30+ hikes in Washington!"
+    funFact: "I love hiking and have done 40+ hikes in Washington!"
   },
   {
     name: "Vicky Ye",
@@ -43,9 +43,8 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/vickycye/",
     website: "https://vicky.wiki/",
     photo: "vicky.jpg",
-    photoPosition: "center 20%",
     role: "Director of AI",
-    grade: "Sophomore",
+    grade: "Junior",
     major: "Computer Science",
     funFact: "I love playing board games and solving puzzles!"
   },
@@ -56,7 +55,7 @@ const leaders = [
     website: "https://www.rehmat.com/",
     photo: "raya-rehmat.jpeg",
     role: "Director of Marketing",
-    grade: "Sophomore",
+    grade: "Junior",
     major: "Marketing and Dance",
     funFact: "I swam with dolphins in the Bahamas!"
   },
@@ -66,39 +65,27 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/diya-shah16/",
     photo: "diya-shah.jpeg",
     role: "Director of Finance",
-    grade: "Freshman",
+    grade: "Sophomore",
     major: "Finance and Marketing",
     funFact: "I've been dancing for 10+ years and love cooking and eating pasta!"
   },
   {
-    name: "Milana Trigubova",
-    email: "milant3@uw.edu",
-    linkedin: "https://www.linkedin.com/in/milana-trigubova/",
-    photo: "milana-trigubova.jpeg",
-    role: "Director of Events",
-    grade: "Sophomore",
-    major: "Finance and Information Systems",
-    funFact: "I was born at a very young age."
-  },
-  {
-    name: "Lucia Fernandez-Binder",
-    email: "luciafb@uw.edu",
-    linkedin: "https://www.linkedin.com/in/lucia-fernandez-binder/",
-    photo: "lucia-fernandez-binder.jpeg",
-    role: "Director of Strategy & Outreach",
+    name: "Anthony Kim",
+    linkedin: "https://www.linkedin.com/in/hyungjunanthonykim/",
+    photo: "anthony.jpeg",
     grade: "Senior",
-    major: "Business Information Systems",
-    funFact: "I can speak 3 languages!"
+    major: "Information Systems"
   },
   {
-    name: "Alarick Alfredo-Sorto",
-    email: "alarick@uw.edu",
-    linkedin: "https://www.linkedin.com/in/alarick-alfredo-sorto/",
-    photo: "alarick-alfredo-sorto.jpeg",
-    role: "Director of Operations",
-    grade: "Sophomore",
-    major: "Accounting",
-    funFact: "I studied abroad throughout all of high school!"
+    name: "Ben Bioren",
+    linkedin: "https://www.linkedin.com/in/ben-bioren/",
+    photo: "ben.jpeg",
+    grade: "Senior",
+    major: "Computer Science and Math"
+  },
+  {
+    name: "Kayla",
+    photo: "kayla.jpeg"
   }
 ];
 
@@ -157,7 +144,7 @@ const Leadership = () => {
         {/* Mobile: padding-top clears fixed navbar; image fills area below with top-anchored cover */}
         <div className="sticky top-0 h-screen overflow-hidden max-md:pt-16">
           <img
-            src="/leadership/networkaigroup.png"
+            src="/leadership/networkaigroup.jpg"
             alt="NetworkAI Leadership Team"
             className="absolute inset-0 w-full h-full object-cover object-[50%_0%] md:object-[55%_0]"
           />
@@ -199,7 +186,7 @@ const Leadership = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {leaders.map((leader, index) => (
             <div
-              key={leader.email}
+              key={leader.name}
               ref={(el) => { cardRefs.current[index] = el; }}
               onMouseMove={(e) => handleMouseMove(e, index)}
               onMouseLeave={() => handleMouseLeave(index)}
@@ -220,7 +207,6 @@ const Leadership = () => {
                     src={`/leadership/${leader.photo}`}
                     alt={leader.name}
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={leader.photoPosition ? { objectPosition: leader.photoPosition } : undefined}
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}
@@ -231,7 +217,7 @@ const Leadership = () => {
                 <h3 className="font-display text-lg font-semibold text-foreground">
                   {leader.name}
                 </h3>
-                <p className="text-sm font-medium text-indigo-300">{leader.role}</p>
+                {leader.role && <p className="text-sm font-medium text-indigo-300">{leader.role}</p>}
                 {leader.grade && (
                   <p className="text-xs text-muted-foreground mt-0.5">
                     <span className="font-medium">Grade:</span> {leader.grade}
@@ -243,19 +229,21 @@ const Leadership = () => {
                   </p>
                 )}
               </div>
+              {leader.funFact && (
               <div className="flex flex-col gap-1">
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Fun fact</p>
-                {leader.funFact ? (
-                  <p className="text-sm text-muted-foreground leading-relaxed">{leader.funFact}</p>
-                ) : null}
+                <p className="text-sm text-muted-foreground leading-relaxed">{leader.funFact}</p>
               </div>
+              )}
               <div className="flex flex-col items-center gap-1.5 pt-2 border-t border-border w-full">
-                <a
-                  href={`mailto:${leader.email}`}
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  <Mail className="w-3.5 h-3.5" />
-                  {leader.email}
-                </a>
+                {leader.email && (
+                  <a
+                    href={`mailto:${leader.email}`}
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    <Mail className="w-3.5 h-3.5" />
+                    {leader.email}
+                  </a>
+                )}
                 <div className="flex items-center gap-2 mt-1">
                   {leader.linkedin && (
                     <a
@@ -295,6 +283,15 @@ const Leadership = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="max-w-4xl mx-auto mt-16">
+          <img
+            src="/leadership/exec-bench.jpg"
+            alt="NetworkAI exec team seated on a bench on the UW campus"
+            loading="lazy"
+            className="w-full rounded-xl border border-border"
+          />
         </div>
       </section>
       <Footer />

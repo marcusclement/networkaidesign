@@ -2,7 +2,7 @@
 export const SITE_URL = "https://uwnetworkai.com";
 
 /** Permanent invite; override with `VITE_DISCORD_INVITE_URL` in `.env` if it changes. */
-const DEFAULT_DISCORD_INVITE_URL = "https://discord.gg/wU2TGUh7wT";
+const DEFAULT_DISCORD_INVITE_URL = "https://discord.gg/DzCkz6zKj";
 
 export const DISCORD_INVITE_URL =
   (import.meta.env.VITE_DISCORD_INVITE_URL as string | undefined)?.trim() || DEFAULT_DISCORD_INVITE_URL;

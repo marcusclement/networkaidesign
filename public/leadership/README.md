@@ -10,9 +10,6 @@ Add profile photos here so they appear on the Leadership page. LinkedIn does not
 | `kaspar-marwick.jpeg` | Kaspar Marwick |
 | `marcus-clement.jpeg` | Marcus Clement |
 | `raya-rehmat.jpeg` | Raya Rehmat |
-| `alarick-alfredo-sorto.jpeg` | Alarick Alfredo-Sorto |
-| `milana-trigubova.jpeg` | Milana Trigubova |
-| `lucia-fernandez-binder.jpeg` | Lucia Fernandez-Binder |
 | `diya-shah.jpeg` | Diya Shah |
 
 **How to add photos**

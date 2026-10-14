@@ -9,7 +9,7 @@ const StatsSection = () => {
           Bi-monthly on Mondays
         </p>
         <p className="mt-2 text-base md:text-lg text-muted-foreground">
-          6:30–7:30 PM · Paccar Hall
+          5:30–6:30 PM · Paccar Hall
         </p>
       </div>
     </section>
