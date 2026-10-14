@@ -179,12 +179,13 @@ const workshopEntries: WorkshopEntry[] = [
     title: "Recruiter Event",
     schedule: {
       text: "NetworkAI — Recruiter Event",
-      details: "Hosted by UW NetworkAI.\n\n6:30–8:00 PM.",
+      details: "Hosted by UW NetworkAI.\n\n6:30–8:00 PM · Room TBD.",
       dates: "20261117T023000Z/20261117T040000Z",
       weekday: "Mon",
       dayMonth: "Nov 16",
       time: "6:30–8 PM",
-      ariaLabel: "Add Recruiter Event to Google Calendar — Monday, November 16, 2026, 6:30 to 8:00 PM",
+      place: "Room TBD",
+      ariaLabel: "Add Recruiter Event to Google Calendar — Monday, November 16, 2026, 6:30 to 8:00 PM, room TBD",
     },
   },
   {

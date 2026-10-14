@@ -1,7 +1,7 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { Fragment, useState, useCallback, useRef, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Mail, Linkedin, Globe, Info } from "lucide-react";
+import { Mail, Linkedin, Globe, Info, Plus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const MAX_TILT = 8;
@@ -30,6 +30,7 @@ const leaders = [
     email: "sarahg89@uw.edu",
     linkedin: "https://www.linkedin.com/in/sarah-greenberg1/",
     photo: "sarah-greenberg.jpeg",
+    companies: [{ name: "Boeing", url: "https://www.boeing.com/", logo: "boeing.png", rowSize: "h-[1.95rem] w-[5.2rem]" }],
     role: "President",
     roleInfo: ROLE_INFO.president,
     grade: "Senior",
@@ -41,6 +42,7 @@ const leaders = [
     email: "kmarwick@uw.edu",
     linkedin: "https://www.linkedin.com/in/kaspar-marwick-97b0a418a/",
     photo: "kaspar-marwick.jpeg",
+    companies: [{ name: "Columbia Bank", url: "https://www.columbiabank.com/", logo: "columbia-bank.png", rowSize: "h-[2.5875rem]" }],
     role: "Vice-President",
     roleInfo: ROLE_INFO.vpInternal,
     grade: "Junior",
@@ -48,16 +50,16 @@ const leaders = [
     funFact: "I'm a national level gymnast and a violinist in the UW orchestra."
   },
   {
-    name: "Marcus Clement",
-    email: "marcus20@uw.edu",
-    linkedin: "https://www.linkedin.com/in/marcus-clement27/",
-    website: "https://marcusclementportfolio.vercel.app/",
-    photo: "marcus-clement.jpeg",
-    role: "Director of Technology",
-    roleInfo: ROLE_INFO.curriculum,
-    grade: "Senior",
-    major: "Informatics",
-    funFact: "I love hiking and have done 40+ hikes in Washington!"
+    name: "Anthony Kim",
+    email: "hjkim03@uw.edu",
+    linkedin: "https://www.linkedin.com/in/hyungjunanthonykim/",
+    photo: "anthony.jpeg",
+    companies: [{ name: "DareeSoft", url: "https://www.dareesoft.com/", logo: "dareesoft.png", rowSize: "h-[1.95rem] w-[5.2rem]" }],
+    role: "VP External",
+    roleInfo: ROLE_INFO.vpExternal,
+    grade: "Junior",
+    major: "Business Administration - Information Systems",
+    funFact: "I like going to the gym"
   },
   {
     name: "Vicky Ye",
@@ -65,6 +67,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/vickycye/",
     website: "https://vicky.wiki/",
     photo: "vicky.jpg",
+    companies: [{ name: "Scale AI", url: "https://scale.com/", logo: "scaleai.png", rowSize: "h-[1.725rem] w-[3.45rem]" }, { name: "Google", url: "https://about.google/", logo: "google.svg", rowSize: "h-[1.725rem] w-[3.45rem]" }],
     role: "Director of AI",
     roleInfo: ROLE_INFO.curriculum,
     grade: "Junior",
@@ -77,6 +80,7 @@ const leaders = [
     linkedin: "https://www.linkedin.com/in/raya-r-rehmat/",
     website: "https://www.rehmat.com/",
     photo: "raya-rehmat.jpeg",
+    companies: [{ name: "Orza", url: "https://orzabrand.com/", logo: "orza.png" }, { name: "SAP", url: "https://www.sap.com/", logo: "sap.svg" }],
     role: "Director of Marketing",
     roleInfo: ROLE_INFO.marketing,
     grade: "Junior",
@@ -84,35 +88,17 @@ const leaders = [
     funFact: "I swam with dolphins in the Bahamas!"
   },
   {
-    name: "Diya Shah",
-    email: "dshah16@uw.edu",
-    linkedin: "https://www.linkedin.com/in/diya-shah16/",
-    photo: "diya-shah.jpeg",
-    role: "Director of Finance",
-    roleInfo: ROLE_INFO.finance,
-    grade: "Sophomore",
-    major: "Finance and Marketing",
-    funFact: "I've been dancing for 10+ years and love cooking and eating pasta!"
-  },
-  {
-    name: "Anthony Kim",
-    email: "hjkim03@uw.edu",
-    linkedin: "https://www.linkedin.com/in/hyungjunanthonykim/",
-    photo: "anthony.jpeg",
-    role: "VP External",
-    roleInfo: ROLE_INFO.vpExternal,
-    grade: "Junior",
-    major: "Business Administration - Information Systems",
-    funFact: "I like going to the gym"
-  },
-  {
-    name: "Ben Bioren",
-    linkedin: "https://www.linkedin.com/in/ben-bioren/",
-    photo: "ben.jpeg",
-    role: "Director of Curriculum",
+    name: "Marcus Clement",
+    email: "marcus20@uw.edu",
+    linkedin: "https://www.linkedin.com/in/marcus-clement27/",
+    website: "https://marcusclementportfolio.vercel.app/",
+    photo: "marcus-clement.jpeg",
+    companies: [{ name: "Proofpoint", url: "https://www.proofpoint.com/", logo: "proofpoint.png", rowSize: "h-[1.8rem] w-[4.8rem]" }],
+    role: "Director of Technology",
     roleInfo: ROLE_INFO.curriculum,
     grade: "Senior",
-    major: "Computer Science and Math"
+    major: "Informatics",
+    funFact: "I love hiking and have done 40+ hikes in Washington!"
   },
   {
     name: "Kayla Clemons",
@@ -124,9 +110,84 @@ const leaders = [
     grade: "Senior",
     major: "Finance (Minor: Environmental Studies)",
     funFact: "My mom, my sister, and I share the same birthday."
+  },
+  {
+    name: "Ben Bioren",
+    linkedin: "https://www.linkedin.com/in/ben-bioren/",
+    photo: "ben.jpeg",
+    companies: [{ name: "AWS", url: "https://aws.amazon.com/", logo: "aws.png" }],
+    role: "Director of Curriculum",
+    roleInfo: ROLE_INFO.curriculum,
+    grade: "Senior",
+    major: "Computer Science and Math"
+  },
+  {
+    name: "Diya Shah",
+    email: "dshah16@uw.edu",
+    linkedin: "https://www.linkedin.com/in/diya-shah16/",
+    photo: "diya-shah.jpeg",
+    role: "Director of Finance",
+    roleInfo: ROLE_INFO.finance,
+    grade: "Sophomore",
+    major: "Finance and Marketing",
+    funFact: "I've been dancing for 10+ years and love cooking and eating pasta!"
   }
 ];
 
+
+type Company = {
+  name: string;
+  url?: string;
+  logo?: string;
+  /** Tailwind size classes for the logo box; defaults by logo count. */
+  rowSize?: string;
+};
+
+/** "Prev @" label plus past-company logos, shown in the contact row next to the social buttons. */
+function CompanyLogos({ companies }: { companies?: Company[] }) {
+  if (!companies || companies.length === 0) return null;
+  return (
+    <>
+      <span className="mx-1 h-5 w-px bg-border" aria-hidden />
+      <div className="flex items-center gap-2">
+        {companies.map((company, i) => {
+          const size = company.rowSize ?? (companies.length > 1 ? "h-6 w-12" : "h-6 w-16");
+          const logo = company.logo ? (
+            <img
+              src={`/leadership/companies/${company.logo}`}
+              alt={company.name}
+              className="max-h-full max-w-full object-contain"
+            />
+          ) : (
+            <span className="text-[9px] font-bold leading-tight text-foreground">{company.name}</span>
+          );
+          const boxClass = `flex items-center justify-center overflow-hidden ${size}`;
+          const item = company.url ? (
+            <a
+              href={company.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${company.name} website`}
+              title={company.name}
+              className={boxClass}>
+              {logo}
+            </a>
+          ) : (
+            <span title={company.name} className={boxClass}>
+              {logo}
+            </span>
+          );
+          return (
+            <Fragment key={company.name}>
+              {i > 0 && <Plus className="h-3 w-3 shrink-0 text-muted-foreground" aria-hidden />}
+              {item}
+            </Fragment>
+          );
+        })}
+      </div>
+    </>
+  );
+}
 
 const Leadership = () => {
   const [tilts, setTilts] = useState<({ x: number; y: number } | null)[]>(
@@ -247,14 +308,13 @@ const Leadership = () => {
               ref={(el) => { cardRefs.current[index] = el; }}
               onMouseMove={(e) => handleMouseMove(e, index)}
               onMouseLeave={() => handleMouseLeave(index)}
-              className="rounded-xl border border-border bg-card p-6 flex flex-col items-center text-center gap-3 hover:border-primary/40 transition-colors"
+              className="relative rounded-xl border border-border bg-card p-6 flex flex-col items-center text-center gap-3 hover:border-primary/40 transition-colors"
               style={{
                 transform: tilts[index]
                   ? `perspective(1000px) rotateX(${tilts[index]!.y}deg) rotateY(${tilts[index]!.x}deg) scale3d(1.02, 1.02, 1.02)`
                   : "perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)",
                 transition: "transform 0.15s ease-out",
               }}>
-
               <div className="relative w-20 h-20 mx-auto rounded-full overflow-hidden bg-primary/20 shrink-0">
                 <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-xl text-indigo-300">
                   {leader.name.split(" ").map((n) => n[0]).join("")}
@@ -321,7 +381,7 @@ const Leadership = () => {
                     {leader.email}
                   </a>
                 )}
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex flex-wrap items-center justify-center gap-2 mt-1">
                   {leader.linkedin && (
                     <a
                       href={leader.linkedin}
@@ -356,6 +416,7 @@ const Leadership = () => {
                       />
                     </a>
                   )}
+                  <CompanyLogos companies={leader.companies} />
                 </div>
               </div>
             </div>
