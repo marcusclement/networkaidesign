@@ -74,6 +74,7 @@ const leaders = [
     email: "hjkim03@uw.edu",
     linkedin: "https://www.linkedin.com/in/hyungjunanthonykim/",
     photo: "anthony.jpeg",
+    role: "VP External",
     grade: "Junior",
     major: "Business Administration - Information Systems",
     funFact: "I like going to the gym"
@@ -82,6 +83,7 @@ const leaders = [
     name: "Ben Bioren",
     linkedin: "https://www.linkedin.com/in/ben-bioren/",
     photo: "ben.jpeg",
+    role: "Director of Curriculum",
     grade: "Senior",
     major: "Computer Science and Math"
   },
@@ -90,6 +92,7 @@ const leaders = [
     email: "kaylac26@uw.edu",
     linkedin: "https://www.linkedin.com/in/kayla-clemons-/",
     photo: "kayla.jpeg",
+    role: "Director of Strategy & Outreach",
     grade: "Senior",
     major: "Finance (Minor: Environmental Studies)",
     funFact: "My mom, my sister, and I share the same birthday."
