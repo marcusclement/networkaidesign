@@ -86,8 +86,13 @@ const leaders = [
     major: "Computer Science and Math"
   },
   {
-    name: "Kayla",
-    photo: "kayla.jpeg"
+    name: "Kayla Clemons",
+    email: "kaylac26@uw.edu",
+    linkedin: "https://www.linkedin.com/in/kayla-clemons-/",
+    photo: "kayla.jpeg",
+    grade: "Senior",
+    major: "Finance (Minor: Environmental Studies)",
+    funFact: "My mom, my sister, and I share the same birthday."
   }
 ];
 
