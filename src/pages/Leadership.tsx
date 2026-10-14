@@ -119,6 +119,25 @@ const Leadership = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Nudge visitors down to the cards if they haven't scrolled or clicked after a short pause.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const events = ["wheel", "touchstart", "mousedown", "keydown"] as const;
+    const cancel = () => {
+      window.clearTimeout(timer);
+      events.forEach((ev) => window.removeEventListener(ev, cancel));
+    };
+    const timer = window.setTimeout(() => {
+      events.forEach((ev) => window.removeEventListener(ev, cancel));
+      if (window.scrollY > 10) return;
+      document.getElementById("leadership-cards")?.scrollIntoView({ behavior: "smooth" });
+    }, 2000);
+    events.forEach((ev) => window.addEventListener(ev, cancel, { passive: true }));
+
+    return cancel;
+  }, []);
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
     const card = cardRefs.current[index];
     if (!card) return;
