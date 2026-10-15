@@ -113,13 +113,15 @@ const leaders = [
   },
   {
     name: "Ben Bioren",
+    email: "bbioren@uw.edu",
     linkedin: "https://www.linkedin.com/in/ben-bioren/",
     photo: "ben.jpeg",
     companies: [{ name: "AWS", url: "https://aws.amazon.com/", logo: "aws.png" }],
     role: "Director of Curriculum",
     roleInfo: ROLE_INFO.curriculum,
     grade: "Senior",
-    major: "Computer Science and Math"
+    major: "Computer Science and Math",
+    funFact: "I can juggle!"
   },
   {
     name: "Diya Shah",
