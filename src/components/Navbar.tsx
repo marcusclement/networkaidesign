@@ -3,6 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import { Linkedin, Instagram } from "lucide-react";
 import { DISCORD_INVITE_URL } from "@/lib/links";
 
+const navItems = [
+  { to: "/", label: "Home" },
+  { to: "/workshops", label: "Workshops" },
+  { to: "/leadership", label: "Leadership" },
+  { to: "/membership", label: "Membership" },
+  { to: "/resources", label: "Resources" },
+];
+
 const Navbar = () => {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
@@ -29,50 +37,20 @@ const Navbar = () => {
 
       <div className="hidden md:flex items-center gap-3">
         <div className="flex items-center gap-1 bg-secondary/30 rounded-full px-1.5 py-1 border border-border/50">
-          <Link
-            to="/"
-            className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive("/") ? "text-foreground" : "text-muted-foreground"}`}>
-            {isActive("/") && (
-              <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
-            )}
-            <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
-            <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
-              Home
-            </span>
-          </Link>
-          <Link
-            to="/workshops"
-            className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive("/workshops") ? "text-foreground" : "text-muted-foreground"}`}>
-            {isActive("/workshops") && (
-              <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
-            )}
-            <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
-            <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
-              Workshops
-            </span>
-          </Link>
-          <Link
-            to="/leadership"
-            className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive("/leadership") ? "text-foreground" : "text-muted-foreground"}`}>
-            {isActive("/leadership") && (
-              <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
-            )}
-            <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
-            <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
-              Leadership
-            </span>
-          </Link>
-          <Link
-            to="/membership"
-            className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive("/membership") ? "text-foreground" : "text-muted-foreground"}`}>
-            {isActive("/membership") && (
-              <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
-            )}
-            <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
-            <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
-              Membership
-            </span>
-          </Link>
+          {navItems.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`group relative px-4 py-2 rounded-full text-sm font-semibold tracking-tight overflow-hidden transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] ${isActive(to) ? "text-foreground" : "text-muted-foreground"}`}>
+              {isActive(to) && (
+                <span className="absolute inset-0 rounded-full bg-indigo-500/20 border border-indigo-400/30" aria-hidden />
+              )}
+              <span className="absolute inset-0 rounded-full scale-x-0 bg-indigo-500/15 origin-center transition-[transform] duration-300 ease-out group-hover:scale-x-100" aria-hidden />
+              <span className="relative z-10 block transition-colors duration-200 group-hover:text-foreground">
+                {label}
+              </span>
+            </Link>
+          ))}
         </div>
         <a
           href="https://www.linkedin.com/company/networkai-university-of-washington/posts/?feedView=all"
