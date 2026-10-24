@@ -4,12 +4,6 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, CalendarPlus, FolderDown, X, ChevronLeft, ChevronRight } from "lucide-react";
 
-const NETWORKAI_LOGO = "/lovable-uploads/e21b4c4b-1e82-4c5a-876a-6968681e2aeb.png";
-
-/** Workshop row logo (≈4.22rem / 4.69rem). */
-const LOGO_SQUARE = "h-[4.21875rem] w-[4.21875rem] sm:h-[4.6875rem] sm:w-[4.6875rem]";
-const logoClass = `${LOGO_SQUARE} object-contain opacity-95 hover:opacity-100 transition-opacity`;
-
 function googleCalendarTemplateUrl(params: { text: string; details: string; dates: string; location?: string }) {
   const q = new URLSearchParams({
     action: "TEMPLATE",
@@ -33,32 +27,6 @@ type WorkshopSchedule = {
   place?: string;
   ariaLabel: string;
 };
-
-type WorkshopCalendar = {
-  /** Omitted when the event has no confirmed time yet (no calendar link). */
-  href?: string;
-  weekday: string;
-  dayMonth: string;
-  time: string;
-  place?: string;
-  ariaLabel: string;
-};
-
-function calendarFromSchedule(s: WorkshopSchedule): WorkshopCalendar {
-  return {
-    href: googleCalendarTemplateUrl({
-      text: s.text,
-      details: s.details,
-      dates: s.dates,
-      location: s.location,
-    }),
-    weekday: s.weekday,
-    dayMonth: s.dayMonth,
-    time: s.time,
-    place: s.place,
-    ariaLabel: s.ariaLabel,
-  };
-}
 
 function escapeIcsText(value: string): string {
   return value.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/;/g, "\\;").replace(/,/g, "\\,");
@@ -129,9 +97,6 @@ function downloadAllWorkshopsIcs(entries: { id: string; schedule: WorkshopSchedu
   URL.revokeObjectURL(url);
 }
 
-const datePillClass =
-  "mt-0.5 flex min-w-[4.85rem] max-w-[5.5rem] flex-col items-center rounded-xl bg-primary/15 px-2.5 py-2 text-center sm:min-w-[5rem] sm:max-w-[5.75rem]";
-
 type WorkshopResource = {
   href: string;
   filename: string;
@@ -142,80 +107,92 @@ type WorkshopResource = {
 type WorkshopEntry = {
   id: string;
   title: string;
-  /** Present when date + time are confirmed; drives the calendar link and .ics export. */
-  schedule?: WorkshopSchedule;
-  /** Shown in the date pill when there is no confirmed schedule. */
-  pill?: Omit<WorkshopCalendar, "href" | "ariaLabel">;
+  /** One per session; each gets its own calendar button and .ics event. */
+  schedules: WorkshopSchedule[];
 };
 
 const workshopEntries: WorkshopEntry[] = [
   {
     id: "agentic-ai",
     title: "Agentic AI",
-    schedule: {
-      text: "NetworkAI — Agentic AI",
-      details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · PCAR 295 (Paccar Hall).",
-      dates: "20261027T003000Z/20261027T013000Z",
-      location: "PCAR 295",
-      weekday: "Mon",
-      dayMonth: "Oct 26",
-      time: "5:30–6:30 PM",
-      place: "PCAR 295",
-      ariaLabel: "Add Agentic AI to Google Calendar — Monday, October 26, 2026, 5:30 to 6:30 PM, PCAR 295",
-    },
+    schedules: [
+      {
+        text: "NetworkAI — Agentic AI",
+        details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · PCAR 295 (Paccar Hall).",
+        dates: "20261027T003000Z/20261027T013000Z",
+        location: "PCAR 295",
+        weekday: "Mon",
+        dayMonth: "Oct 26",
+        time: "5:30–6:30 PM",
+        place: "PCAR 295",
+        ariaLabel: "Add Agentic AI to Google Calendar — Monday, October 26, 2026, 5:30 to 6:30 PM, PCAR 295",
+      },
+    ],
   },
   {
     id: "case-competition",
-    title: "Case Competition",
-    pill: {
-      weekday: "Thu–Fri",
-      dayMonth: "Nov 5–6",
-      time: "Time TBD",
-      place: "Room TBD",
-    },
+    title: "Innovation Case Competition",
+    schedules: [
+      {
+        text: "NetworkAI — Innovation Case Competition (Day 1)",
+        details: "Hosted by UW NetworkAI.\n\n6:00–7:30 PM · Room TBD.",
+        dates: "20261106T020000Z/20261106T033000Z",
+        weekday: "Thu",
+        dayMonth: "Nov 5",
+        time: "6–7:30 PM",
+        place: "Room TBD",
+        ariaLabel: "Add Innovation Case Competition day 1 to Google Calendar — Thursday, November 5, 2026, 6 to 7:30 PM, room TBD",
+      },
+      {
+        text: "NetworkAI — Innovation Case Competition (Day 2)",
+        details: "Hosted by UW NetworkAI.\n\n2:00–5:00 PM · Room TBD.",
+        dates: "20261106T220000Z/20261107T010000Z",
+        weekday: "Fri",
+        dayMonth: "Nov 6",
+        time: "2–5 PM",
+        place: "Room TBD",
+        ariaLabel: "Add Innovation Case Competition day 2 to Google Calendar — Friday, November 6, 2026, 2 to 5 PM, room TBD",
+      },
+    ],
   },
   {
     id: "recruiter-event",
     title: "Recruiter Event",
-    schedule: {
-      text: "NetworkAI — Recruiter Event",
-      details: "Hosted by UW NetworkAI.\n\n6:30–8:00 PM · Room TBD.",
-      dates: "20261117T023000Z/20261117T040000Z",
-      weekday: "Mon",
-      dayMonth: "Nov 16",
-      time: "6:30–8 PM",
-      place: "Room TBD",
-      ariaLabel: "Add Recruiter Event to Google Calendar — Monday, November 16, 2026, 6:30 to 8:00 PM, room TBD",
-    },
+    schedules: [
+      {
+        text: "NetworkAI — Recruiter Event",
+        details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · PCAR 295 (Paccar Hall).",
+        dates: "20261117T013000Z/20261117T023000Z",
+        location: "PCAR 295",
+        weekday: "Mon",
+        dayMonth: "Nov 16",
+        time: "5:30–6:30 PM",
+        place: "PCAR 295",
+        ariaLabel: "Add Recruiter Event to Google Calendar — Monday, November 16, 2026, 5:30 to 6:30 PM, PCAR 295",
+      },
+    ],
   },
   {
     id: "enterprise-ai",
     title: "Enterprise AI Workshop",
-    schedule: {
-      text: "NetworkAI — Enterprise AI Workshop",
-      details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · PCAR 295 (Paccar Hall).",
-      dates: "20261124T013000Z/20261124T023000Z",
-      location: "PCAR 295",
-      weekday: "Mon",
-      dayMonth: "Nov 23",
-      time: "5:30–6:30 PM",
-      place: "PCAR 295",
-      ariaLabel: "Add Enterprise AI Workshop to Google Calendar — Monday, November 23, 2026, 5:30 to 6:30 PM, PCAR 295",
-    },
+    schedules: [
+      {
+        text: "NetworkAI — Enterprise AI Workshop",
+        details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · Room TBD.",
+        dates: "20261124T013000Z/20261124T023000Z",
+        weekday: "Mon",
+        dayMonth: "Nov 23",
+        time: "5:30–6:30 PM",
+        place: "Room TBD",
+        ariaLabel: "Add Enterprise AI Workshop to Google Calendar — Monday, November 23, 2026, 5:30 to 6:30 PM, room TBD",
+      },
+    ],
   },
 ];
 
-const ICS_ENTRIES = workshopEntries.flatMap((e) => (e.schedule ? [{ id: e.id, schedule: e.schedule }] : []));
-
-const workshops = workshopEntries.map(({ id, title, schedule, pill }) => ({
-  id,
-  title,
-  calendar: schedule
-    ? calendarFromSchedule(schedule)
-    : pill
-      ? { ...pill, ariaLabel: `${title}, ${pill.dayMonth}` }
-      : undefined,
-}));
+const ICS_ENTRIES = workshopEntries.flatMap((e) =>
+  e.schedules.map((schedule, i) => ({ id: e.schedules.length > 1 ? `${e.id}-${i + 1}` : e.id, schedule })),
+);
 
 type PastEvent = {
   title: string;
@@ -254,64 +231,38 @@ const pastEvents: PastEvent[] = [
   },
 ];
 
-function WorkshopDateColumn({ calendar }: { calendar?: WorkshopCalendar }) {
-  if (!calendar) {
-    return (
-      <div className={datePillClass}>
-        <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
-        <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">TBD</span>
-      </div>
-    );
-  }
-
-  const pillContent = (
-    <>
-      <CalendarDays className="mb-0.5 h-5 w-5 text-indigo-300" aria-hidden />
-      <span className="text-[10px] font-semibold uppercase leading-none tracking-wide text-muted-foreground">
-        {calendar.weekday}
-      </span>
-      <span className="mt-0.5 font-display text-sm font-bold leading-tight text-foreground">{calendar.dayMonth}</span>
-      <span className="mt-1 text-[10px] font-medium leading-tight text-muted-foreground">{calendar.time}</span>
-      {calendar.place ? (
-        <span className="mt-0.5 text-[9px] leading-snug text-muted-foreground/90">{calendar.place}</span>
-      ) : (
-        <span className="mt-0.5 min-h-[0.75rem] text-[9px] leading-snug text-muted-foreground/40" aria-hidden>
-          {"\u00a0"}
-        </span>
-      )}
-    </>
-  );
-
-  if (!calendar.href) {
-    return (
-      <div className="flex shrink-0 flex-col items-center gap-1.5 rounded-lg text-center">
-        <span className={datePillClass}>{pillContent}</span>
-      </div>
-    );
-  }
-
+function WorkshopDetails({ schedules }: { schedules: WorkshopSchedule[] }) {
   return (
-    <a
-      href={calendar.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group flex shrink-0 flex-col items-center gap-1.5 rounded-lg text-center ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
-      aria-label={calendar.ariaLabel}>
-      <span
-        className={`${datePillClass} transition-colors group-hover:bg-primary/25 group-focus-visible:bg-primary/25`}>
-        {pillContent}
-      </span>
-      <span className="max-w-[6.5rem] text-balance text-[9px] leading-tight text-muted-foreground sm:max-w-[7rem] sm:text-[10px]">
-        Click to add to Google Calendar
-      </span>
-    </a>
+    <ul className="mt-1.5 space-y-1.5 text-sm">
+      {schedules.map((s) => (
+        <li key={s.dates}>
+          <p className="flex items-center gap-1.5 font-medium text-foreground/90">
+            <CalendarDays className="h-4 w-4 shrink-0 text-indigo-300" aria-hidden />
+            {s.weekday}, {s.dayMonth}
+          </p>
+          <p className="pl-[1.375rem] text-muted-foreground">{[s.time, s.place].filter(Boolean).join(" · ")}</p>
+        </li>
+      ))}
+    </ul>
   );
 }
 
-function WorkshopLogo() {
+function AddToCalendarButtons({ schedules }: { schedules: WorkshopSchedule[] }) {
+  const multiple = schedules.length > 1;
   return (
-    <div className="flex w-full shrink-0 items-center justify-end sm:ml-auto sm:w-auto sm:pt-0.5">
-      <img src={NETWORKAI_LOGO} alt="NetworkAI" className={logoClass} />
+    <div className="flex shrink-0 flex-col gap-2">
+      {schedules.map((s) => (
+        <a
+          key={s.dates}
+          href={googleCalendarTemplateUrl(s)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={s.ariaLabel}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-400/30 bg-indigo-500/10 px-3 py-2 text-xs font-medium text-foreground/90 transition-colors hover:border-indigo-400/60 hover:bg-indigo-500/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400">
+          <CalendarPlus className="h-4 w-4 text-indigo-300" aria-hidden />
+          {multiple ? `Add ${s.weekday} to calendar` : "Add to calendar"}
+        </a>
+      ))}
     </div>
   );
 }
@@ -372,12 +323,12 @@ function WorkshopGallery() {
 
   return (
     <>
-      <section className="pb-24 px-6 border-t border-border/40">
-        <div className="max-w-5xl mx-auto pt-16">
+      <section className="pb-16 px-6 border-t border-border/40">
+        <div className="max-w-5xl mx-auto pt-12">
           <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400 text-center">
             Gallery
           </p>
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-10 text-center">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
             Workshop <span className="text-indigo-300">highlights</span>
           </h2>
 
@@ -477,7 +428,7 @@ const Workshops = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="pt-32 pb-12 px-6">
+      <section className="pt-28 pb-8 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400">
             Events
@@ -485,7 +436,7 @@ const Workshops = () => {
           <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
             Upcoming <span className="text-indigo-300">workshops</span>
           </h1>
-          <div className="mt-8 flex flex-col items-center gap-2">
+          <div className="mt-6 flex flex-col items-center gap-2">
             <Button
               type="button"
               variant="outline"
@@ -498,21 +449,23 @@ const Workshops = () => {
         </div>
       </section>
 
-      <section className="pb-16 px-6">
-        <div className="mx-auto max-w-4xl space-y-4">
-          {workshops.map((item) => (
+      <section className="pb-12 px-6">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
+          {workshopEntries.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border border-border/60 bg-card/40 p-5 sm:p-6 flex items-center gap-4 sm:gap-5">
-              <WorkshopDateColumn calendar={item.calendar} />
-              <h2 className="font-display min-w-0 flex-1 text-lg font-semibold text-foreground">{item.title}</h2>
-              <WorkshopLogo />
+              className="rounded-2xl border border-border/60 bg-card/40 p-5 flex items-center justify-between gap-4">
+              <div className="min-w-0 flex-1">
+                <h2 className="font-display text-lg font-semibold text-foreground">{item.title}</h2>
+                <WorkshopDetails schedules={item.schedules} />
+              </div>
+              <AddToCalendarButtons schedules={item.schedules} />
             </div>
           ))}
         </div>
       </section>
 
-      <section className="pb-20 px-6">
+      <section className="pb-14 px-6">
         <div className="mx-auto max-w-4xl">
           <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
             Past <span className="text-indigo-300">events</span>
