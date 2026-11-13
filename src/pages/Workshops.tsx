@@ -325,10 +325,10 @@ const caseCompVideos = [
     detail: "A network graph connecting suspects, stolen property, and past cases.",
   },
   {
-    src: "/workshops/case-comp/demo-audit-log.mp4",
-    poster: "/workshops/case-comp/demo-audit-log-poster.jpg",
-    caption: "Audit-log walkthrough",
-    detail: "Every AI suggestion is logged so a human makes the final call.",
+    src: "/workshops/case-comp/caseweb-first-place.mp4",
+    poster: "/workshops/case-comp/caseweb-first-place-poster.jpg",
+    caption: "1st place: CaseWeb",
+    detail: "The winning team introduces CaseWeb: why work one case by hand when AI can assist with many?",
   },
 ];
 
