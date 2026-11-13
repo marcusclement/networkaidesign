@@ -307,6 +307,12 @@ const caseCompPhotos: GalleryPhoto[] = [
 
 const caseCompVideos = [
   {
+    src: "/workshops/case-comp/caseweb-first-place.mp4",
+    poster: "/workshops/case-comp/caseweb-first-place-poster.jpg",
+    caption: "1st place: CaseWeb",
+    detail: "The winning team introduces CaseWeb: why work one case by hand when AI can assist with many?",
+  },
+  {
     src: "/workshops/case-comp/demo-case-management.mp4",
     poster: "/workshops/case-comp/demo-case-management-poster.jpg",
     caption: "Live prototype demo",
@@ -323,12 +329,6 @@ const caseCompVideos = [
     poster: "/workshops/case-comp/demo-lead-graph-poster.jpg",
     caption: "Lead-graph prototype",
     detail: "A network graph connecting suspects, stolen property, and past cases.",
-  },
-  {
-    src: "/workshops/case-comp/caseweb-first-place.mp4",
-    poster: "/workshops/case-comp/caseweb-first-place-poster.jpg",
-    caption: "1st place: CaseWeb",
-    detail: "The winning team introduces CaseWeb: why work one case by hand when AI can assist with many?",
   },
 ];
 
