@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, CalendarPlus, FolderDown, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, CalendarDays, CalendarPlus, FolderDown, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 function googleCalendarTemplateUrl(params: { text: string; details: string; dates: string; location?: string }) {
   const q = new URLSearchParams({
@@ -107,6 +107,8 @@ type WorkshopResource = {
 type WorkshopEntry = {
   id: string;
   title: string;
+  /** Co-hosting organization, shown under the title with a link. */
+  partner?: { name: string; href: string };
   /** One per session; each gets its own calendar button and .ics event. */
   schedules: WorkshopSchedule[];
 };
@@ -156,19 +158,21 @@ const workshopEntries: WorkshopEntry[] = [
     ],
   },
   {
-    id: "recruiter-event",
-    title: "Recruiter Event",
+    id: "ai-for-finance",
+    title: "AI for Finance Workshop",
+    partner: { name: "UW Corporate Banking Club", href: "https://www.uwcbc.com/" },
     schedules: [
       {
-        text: "NetworkAI — Recruiter Event",
-        details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · PCAR 295 (Paccar Hall).",
+        text: "NetworkAI × UW Corporate Banking Club — AI for Finance Workshop",
+        details:
+          "Hosted by UW NetworkAI in collaboration with UW Corporate Banking Club (uwcbc.com).\n\n5:30–6:30 PM · PCAR 295 (Paccar Hall).",
         dates: "20261117T013000Z/20261117T023000Z",
         location: "PCAR 295",
         weekday: "Mon",
         dayMonth: "Nov 16",
         time: "5:30–6:30 PM",
         place: "PCAR 295",
-        ariaLabel: "Add Recruiter Event to Google Calendar — Monday, November 16, 2026, 5:30 to 6:30 PM, PCAR 295",
+        ariaLabel: "Add AI for Finance Workshop to Google Calendar — Monday, November 16, 2026, 5:30 to 6:30 PM, PCAR 295",
       },
     ],
   },
@@ -267,7 +271,7 @@ function AddToCalendarButtons({ schedules }: { schedules: WorkshopSchedule[] }) 
   );
 }
 
-const galleryPhotos = [
+const workshopPhotos: GalleryPhoto[] = [
   { src: "/workshops/gallery/dsc08500.jpg", alt: "KTP × NetworkAI recruiter event" },
   { src: "/workshops/gallery/dsc08503.jpg", alt: "KTP × NetworkAI recruiter event" },
   { src: "/workshops/gallery/dsc08510.jpg", alt: "KTP × NetworkAI recruiter event" },
@@ -286,9 +290,55 @@ const galleryPhotos = [
   { src: "/workshops/gallery/helping-student.jpg", alt: "Presenter helping a student" },
 ];
 
+const caseCompPhotos: GalleryPhoto[] = [
+  { src: "/workshops/case-comp/group-photo.jpg", alt: "Innovation Case Competition participants and judges group photo" },
+  { src: "/workshops/case-comp/first-place.jpg", alt: "First-place team holding their certificates" },
+  { src: "/workshops/case-comp/winners-lineup.jpg", alt: "Winning teams lined up with certificates" },
+  { src: "/workshops/case-comp/property-lead-finder-demo.jpg", alt: "Team demoing their Property Lead Finder prototype at the podium" },
+  { src: "/workshops/case-comp/graph-prototype.jpg", alt: "Lead-graph AI prototype shown on the big screen" },
+  { src: "/workshops/case-comp/every-lead-verified.jpg", alt: "Presenter on the slide: Humans decide. Every lead is verified." },
+  { src: "/workshops/case-comp/burglary-stat-pitch.jpg", alt: "Presenter pitching: only 13% of burglaries get solved" },
+  { src: "/workshops/case-comp/traceback-team.jpg", alt: "Team Traceback presenting to the judges" },
+  { src: "/workshops/case-comp/team-pitch-metrics.jpg", alt: "Team presenting their impact metrics" },
+  { src: "/workshops/case-comp/opening-slide.jpg", alt: "Innovation Case Competition opening slide" },
+  { src: "/workshops/case-comp/the-case.jpg", alt: "Presenter walking through the case brief" },
+  { src: "/workshops/case-comp/ai-analyst-playbook.jpg", alt: "Keynote: The AI Analyst's Playbook" },
+];
+
+const caseCompVideos = [
+  {
+    src: "/workshops/case-comp/demo-case-management.mp4",
+    poster: "/workshops/case-comp/demo-case-management-poster.jpg",
+    caption: "Live prototype demo",
+    detail: "An AI case assistant that flags evidence gaps and links related open cases.",
+  },
+  {
+    src: "/workshops/case-comp/demo-decision-process.mp4",
+    poster: "/workshops/case-comp/demo-decision-process-poster.jpg",
+    caption: "Explainable AI decisions",
+    detail: "Walking the judges through how the tool ranks leads, step by step.",
+  },
+  {
+    src: "/workshops/case-comp/demo-lead-graph.mp4",
+    poster: "/workshops/case-comp/demo-lead-graph-poster.jpg",
+    caption: "Lead-graph prototype",
+    detail: "A network graph connecting suspects, stolen property, and past cases.",
+  },
+  {
+    src: "/workshops/case-comp/demo-audit-log.mp4",
+    poster: "/workshops/case-comp/demo-audit-log-poster.jpg",
+    caption: "Audit-log walkthrough",
+    detail: "Every AI suggestion is logged so a human makes the final call.",
+  },
+];
+
 const GALLERY_PAGE_SIZE = 9;
 
-function WorkshopGallery() {
+type GalleryPhoto = { src: string; alt: string };
+
+/** Paginated photo grid with a keyboard-navigable lightbox. */
+function PhotoGallery({ photos: galleryPhotos }: { photos: GalleryPhoto[] }) {
+  const count = galleryPhotos.length;
   const [page, setPage] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -298,12 +348,12 @@ function WorkshopGallery() {
 
   const close = useCallback(() => setLightboxIndex(null), []);
   const prevPhoto = useCallback(
-    () => setLightboxIndex((i) => (i !== null ? (i - 1 + galleryPhotos.length) % galleryPhotos.length : null)),
-    [],
+    () => setLightboxIndex((i) => (i !== null ? (i - 1 + count) % count : null)),
+    [count],
   );
   const nextPhoto = useCallback(
-    () => setLightboxIndex((i) => (i !== null ? (i + 1) % galleryPhotos.length : null)),
-    [],
+    () => setLightboxIndex((i) => (i !== null ? (i + 1) % count : null)),
+    [count],
   );
 
   useEffect(() => {
@@ -323,15 +373,7 @@ function WorkshopGallery() {
 
   return (
     <>
-      <section className="pb-16 px-6 border-t border-border/40">
-        <div className="max-w-5xl mx-auto pt-12">
-          <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400 text-center">
-            Gallery
-          </p>
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-            Workshop <span className="text-indigo-300">highlights</span>
-          </h2>
-
+      <div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
             {visiblePhotos.map((photo, i) => (
               <button
@@ -373,8 +415,7 @@ function WorkshopGallery() {
               </button>
             </div>
           )}
-        </div>
-      </section>
+      </div>
 
       {lightboxIndex !== null && (
         <div
@@ -423,6 +464,65 @@ function WorkshopGallery() {
   );
 }
 
+function WorkshopGallery() {
+  return (
+    <section className="pb-16 px-6 border-t border-border/40">
+      <div className="max-w-5xl mx-auto pt-12">
+        <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400 text-center">Gallery</p>
+        <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
+          Workshop <span className="text-indigo-300">highlights</span>
+        </h2>
+        <PhotoGallery photos={workshopPhotos} />
+      </div>
+    </section>
+  );
+}
+
+function CaseCompHighlight() {
+  return (
+    <section className="pb-16 px-6 border-t border-border/40" aria-labelledby="case-comp-heading">
+      <div className="max-w-5xl mx-auto pt-12">
+        <p className="text-sm font-semibold tracking-wide uppercase mb-3 text-indigo-400 text-center">
+          Event Highlight
+        </p>
+        <h2
+          id="case-comp-heading"
+          className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">
+          Innovation Case <span className="text-indigo-300">Competition</span>
+        </h2>
+        <p className="mx-auto mb-10 max-w-2xl text-center text-muted-foreground">
+          Nov 5–6 · Teams built AI prototypes to help a city police department solve more burglary cases, then
+          pitched them live to a panel of judges.
+        </p>
+
+        <h3 className="font-display text-lg font-semibold text-foreground mb-4">The prototypes they built</h3>
+        <div className="mb-12 grid grid-cols-1 gap-5 md:grid-cols-2">
+          {caseCompVideos.map((v) => (
+            <figure key={v.src} className="overflow-hidden rounded-2xl border border-border/60 bg-card/40">
+              <video
+                controls
+                muted
+                playsInline
+                preload="metadata"
+                poster={v.poster}
+                className="aspect-video w-full bg-black object-contain">
+                <source src={v.src} type="video/mp4" />
+              </video>
+              <figcaption className="px-4 py-3">
+                <p className="font-medium text-foreground">{v.caption}</p>
+                <p className="text-sm text-muted-foreground">{v.detail}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <h3 className="font-display text-lg font-semibold text-foreground mb-4">From the day</h3>
+        <PhotoGallery photos={caseCompPhotos} />
+      </div>
+    </section>
+  );
+}
+
 const Workshops = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -457,6 +557,20 @@ const Workshops = () => {
               className="rounded-2xl border border-border/60 bg-card/40 p-5 flex items-center justify-between gap-4">
               <div className="min-w-0 flex-1">
                 <h2 className="font-display text-lg font-semibold text-foreground">{item.title}</h2>
+                {item.partner ? (
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    with{" "}
+                    <a
+                      href={item.partner.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-0.5 font-medium text-indigo-300 underline-offset-2 transition-colors hover:text-indigo-200 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded">
+                      {item.partner.name}
+                      <ArrowUpRight className="h-3 w-3" aria-hidden />
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  </p>
+                ) : null}
                 <WorkshopDetails schedules={item.schedules} />
               </div>
               <AddToCalendarButtons schedules={item.schedules} />
@@ -465,7 +579,9 @@ const Workshops = () => {
         </div>
       </section>
 
-      <section className="pb-14 px-6">
+      <CaseCompHighlight />
+
+      <section className="pb-14 px-6 border-t border-border/40 pt-12">
         <div className="mx-auto max-w-4xl">
           <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
             Past <span className="text-indigo-300">events</span>
