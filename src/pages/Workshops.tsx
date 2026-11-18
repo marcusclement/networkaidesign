@@ -182,13 +182,14 @@ const workshopEntries: WorkshopEntry[] = [
     schedules: [
       {
         text: "NetworkAI — Enterprise AI Workshop",
-        details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · Room TBD.",
+        details: "Hosted by UW NetworkAI.\n\n5:30–6:30 PM · CSE2 G04 (Bill & Melinda Gates Center).",
         dates: "20261124T013000Z/20261124T023000Z",
+        location: "CSE2 G04",
         weekday: "Mon",
         dayMonth: "Nov 23",
         time: "5:30–6:30 PM",
-        place: "Room TBD",
-        ariaLabel: "Add Enterprise AI Workshop to Google Calendar — Monday, November 23, 2026, 5:30 to 6:30 PM, room TBD",
+        place: "CSE2 G04",
+        ariaLabel: "Add Enterprise AI Workshop to Google Calendar — Monday, November 23, 2026, 5:30 to 6:30 PM, CSE2 G04",
       },
     ],
   },
